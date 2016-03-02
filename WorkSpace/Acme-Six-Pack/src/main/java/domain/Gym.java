@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -92,6 +93,7 @@ public class Gym extends CommentedEntity{
 	private Collection<ServiceEntity> services;
 	private Collection<FeePayment> feePayments;
 	private Collection<Bulletin> bulletins;
+	private Collection<Room> rooms;
 	
 	@Valid
 	@NotNull
@@ -138,5 +140,15 @@ public class Gym extends CommentedEntity{
 	}
 	public void setBulletins(Collection<Bulletin> bulletins) {
 		this.bulletins = bulletins;
+	}
+	
+	@Valid
+	@NotNull
+	@OneToMany(cascade = CascadeType.ALL)
+	public Collection<Room> getRooms() {
+		return rooms;
+	}
+	public void setRooms(Collection<Room> rooms) {
+		this.rooms = rooms;
 	}
 }
