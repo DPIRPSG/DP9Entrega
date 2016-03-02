@@ -17,7 +17,6 @@
 	<form:hidden path="version" />
 	<form:hidden path="comments" />
 	<form:hidden path="feePayments" />
-	<form:hidden path="bookings"/>
 	
 	
 	<!-- Editable Attributes -->

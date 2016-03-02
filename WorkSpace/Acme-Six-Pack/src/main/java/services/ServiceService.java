@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ServiceRepository;
-import domain.Booking;
 import domain.Comment;
 import domain.FeePayment;
 import domain.Gym;
@@ -35,8 +34,6 @@ public class ServiceService {
 	@Autowired
 	private FeePaymentService feePaymentService;
 	
-	@Autowired
-	private BookingService bookingService;
 	// Constructors -----------------------------------------------------------
 
 	public ServiceService() {
@@ -52,12 +49,10 @@ public class ServiceService {
 		Collection<Gym> gyms;
 		Collection<Comment> comments;
 		Collection<String> pictures;
-		Collection<Booking> bookings;
 		
 		gyms = new ArrayList<>();
 		pictures = new ArrayList<>();
 		comments = new ArrayList<>();
-		bookings = new ArrayList<>();
 		
 		
 		result = new ServiceEntity();
@@ -65,7 +60,6 @@ public class ServiceService {
 		result.setGyms(gyms);
 		result.setPictures(pictures);
 		result.setComments(comments);
-		result.setBookings(bookings);		
 		
 		return result;
 	}
@@ -83,7 +77,6 @@ public class ServiceService {
 		
 		if(service.getId() != 0) {			
 			ServiceEntity servicePreSave;
-			Collection<Booking> bookings;
 			Collection<Gym> gyms;
 			Collection<Comment> comments;
 			
@@ -93,11 +86,9 @@ public class ServiceService {
 				Assert.isTrue(service.getName().equals("Fitness"), "El servicio siempre debe llamarse Fitness");
 			}
 			
-			bookings = servicePreSave.getBookings();
 			gyms = servicePreSave.getGyms();
 			comments = servicePreSave.getComments();
 			
-			Assert.isTrue(service.getBookings().containsAll(bookings) && service.getBookings().size() == bookings.size());
 			Assert.isTrue(service.getGyms().containsAll(gyms) && service.getGyms().size() == gyms.size());
 			Assert.isTrue(service.getComments().containsAll(comments) && service.getComments().size() == comments.size());
 		}
@@ -110,7 +101,6 @@ public class ServiceService {
 		Assert.isTrue(service.getId() != 0);
 		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can delete services");
 		Assert.isTrue(service.getGyms().isEmpty());
-		Assert.isTrue(service.getBookings().isEmpty());
 		Assert.isTrue(service.getComments().isEmpty());
 		Assert.isTrue(service.getName() != "Fitness", "El servicio de Fitness lo pueden tener todos los gimnasios, luego no se deberá borrar");
 		
@@ -216,7 +206,6 @@ public class ServiceService {
 		Collection<ServiceEntity> result;
 		Collection<ServiceEntity> services;
 		Collection<FeePayment> fees;
-		Collection<Booking> bookings;
 
 		result = new ArrayList<ServiceEntity>();
 		fees = feePaymentService.findAllActiveByCustomer();
@@ -226,13 +215,6 @@ public class ServiceService {
 				if(!result.contains(service)) {
 					result.add(service);
 				}
-			}
-		}
-
-		bookings = bookingService.findAllByCustomer();
-		for(Booking booking : bookings) {
-			if(result.contains(booking.getService())) {
-				result.remove(booking.getService());
 			}
 		}
 		

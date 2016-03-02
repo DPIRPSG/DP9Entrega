@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import domain.Booking;
 import domain.Comment;
 import domain.CreditCard;
 import domain.Customer;
@@ -96,7 +95,6 @@ public class CustomerService {
 			Collection<Message> sent;
 			Collection<Message> received;
 			Collection<Comment> comments;
-			Collection<Booking> bookings;
 			Collection<FeePayment>feePayments;
 			UserAccount auth;
 			
@@ -117,10 +115,8 @@ public class CustomerService {
 			// Initialize anothers
 			
 			comments = new ArrayList<Comment>();
-			bookings = new ArrayList<Booking>();
 			feePayments = new ArrayList<FeePayment>();
 			customer.setComments(comments);
-			customer.setBookings(bookings);
 			customer.setFeePayments(feePayments);
 
 			

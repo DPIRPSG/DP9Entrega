@@ -57,7 +57,6 @@ public class Customer extends Actor {
 	// Relationships ----------------------------------------------------------
 	private SocialIdentity socialIdentity;
 	private Collection<FeePayment> feePayments;
-	private Collection<Booking> bookings;
 	
 	@Valid
 	@OneToOne(optional = true)
@@ -84,24 +83,6 @@ public class Customer extends Actor {
 
 	public void removeFeePayment(FeePayment feePayment) {
 		this.feePayments.remove(feePayment);
-	}
-	
-	@Valid
-	@NotNull
-	@OneToMany(mappedBy = "customer")	
-	public Collection<Booking> getBookings() {
-		return bookings;
-	}
-	public void setBookings(Collection<Booking> booking) {
-		this.bookings = booking;
-	}
-	
-	public void addBooking(Booking booking) {
-		this.bookings.add(booking);
-	}
-
-	public void removeBooking(Booking booking) {
-		this.bookings.remove(booking);
 	}
 
 }

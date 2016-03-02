@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.GymRepository;
-import domain.Booking;
 import domain.Comment;
 import domain.Customer;
 import domain.FeePayment;
@@ -53,12 +52,10 @@ public class GymService {
 		Collection<ServiceEntity> services;
 		Collection<Comment> comments;
 		Collection<FeePayment> feePayments;
-		Collection<Booking> bookings;
 		
 		services = new ArrayList<>();
 		feePayments = new ArrayList<>();
 		comments = new ArrayList<>();
-		bookings = new ArrayList<>();
 		
 		
 		result = new Gym();
@@ -66,7 +63,6 @@ public class GymService {
 		result.setServices(services);
 		result.setFeePayments(feePayments);
 		result.setComments(comments);
-		result.setBookings(bookings);		
 		
 		return result;
 	}
@@ -101,18 +97,15 @@ public class GymService {
 		
 		if(gym.getId() != 0) {
 			Gym gymPreSave;
-			Collection<Booking> bookings;
 			Collection<FeePayment> feePayments;
 			Collection<Comment> comments;
 			
 			gymPreSave = gymRepository.findOne(gym.getId());
 			
-			bookings = gymPreSave.getBookings();
 			feePayments = gymPreSave.getFeePayments();
 			comments = gymPreSave.getComments();
 			servicesPreSave = new ArrayList<ServiceEntity>(gymPreSave.getServices());
 			
-			Assert.isTrue(gym.getBookings().containsAll(bookings) && gym.getBookings().size() == bookings.size());
 			Assert.isTrue(gym.getFeePayments().containsAll(feePayments) && gym.getFeePayments().size() == feePayments.size());
 			Assert.isTrue(gym.getComments().containsAll(comments) && gym.getComments().size() == comments.size());
 		}
@@ -140,7 +133,6 @@ public class GymService {
 		Assert.isTrue(gym.getId() != 0);
 		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can delete gyms");
 		Assert.isTrue(gym.getFeePayments().isEmpty());
-		Assert.isTrue(gym.getBookings().isEmpty());
 		Assert.isTrue(gym.getComments().isEmpty());
 		
 		Collection<ServiceEntity> services;

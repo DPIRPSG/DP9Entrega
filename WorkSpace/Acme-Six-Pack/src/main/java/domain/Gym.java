@@ -71,7 +71,6 @@ public class Gym extends CommentedEntity{
 	// Relationships ----------------------------------------------------------
 	private Collection<ServiceEntity> services;
 	private Collection<FeePayment> feePayments;
-	private Collection<Booking> bookings;
 	
 	@Valid
 	@NotNull
@@ -108,23 +107,5 @@ public class Gym extends CommentedEntity{
 
 	public void removeFeePayment(FeePayment feePayment) {
 		this.feePayments.remove(feePayment);
-	}
-	
-	@Valid
-	@OneToMany(mappedBy = "gym")
-	@NotNull
-	public Collection<Booking> getBookings() {
-		return bookings;
-	}
-	public void setBookings(Collection<Booking> bookings) {
-		this.bookings = bookings;
-	}
-	
-	public void addBooking(Booking booking) {
-		this.bookings.add(booking);
-	}
-
-	public void removeBooking(Booking booking) {
-		this.bookings.remove(booking);
 	}
 }
