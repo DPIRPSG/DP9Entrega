@@ -9,7 +9,6 @@ import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -55,18 +54,9 @@ public class Customer extends Actor {
 		
 	}
 	// Relationships ----------------------------------------------------------
-	private SocialIdentity socialIdentity;
+	
 	private Collection<FeePayment> feePayments;
-	
-	@Valid
-	@OneToOne(optional = true)
-	public SocialIdentity getSocialIdentity() {
-		return socialIdentity;
-	}
-	public void setSocialIdentity(SocialIdentity socialIdentity) {
-		this.socialIdentity = socialIdentity;
-	}
-	
+		
 	@Valid
 	@NotNull
 	@OneToMany(mappedBy = "customer")
