@@ -88,6 +88,7 @@ public class FeePayment extends DomainEntity {
 
 	private Gym gym;
 	private Customer customer;
+	private Invoice invoice;
 
 	@Valid
 	@NotNull
@@ -109,6 +110,17 @@ public class FeePayment extends DomainEntity {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+	
+	@Valid
+	@NotNull
+	@ManyToOne(optional = false)
+	public Invoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
 	}
 
 }
