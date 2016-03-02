@@ -23,10 +23,30 @@ public class Gym extends CommentedEntity{
 	// Constructors -----------------------------------------------------------
 
 	// Attributes -------------------------------------------------------------
+	private String name;
+	private String description;
 	private String postalAddress;
 	private double fee;
 	private String picture;
 	private String phone;
+	
+	@NotBlank
+	@NotNull
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	@NotBlank
+	@NotNull
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	
 	@NotBlank
 	@NotNull
