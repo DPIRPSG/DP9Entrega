@@ -8,6 +8,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -56,6 +57,7 @@ public class Customer extends Actor {
 	// Relationships ----------------------------------------------------------
 	
 	private Collection<FeePayment> feePayments;
+	private Collection<Activity> activities;
 		
 	@Valid
 	@NotNull
@@ -73,6 +75,16 @@ public class Customer extends Actor {
 
 	public void removeFeePayment(FeePayment feePayment) {
 		this.feePayments.remove(feePayment);
+	}
+	
+	@Valid
+	@NotNull
+	@ManyToMany
+	public Collection<Activity> getActivities() {
+		return activities;
+	}
+	public void setActivities(Collection<Activity> activities) {
+		this.activities = activities;
 	}
 
 }

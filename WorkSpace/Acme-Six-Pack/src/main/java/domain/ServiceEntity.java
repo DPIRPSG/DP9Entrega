@@ -7,6 +7,7 @@ import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -55,6 +56,7 @@ public class ServiceEntity extends CommentedEntity{
 
 	// Relationships ----------------------------------------------------------
 	private Collection<Gym> gyms;
+	private Collection<Activity> activities;
 	
 
 	@NotNull
@@ -73,5 +75,15 @@ public class ServiceEntity extends CommentedEntity{
 
 	public void removeGym(Gym gym) {
 		this.gyms.remove(gym);
+	}
+	
+	@Valid
+	@NotNull
+	@OneToMany(mappedBy = "service")
+	public Collection<Activity> getActivities() {
+		return activities;
+	}
+	public void setActivities(Collection<Activity> activities) {
+		this.activities = activities;
 	}
 }
