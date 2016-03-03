@@ -57,6 +57,7 @@ public class ServiceEntity extends CommentedEntity{
 	// Relationships ----------------------------------------------------------
 	private Collection<Gym> gyms;
 	private Collection<Activity> activities;
+	private Collection<Trainer> trainers;
 	
 
 	@NotNull
@@ -85,5 +86,15 @@ public class ServiceEntity extends CommentedEntity{
 	}
 	public void setActivities(Collection<Activity> activities) {
 		this.activities = activities;
+	}
+	
+	@NotNull
+	@Valid
+	@ManyToMany
+	public Collection<Trainer> getTrainers() {
+		return trainers;
+	}
+	public void setTrainers(Collection<Trainer> trainers) {
+		this.trainers = trainers;
 	}
 }

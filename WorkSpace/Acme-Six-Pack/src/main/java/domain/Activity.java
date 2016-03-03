@@ -108,6 +108,7 @@ public class Activity extends DomainEntity {
 	private Collection<Customer> customers;
 	private ServiceEntity service;
 	private Room room;
+	private Trainer trainer;
 	
 	@Valid
 	@NotNull
@@ -140,5 +141,16 @@ public class Activity extends DomainEntity {
 
 	public void setRoom(Room room) {
 		this.room = room;
+	}
+	
+	@Valid
+	@NotNull
+	@ManyToOne(optional = false)
+	public Trainer getTrainer() {
+		return trainer;
+	}
+
+	public void setTrainer(Trainer trainer) {
+		this.trainer = trainer;
 	}
 }
