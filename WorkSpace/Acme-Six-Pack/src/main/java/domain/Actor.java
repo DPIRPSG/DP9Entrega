@@ -61,6 +61,7 @@ public abstract class Actor extends DomainEntity{
 	private Collection<Message> sent;
 	private Collection<Message> received;
 	private Collection<Comment> comments;
+	private SocialIdentity socialIdentity;
 	private UserAccount userAccount;
 	
 	@NotNull
@@ -102,7 +103,17 @@ public abstract class Actor extends DomainEntity{
 	}
 	public void setComments(Collection<Comment> sent) {
 		this.comments = sent;
-	}	
+	}
+	
+	@Valid
+	@OneToOne(optional = true)
+	public SocialIdentity getSocialIdentity() {
+		return socialIdentity;
+	}
+	public void setSocialIdentity(SocialIdentity socialIdentity) {
+		this.socialIdentity = socialIdentity;
+	}
+	
 	@NotNull
 	@Valid
 	@OneToOne(cascade = CascadeType.ALL, optional = false)	

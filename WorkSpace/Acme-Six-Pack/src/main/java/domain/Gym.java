@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -23,10 +24,30 @@ public class Gym extends CommentedEntity{
 	// Constructors -----------------------------------------------------------
 
 	// Attributes -------------------------------------------------------------
+	private String name;
+	private String description;
 	private String postalAddress;
 	private double fee;
 	private String picture;
 	private String phone;
+	
+	@NotBlank
+	@NotNull
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	@NotBlank
+	@NotNull
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	
 	@NotBlank
 	@NotNull
@@ -71,6 +92,8 @@ public class Gym extends CommentedEntity{
 	// Relationships ----------------------------------------------------------
 	private Collection<ServiceEntity> services;
 	private Collection<FeePayment> feePayments;
+	private Collection<Bulletin> bulletins;
+	private Collection<Room> rooms;
 	
 	@Valid
 	@NotNull
@@ -107,5 +130,25 @@ public class Gym extends CommentedEntity{
 
 	public void removeFeePayment(FeePayment feePayment) {
 		this.feePayments.remove(feePayment);
+	}
+	
+	@Valid
+	@OneToMany(mappedBy = "gym")
+	@NotNull
+	public Collection<Bulletin> getBulletins() {
+		return bulletins;
+	}
+	public void setBulletins(Collection<Bulletin> bulletins) {
+		this.bulletins = bulletins;
+	}
+	
+	@Valid
+	@NotNull
+	@OneToMany(cascade = CascadeType.ALL)
+	public Collection<Room> getRooms() {
+		return rooms;
+	}
+	public void setRooms(Collection<Room> rooms) {
+		this.rooms = rooms;
 	}
 }
