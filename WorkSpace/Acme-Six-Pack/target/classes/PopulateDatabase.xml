@@ -421,10 +421,12 @@
 		</property>
 		<property name="activities">
 			<list>
+				<ref bean="activity1"/>
 			</list>
 		</property>
 		<property name="services">
 			<list>
+				<ref bean="service4" />
 			</list>
 		</property>
 	</bean>
@@ -838,6 +840,7 @@
 		<property name="rooms">
 			<list>
 				<ref bean="room1" />
+				<ref bean="room4" />
 			</list>
 		</property>
 	</bean>
@@ -963,6 +966,22 @@
 		</property>
 	</bean>
 	
+	<bean id="room4" class="domain.Room">
+		<property name="name" value="Piscina" />
+		<property name="description" value="Para actividades en la piscina" />
+		<property name="numberOfSeats" value="40" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="gym" ref="gym1" />
+		<property name="activities">
+			<list>
+				<ref bean="activity1" />
+			</list>
+		</property>
+	</bean>
+	
 	<!-- Bulletins -->
 	
 	<bean id="bulletin1" class="domain.Bulletin">
@@ -1083,9 +1102,33 @@
 		</property>
 		<property name="activities">
 			<list>
+				<ref bean="activity1" />
 			</list>
 		</property>
 		<property name="trainers">
+			<list>
+				<ref bean="trainer1" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Activities -->
+	
+	<bean id="activity1" class="domain.Activity">
+		<property name="title" value="Primera clase de natación" />
+		<property name="numberOfSeatsAvailable" value="15" />
+		<property name="date" value="2016/03/03 17:30" />
+		<property name="startingTime" value="2016/03/03 17:30" />
+		<property name="duration" value="1" />
+		<property name="description" value="Será la primera clase de natación" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="service" ref="service4"/>
+		<property name="room" ref="room4"/>
+		<property name="trainer" ref="trainer1"/>
+		<property name="customers">
 			<list>
 			</list>
 		</property>

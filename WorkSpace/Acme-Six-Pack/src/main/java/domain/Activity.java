@@ -19,7 +19,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -113,7 +112,6 @@ public class Activity extends DomainEntity {
 	@Valid
 	@NotNull
 	@ManyToMany(mappedBy = "activities")
-	@NotEmpty
 	public Collection<Customer> getCustomers() {
 		return customers;
 	}
