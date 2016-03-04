@@ -78,6 +78,18 @@
 		</property>
 	</bean>
 	
+	<bean id="userAccount6" class="security.UserAccount">
+		<property name="username" value="trainer1" />
+		<property name="password" value="4d9a96c8e1650dc161f1adcf5c5082a0" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="TRAINER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- Other domain beans come here -->
 	
 	<!-- SpamTerm -->
@@ -129,6 +141,30 @@
 		<property name="homePage" value="http://Manolo.com"/>
 		<property name="picture" value="http://static.betazeta.com/www.fayerwayer.com/up/2014/04/Bliss-XP-HD1-960x623.jpg"/>
 		<property name="nick" value="@Manolo"/>
+	</bean>
+	
+	<!-- Curriculums -->
+	
+	<bean id="curriculum1" class="domain.Curriculum">
+		<property name="updateMoment" value="2016/03/01 12:00"/>
+		<property name="statement" value="No se que es"/>
+		<property name="skills">
+			<list>
+				<value>Fuerte</value>
+				<value>Nado rápido</value>
+				<value>Puedo dar clases de natación</value>
+			</list>
+		</property>
+		<property name="likes">
+			<list>
+				<value>Me gusta nadar</value>
+			</list>
+		</property>
+		<property name="dislikes">
+			<list>
+				<value>No me gusta no estar en la piscina</value>
+			</list>
+		</property>
 	</bean>
 	
 	<!-- Administradores: -->
@@ -208,6 +244,10 @@
 				<ref bean="feePayment3"/>
 			</list>
 		</property>
+		<property name="activities">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="customer2" class="domain.Customer">
@@ -247,6 +287,10 @@
 		<property name="feePayments">
 			<list>
 				<ref bean="feePayment4"/>
+			</list>
+		</property>
+		<property name="activities">
+			<list>
 			</list>
 		</property>
 	</bean>
@@ -295,6 +339,10 @@
 				<ref bean="feePayment10"/>
 			</list>
 		</property>
+		<property name="activities">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="customer4" class="domain.Customer">
@@ -334,6 +382,49 @@
 		<property name="feePayments">
 			<list>
 				<ref bean="feePayment11"/>
+			</list>
+		</property>
+		<property name="activities">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Trainers -->
+	
+	<bean id="trainer1" class="domain.Trainer">
+		<property name="name" value="Pablo"/>
+		<property name="surname" value="López"/>
+		<property name="phone" value="652148745"/>
+		<property name="picture" value="http://neo-sport.es/fitness/wp-content/uploads/2013/05/pablo-trainer1.jpg"/>
+		<property name="userAccount" ref="userAccount6"/>
+		<property name="curriculum" ref="curriculum1"/>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="folder21"/>
+				<ref bean="folder22"/>
+				<ref bean="folder23"/>
+				<ref bean="folder24"/>
+			</list>
+		</property>
+		<property name="sent">
+			<list>
+			</list>
+		</property>
+		<property name="received">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="activities">
+			<list>
+			</list>
+		</property>
+		<property name="services">
+			<list>
 			</list>
 		</property>
 	</bean>
@@ -631,6 +722,46 @@
 		</property>
 	</bean>
 	
+	<bean id="folder21" class="domain.Folder">
+		<property name="name" value="InBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer1"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder22" class="domain.Folder">
+		<property name="name" value="OutBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer1"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder23" class="domain.Folder">
+		<property name="name" value="TrashBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer1"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder24" class="domain.Folder">
+		<property name="name" value="SpamBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer1"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- CreditCard -->
 	
 	<bean id="creditCard1" class="domain.CreditCard">
@@ -699,6 +830,16 @@
 				<ref bean="feePayment11"/>
 			</list>
 		</property>
+		<property name="bulletins">
+			<list>
+				<ref bean="bulletin1"/>
+			</list>
+		</property>
+		<property name="rooms">
+			<list>
+				<ref bean="room1" />
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="gym2" class="domain.Gym">
@@ -723,6 +864,15 @@
 		<property name="feePayments">
 			<list>
 				<ref bean="feePayment4"/>
+			</list>
+		</property>
+		<property name="bulletins">
+			<list>
+			</list>
+		</property>
+		<property name="rooms">
+			<list>
+				<ref bean="room2" />
 			</list>
 		</property>
 	</bean>
@@ -755,6 +905,71 @@
 				<ref bean="feePayment10"/>
 			</list>
 		</property>
+		<property name="bulletins">
+			<list>
+			</list>
+		</property>
+		<property name="rooms">
+			<list>
+				<ref bean="room3" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Rooms -->
+	
+	<bean id="room1" class="domain.Room">
+		<property name="name" value="Habitación general" />
+		<property name="description" value="Para actividades grandes" />
+		<property name="numberOfSeats" value="100" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="gym" ref="gym1" />
+		<property name="activities">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="room2" class="domain.Room">
+		<property name="name" value="Habitación pequeña" />
+		<property name="description" value="Para actividades pequeñas" />
+		<property name="numberOfSeats" value="10" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="gym" ref="gym2" />
+		<property name="activities">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="room3" class="domain.Room">
+		<property name="name" value="Habitación mediana" />
+		<property name="description" value="Para actividades medianas" />
+		<property name="numberOfSeats" value="30" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="gym" ref="gym3" />
+		<property name="activities">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Bulletins -->
+	
+	<bean id="bulletin1" class="domain.Bulletin">
+		<property name="title" value="Reunión empleados"/>
+		<property name="description" value="Mañana habrá una reunión de los empleados para debatir sobre que nueva actividad se podría hacer"/>
+		<property name="publishMoment" value="2016/03/01 12:00"/>
+		<property name="gym" ref="gym1" />
 	</bean>
 	
 	<!-- Services -->
@@ -781,6 +996,14 @@
 				<ref bean="comment8"/>
 			</list>
 		</property>
+		<property name="activities">
+			<list>
+			</list>
+		</property>
+		<property name="trainers">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="service2" class="domain.ServiceEntity">
@@ -798,6 +1021,14 @@
 			</list>
 		</property>
 		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="activities">
+			<list>
+			</list>
+		</property>
+		<property name="trainers">
 			<list>
 			</list>
 		</property>
@@ -822,6 +1053,14 @@
 				<ref bean="comment9"/>
 			</list>
 		</property>
+		<property name="activities">
+			<list>
+			</list>
+		</property>
+		<property name="trainers">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="service4" class="domain.ServiceEntity">
@@ -839,6 +1078,14 @@
 			</list>
 		</property>
 		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="activities">
+			<list>
+			</list>
+		</property>
+		<property name="trainers">
 			<list>
 			</list>
 		</property>

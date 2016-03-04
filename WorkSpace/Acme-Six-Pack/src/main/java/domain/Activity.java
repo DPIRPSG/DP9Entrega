@@ -35,7 +35,7 @@ public class Activity extends DomainEntity {
 	private Date startingTime;
 	private double duration;
 	private String description;
-	private String pictures;
+	private Collection<String> pictures;
 	
 	@NotBlank
 	@NotNull
@@ -97,10 +97,10 @@ public class Activity extends DomainEntity {
 	
 	@ElementCollection
 	@Valid
-	public String getPictures() {
+	public Collection<String> getPictures() {
 		return pictures;
 	}
-	public void setPictures(String pictures) {
+	public void setPictures(Collection<String> pictures) {
 		this.pictures = pictures;
 	}	
 

@@ -113,8 +113,7 @@ public class FeePayment extends DomainEntity {
 	}
 	
 	@Valid
-	@NotNull
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	public Invoice getInvoice() {
 		return invoice;
 	}
