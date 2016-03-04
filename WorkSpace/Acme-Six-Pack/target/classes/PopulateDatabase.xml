@@ -1134,6 +1134,23 @@
 		</property>
 	</bean>
 	
+	<!-- Invoices -->
+	
+	<bean id="invoice1" class="domain.Invoice">
+		<property name="invoiceesName" value="Manolo"/>
+		<property name="VAT" value="21"/>
+		<property name="createdMoment" value="2016/03/04 19:30"/>
+		<property name="totalCost" value="90"/>
+		<property name="description" value="Quiero todos mis pagos"/>
+		<property name="feePayments">
+			<list>
+				<ref bean="feePayment1" />
+				<ref bean="feePayment2" />
+				<ref bean="feePayment3" />
+			</list>
+		</property>
+	</bean>
+	
 	<!-- FeePayment -->
 	
 	<bean id="feePayment1" class="domain.FeePayment">
@@ -1144,6 +1161,7 @@
 		<property name="amount" value="30"/>
 		<property name="gym" ref="gym1"/>
 		<property name="customer" ref="customer1"/>
+		<property name="invoice" ref="invoice1"/>
 	</bean>
 	
 	<bean id="feePayment2" class="domain.FeePayment">
@@ -1154,6 +1172,7 @@
 		<property name="amount" value="30"/>
 		<property name="gym" ref="gym1"/>
 		<property name="customer" ref="customer1"/>
+		<property name="invoice" ref="invoice1"/>
 	</bean>
 	
 	<bean id="feePayment3" class="domain.FeePayment">
@@ -1164,6 +1183,7 @@
 		<property name="amount" value="30"/>
 		<property name="gym" ref="gym1"/>
 		<property name="customer" ref="customer1"/>
+		<property name="invoice" ref="invoice1"/>
 	</bean>
 	
 	<bean id="feePayment4" class="domain.FeePayment">
@@ -1327,6 +1347,44 @@
 		<property name="deleted" value="false"/>
 		<property name="actor" ref="customer4"/>
 		<property name="commentedEntity" ref="service3"/>
+	</bean>
+	
+	<!-- ExchangeRate -->
+	
+	<bean id="exchangeRate1" class="domain.ExchangeRate">
+		<property name="name" value="Euros"/>
+		<property name="currency" value="EUR"></property>
+		<property name="rate" value="1"/>
+	</bean>
+	
+	<bean id="exchangeRate2" class="domain.ExchangeRate">
+		<property name="name" value="Spanish Pesetas"/>
+		<property name="currency" value="ESP"></property>
+		<property name="rate" value="166.386"/>
+	</bean>
+	
+	<bean id="exchangeRate3" class="domain.ExchangeRate">
+		<property name="name" value="French Francs"/>
+		<property name="currency" value="FRF"></property>
+		<property name="rate" value="6.56"/>
+	</bean>
+	
+	<bean id="exchangeRate4" class="domain.ExchangeRate">
+		<property name="name" value="Italian Liras"/>
+		<property name="currency" value="ITL"></property>
+		<property name="rate" value="1936.27"/>
+	</bean>
+	
+	<bean id="exchangeRate5" class="domain.ExchangeRate">
+		<property name="name" value="German Marks"/>
+		<property name="currency" value="DEM"></property>
+		<property name="rate" value="1.96"/>
+	</bean>
+	
+	<bean id="exchangeRate6" class="domain.ExchangeRate">
+		<property name="name" value="Portuguese Escudos"/>
+		<property name="currency" value="PTE"></property>
+		<property name="rate" value="200.48"/>
 	</bean>
 
 </beans>
