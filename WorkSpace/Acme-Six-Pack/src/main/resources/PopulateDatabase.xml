@@ -841,6 +841,7 @@
 			<list>
 				<ref bean="room1" />
 				<ref bean="room4" />
+				<ref bean="room5" />
 			</list>
 		</property>
 	</bean>
@@ -978,6 +979,21 @@
 		<property name="activities">
 			<list>
 				<ref bean="activity1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="room5" class="domain.Room">
+		<property name="name" value="Sala Fitness" />
+		<property name="description" value="Para actividades relacionadas con Fitness" />
+		<property name="numberOfSeats" value="30" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="gym" ref="gym1" />
+		<property name="activities">
+			<list>
 			</list>
 		</property>
 	</bean>
@@ -1140,13 +1156,67 @@
 		<property name="invoiceesName" value="Manolo"/>
 		<property name="VAT" value="21"/>
 		<property name="createdMoment" value="2016/03/04 19:30"/>
-		<property name="totalCost" value="90"/>
-		<property name="description" value="Quiero todos mis pagos"/>
+		<property name="totalCost" value="60"/>
+		<property name="description" value="Quiero todos mis pagos menos el último"/>
 		<property name="feePayments">
 			<list>
 				<ref bean="feePayment1" />
 				<ref bean="feePayment2" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="invoice2" class="domain.Invoice">
+		<property name="invoiceesName" value="Manolo"/>
+		<property name="VAT" value="21"/>
+		<property name="createdMoment" value="2016/03/05 19:30"/>
+		<property name="totalCost" value="30"/>
+		<property name="description" value="Quiero mi último pagos"/>
+		<property name="feePayments">
+			<list>
 				<ref bean="feePayment3" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="invoice3" class="domain.Invoice">
+		<property name="invoiceesName" value="Guillermo"/>
+		<property name="VAT" value="21"/>
+		<property name="createdMoment" value="2016/03/01 19:30"/>
+		<property name="totalCost" value="60"/>
+		<property name="description" value="Quiero mis dos primeros pagos"/>
+		<property name="feePayments">
+			<list>
+				<ref bean="feePayment5" />
+				<ref bean="feePayment6" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="invoice4" class="domain.Invoice">
+		<property name="invoiceesName" value="Guillermo"/>
+		<property name="VAT" value="21"/>
+		<property name="createdMoment" value="2016/03/02 19:30"/>
+		<property name="totalCost" value="60"/>
+		<property name="description" value="Quiero mis dos segundos pagos"/>
+		<property name="feePayments">
+			<list>
+				<ref bean="feePayment7" />
+				<ref bean="feePayment8" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="invoice5" class="domain.Invoice">
+		<property name="invoiceesName" value="Guillermo"/>
+		<property name="VAT" value="21"/>
+		<property name="createdMoment" value="2016/03/03 19:30"/>
+		<property name="totalCost" value="60"/>
+		<property name="description" value="Quiero mis dos últimos pagos"/>
+		<property name="feePayments">
+			<list>
+				<ref bean="feePayment9" />
+				<ref bean="feePayment10" />
 			</list>
 		</property>
 	</bean>
@@ -1183,7 +1253,7 @@
 		<property name="amount" value="30"/>
 		<property name="gym" ref="gym1"/>
 		<property name="customer" ref="customer1"/>
-		<property name="invoice" ref="invoice1"/>
+		<property name="invoice" ref="invoice2"/>
 	</bean>
 	
 	<bean id="feePayment4" class="domain.FeePayment">
@@ -1204,6 +1274,7 @@
 		<property name="amount" value="15"/>
 		<property name="gym" ref="gym3"/>
 		<property name="customer" ref="customer3"/>
+		<property name="invoice" ref="invoice3"/>
 	</bean>
 	
 	<bean id="feePayment6" class="domain.FeePayment">
@@ -1214,6 +1285,7 @@
 		<property name="amount" value="15"/>
 		<property name="gym" ref="gym3"/>
 		<property name="customer" ref="customer3"/>
+		<property name="invoice" ref="invoice3"/>
 	</bean>
 	
 	<bean id="feePayment7" class="domain.FeePayment">
@@ -1224,6 +1296,7 @@
 		<property name="amount" value="15"/>
 		<property name="gym" ref="gym3"/>
 		<property name="customer" ref="customer3"/>
+		<property name="invoice" ref="invoice4"/>
 	</bean>
 	
 	<bean id="feePayment8" class="domain.FeePayment">
@@ -1234,6 +1307,7 @@
 		<property name="amount" value="15"/>
 		<property name="gym" ref="gym3"/>
 		<property name="customer" ref="customer3"/>
+		<property name="invoice" ref="invoice4"/>
 	</bean>
 	
 	<bean id="feePayment9" class="domain.FeePayment">
@@ -1244,6 +1318,7 @@
 		<property name="amount" value="15"/>
 		<property name="gym" ref="gym3"/>
 		<property name="customer" ref="customer3"/>
+		<property name="invoice" ref="invoice5"/>
 	</bean>
 	
 	<bean id="feePayment10" class="domain.FeePayment">
@@ -1254,6 +1329,7 @@
 		<property name="amount" value="15"/>
 		<property name="gym" ref="gym3"/>
 		<property name="customer" ref="customer3"/>
+		<property name="invoice" ref="invoice5"/>
 	</bean>
 	
 	<bean id="feePayment11" class="domain.FeePayment">
