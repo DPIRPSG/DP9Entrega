@@ -90,6 +90,55 @@
 		</property>
 	</bean>
 	
+	<bean id="userAccount7" class="security.UserAccount">
+		<property name="username" value="trainer2" />
+		<property name="password" value="6662f54a6c5033357408e6839a5c0a05" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="TRAINER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount8" class="security.UserAccount">
+		<property name="username" value="trainer3" />
+		<property name="password" value="72977b63f9bf5a01f30bfe2ca802a3c1" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="TRAINER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount9" class="security.UserAccount">
+		<property name="username" value="trainer4" />
+		<property name="password" value="06de2cced0f700b155d4d04d2ef3245c" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="TRAINER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount10" class="security.UserAccount">
+		<property name="username" value="trainer5" />
+		<property name="password" value="191be98376838b92608915fb8a9e2818" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="TRAINER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	
 	<!-- Other domain beans come here -->
 	
 	<!-- SpamTerm -->
@@ -431,6 +480,154 @@
 		</property>
 	</bean>
 	
+	<bean id="trainer2" class="domain.Trainer">
+		<property name="name" value="Antonio"/>
+		<property name="surname" value="Serrano"/>
+		<property name="phone" value="630157841"/>
+		<property name="userAccount" ref="userAccount7"/>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="folder25"/>
+				<ref bean="folder26"/>
+				<ref bean="folder27"/>
+				<ref bean="folder28"/>
+			</list>
+		</property>
+		<property name="sent">
+			<list>
+			</list>
+		</property>
+		<property name="received">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="activities">
+			<list>
+			</list>
+		</property>
+		<property name="services">
+			<list>
+				<ref bean="service1"/>
+				<ref bean="service2"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="trainer3" class="domain.Trainer">
+		<property name="name" value="Jose"/>
+		<property name="surname" value="Ruiz"/>
+		<property name="phone" value="632112358"/>
+		<property name="userAccount" ref="userAccount8"/>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="folder29"/>
+				<ref bean="folder30"/>
+				<ref bean="folder31"/>
+				<ref bean="folder32"/>
+			</list>
+		</property>
+		<property name="sent">
+			<list>
+			</list>
+		</property>
+		<property name="received">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="activities">
+			<list>
+			</list>
+		</property>
+		<property name="services">
+			<list>
+				<ref bean="service1"/>
+				<ref bean="service2"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="trainer4" class="domain.Trainer">
+		<property name="name" value="Rocío"/>
+		<property name="surname" value="Cuesta"/>
+		<property name="phone" value="674185293"/>
+		<property name="userAccount" ref="userAccount9"/>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="folder33"/>
+				<ref bean="folder34"/>
+				<ref bean="folder35"/>
+				<ref bean="folder36"/>
+			</list>
+		</property>
+		<property name="sent">
+			<list>
+			</list>
+		</property>
+		<property name="received">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="activities">
+			<list>
+			</list>
+		</property>
+		<property name="services">
+			<list>
+				<ref bean="service1"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="trainer5" class="domain.Trainer">
+		<property name="name" value="Verónica"/>
+		<property name="surname" value="Gil"/>
+		<property name="phone" value="693852741"/>
+		<property name="userAccount" ref="userAccount10"/>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="folder37"/>
+				<ref bean="folder38"/>
+				<ref bean="folder39"/>
+				<ref bean="folder40"/>
+			</list>
+		</property>
+		<property name="sent">
+			<list>
+			</list>
+		</property>
+		<property name="received">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="activities">
+			<list>
+				<ref bean="activity2"/>
+			</list>
+		</property>
+		<property name="services">
+			<list>
+				<ref bean="service1"/>
+				<ref bean="service3"/>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- Mensajes -->
 	
 	<bean id="message1" class="domain.Message">
@@ -764,6 +961,166 @@
 		</property>
 	</bean>
 	
+	<bean id="folder25" class="domain.Folder">
+		<property name="name" value="InBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer2"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder26" class="domain.Folder">
+		<property name="name" value="OutBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer2"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder27" class="domain.Folder">
+		<property name="name" value="TrashBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer2"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder28" class="domain.Folder">
+		<property name="name" value="SpamBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer2"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder29" class="domain.Folder">
+		<property name="name" value="InBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer3"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder30" class="domain.Folder">
+		<property name="name" value="OutBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer3"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder31" class="domain.Folder">
+		<property name="name" value="TrashBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer3"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder32" class="domain.Folder">
+		<property name="name" value="SpamBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer3"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder33" class="domain.Folder">
+		<property name="name" value="InBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer4"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder34" class="domain.Folder">
+		<property name="name" value="OutBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer4"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder35" class="domain.Folder">
+		<property name="name" value="TrashBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer4"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder36" class="domain.Folder">
+		<property name="name" value="SpamBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer4"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder37" class="domain.Folder">
+		<property name="name" value="InBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer5"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder38" class="domain.Folder">
+		<property name="name" value="OutBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer5"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder39" class="domain.Folder">
+		<property name="name" value="TrashBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer5"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder40" class="domain.Folder">
+		<property name="name" value="SpamBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer5"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
 	<!-- CreditCard -->
 	
 	<bean id="creditCard1" class="domain.CreditCard">
@@ -963,6 +1320,7 @@
 		<property name="gym" ref="gym3" />
 		<property name="activities">
 			<list>
+				<ref bean="activity2"/>
 			</list>
 		</property>
 	</bean>
@@ -1037,6 +1395,10 @@
 		</property>
 		<property name="trainers">
 			<list>
+				<ref bean="trainer2"/>
+				<ref bean="trainer3"/>
+				<ref bean="trainer4"/>
+				<ref bean="trainer5"/>
 			</list>
 		</property>
 	</bean>
@@ -1065,6 +1427,8 @@
 		</property>
 		<property name="trainers">
 			<list>
+				<ref bean="trainer2"/>
+				<ref bean="trainer3"/>
 			</list>
 		</property>
 	</bean>
@@ -1090,10 +1454,12 @@
 		</property>
 		<property name="activities">
 			<list>
+				<ref bean="activity2"/>
 			</list>
 		</property>
 		<property name="trainers">
 			<list>
+				<ref bean="trainer5"/>
 			</list>
 		</property>
 	</bean>
@@ -1144,6 +1510,26 @@
 		<property name="service" ref="service4"/>
 		<property name="room" ref="room4"/>
 		<property name="trainer" ref="trainer1"/>
+		<property name="customers">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="activity2" class="domain.Activity">
+		<property name="title" value="Primera clase de Karate" />
+		<property name="numberOfSeatsAvailable" value="15" />
+		<property name="date" value="2016/03/03 17:30" />
+		<property name="startingTime" value="2016/03/03 17:30" />
+		<property name="duration" value="1" />
+		<property name="description" value="Será la primera clase de Karate" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="service" ref="service3"/>
+		<property name="room" ref="room3"/>
+		<property name="trainer" ref="trainer5"/>
 		<property name="customers">
 			<list>
 			</list>
