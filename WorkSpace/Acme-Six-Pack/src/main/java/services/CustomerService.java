@@ -116,7 +116,7 @@ public class CustomerService {
 			
 			comments = new ArrayList<Comment>();
 			feePayments = new ArrayList<FeePayment>();
-			customer.setComments(comments);
+			customer.setCommentss(comments);
 			customer.setFeePayments(feePayments);
 
 			
