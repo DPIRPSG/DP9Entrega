@@ -16,11 +16,11 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	@Query("select c from Customer c where c.userAccount.id = ?1")
 	Customer findByUserAccountId(int userAccountId);
 	
-	@Query("select distinct b.customer from Booking b where b.service.id = ?1")
+	/*@Query("select distinct b.customer from Booking b where b.service.id = ?1")
 	Collection<Customer> findByServiceBooked(int serviceId);
 	
 	@Query("select distinct b.customer from Booking b where b.gym.id = ?1")
-	Collection<Customer> findByGymBooked(int gymId);
+	Collection<Customer> findByGymBooked(int gymId);*/
 	
 	/* == DASHBOARD == */
 
@@ -33,6 +33,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	Collection<Customer> findCustomerWhoHasPaidLessFees();
 	
 	/* Query 14 */
-	@Query("select c from Customer c left join c.comments k where k.deleted IS TRUE group by c having count(k) >= all(select count(k) from Customer c left join c.comments k where k.deleted IS TRUE group by c)")
+	@Query("select c from Customer c left join c.commentss k where k.deleted IS TRUE group by c having count(k) >= all(select count(k) from Customer c left join c.commentss k where k.deleted IS TRUE group by c)")
 	Collection<Customer> findCustomerWhoHaveBeenRemovedMoreComments();
 }
