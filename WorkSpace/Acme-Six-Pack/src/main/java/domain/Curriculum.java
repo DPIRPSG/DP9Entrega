@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -59,6 +60,7 @@ public class Curriculum extends DomainEntity {
 		this.statement = statement;
 	}
 	
+	@ElementCollection
 	@Valid
 	@NotNull
 	@NotEmpty
@@ -69,6 +71,7 @@ public class Curriculum extends DomainEntity {
 		this.skills = skills;
 	}
 	
+	@ElementCollection
 	@Valid
 	@NotNull
 	@NotEmpty
@@ -79,6 +82,7 @@ public class Curriculum extends DomainEntity {
 		this.likes = likes;
 	}
 	
+	@ElementCollection
 	@Valid
 	@NotNull
 	@NotEmpty

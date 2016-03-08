@@ -28,12 +28,12 @@ public interface ServiceRepository extends JpaRepository<ServiceEntity, Integer>
 	/* == DASHBOARD == */
 	
 	/* Query 3 */
-	@Query("select s from ServiceEntity s left join s.bookings b group by s having count(b) >= all(select count(b) from ServiceEntity s left join s.bookings b group by s)")
-	Collection<ServiceEntity> findMostPopularService();
+	/*@Query("select s from ServiceEntity s left join s.bookings b group by s having count(b) >= all(select count(b) from ServiceEntity s left join s.bookings b group by s)")
+	Collection<ServiceEntity> findMostPopularService();*/
 	
 	/* Query 4 */
-	@Query("select s from ServiceEntity s left join s.bookings b group by s having count(b) <= all(select count(b) from ServiceEntity s left join s.bookings b group by s)")
-	Collection<ServiceEntity> findLeastPopularService();
+	/*@Query("select s from ServiceEntity s left join s.bookings b group by s having count(b) <= all(select count(b) from ServiceEntity s left join s.bookings b group by s)")
+	Collection<ServiceEntity> findLeastPopularService();*/
 	
 	/* Query 10 */
 	// The service/s that has/have more comments.
