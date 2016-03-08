@@ -34,6 +34,7 @@
 		<value>/views/feePayment/tiles.xml</value>
 		<value>/views/creditCard/tiles.xml</value>
 		<value>/views/room/tiles.xml</value>
+		<value>/views/bulletin/tiles.xml</value>
 		
 		
 		<value>/views/forms/tiles.xml</value>
