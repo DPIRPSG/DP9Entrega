@@ -24,8 +24,8 @@ public class Invoice extends DomainEntity {
 
 	// Attributes -------------------------------------------------------------
 	private String invoiceesName;
-	private int VAT;
-	private Date createdMoment;
+	private String VAT;
+	private Date creationMoment;
 	private double totalCost;
 	private String description;
 
@@ -40,25 +40,25 @@ public class Invoice extends DomainEntity {
 	}	
 
 	@Valid
-	@Min(0)
-	@Digits(integer=3, fraction=2)
-	public int getVAT() {
+	@NotBlank
+	@NotNull
+	public String getVAT() {
 		return VAT;
 	}
 
-	public void setVAT(int vAT) {
+	public void setVAT(String vAT) {
 		VAT = vAT;
 	}
 
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy/dd/MM HH:mm")
-	public Date getCreatedMoment() {
-		return createdMoment;
+	public Date getCreationMoment() {
+		return creationMoment;
 	}
 
-	public void setCreatedMoment(Date createdMoment) {
-		this.createdMoment = createdMoment;
+	public void setCreationMoment(Date createdMoment) {
+		this.creationMoment = createdMoment;
 	}
 
 	@Valid

@@ -901,8 +901,7 @@
 	<bean id="activity1" class="domain.Activity">
 		<property name="title" value="Primera clase de natación" />
 		<property name="numberOfSeatsAvailable" value="15" />
-		<property name="date" value="2016/03/19 17:30" />
-		<property name="startingTime" value="2016/03/19 17:30" />
+		<property name="startingMoment" value="2016/03/19 17:30" />
 		<property name="duration" value="1" />
 		<property name="description" value="Será la primera clase de natación" />
 		<property name="pictures">
@@ -922,8 +921,7 @@
 	<bean id="activity2" class="domain.Activity">
 		<property name="title" value="Primera clase de Karate" />
 		<property name="numberOfSeatsAvailable" value="15" />
-		<property name="date" value="2016/03/25 17:30" />
-		<property name="startingTime" value="2016/03/25 17:30" />
+		<property name="startingMoment" value="2016/03/25 17:30" />
 		<property name="duration" value="1" />
 		<property name="description" value="Será la primera clase de Karate" />
 		<property name="pictures">
@@ -942,8 +940,7 @@
 	<bean id="activity3" class="domain.Activity">
 		<property name="title" value="Primera clase de Spinning" />
 		<property name="numberOfSeatsAvailable" value="10" />
-		<property name="date" value="2016/03/20 17:30" />
-		<property name="startingTime" value="2016/03/20 17:30" />
+		<property name="startingMoment" value="2016/03/20 17:30" />
 		<property name="duration" value="1" />
 		<property name="description" value="Será la primera clase de spinning" />
 		<property name="pictures">
@@ -963,8 +960,7 @@
 	<bean id="activity4" class="domain.Activity">
 		<property name="title" value="Primera clase de Fitness" />
 		<property name="numberOfSeatsAvailable" value="10" />
-		<property name="date" value="2016/03/21 17:30" />
-		<property name="startingTime" value="2016/03/21 17:30" />
+		<property name="startingMoment" value="2016/03/21 17:30" />
 		<property name="duration" value="1" />
 		<property name="description" value="Será la primera clase de Fitness" />
 		<property name="pictures">
@@ -986,8 +982,8 @@
 	
 	<bean id="invoice1" class="domain.Invoice">
 		<property name="invoiceesName" value="Manolo"/>
-		<property name="VAT" value="21"/>
-		<property name="createdMoment" value="2016/03/04 19:30"/>
+		<property name="VAT" value="ES35218107R"/>
+		<property name="creationMoment" value="2016/03/04 19:30"/>
 		<property name="totalCost" value="60"/>
 		<property name="description" value="Quiero todos mis pagos menos el último"/>
 		<property name="feePayments">
@@ -1000,8 +996,8 @@
 	
 	<bean id="invoice2" class="domain.Invoice">
 		<property name="invoiceesName" value="Manolo"/>
-		<property name="VAT" value="21"/>
-		<property name="createdMoment" value="2016/03/05 19:30"/>
+		<property name="VAT" value="ES19478487V"/>
+		<property name="creationMoment" value="2016/03/05 19:30"/>
 		<property name="totalCost" value="30"/>
 		<property name="description" value="Quiero mi último pagos"/>
 		<property name="feePayments">
@@ -1013,8 +1009,8 @@
 	
 	<bean id="invoice3" class="domain.Invoice">
 		<property name="invoiceesName" value="Guillermo"/>
-		<property name="VAT" value="21"/>
-		<property name="createdMoment" value="2016/03/01 19:30"/>
+		<property name="VAT" value="ES95107034X"/>
+		<property name="creationMoment" value="2016/03/01 19:30"/>
 		<property name="totalCost" value="60"/>
 		<property name="description" value="Quiero mis dos primeros pagos"/>
 		<property name="feePayments">
@@ -1027,8 +1023,8 @@
 	
 	<bean id="invoice4" class="domain.Invoice">
 		<property name="invoiceesName" value="Guillermo"/>
-		<property name="VAT" value="21"/>
-		<property name="createdMoment" value="2016/03/02 19:30"/>
+		<property name="VAT" value="ES18609646R"/>
+		<property name="creationMoment" value="2016/03/02 19:30"/>
 		<property name="totalCost" value="60"/>
 		<property name="description" value="Quiero mis dos segundos pagos"/>
 		<property name="feePayments">
@@ -1041,8 +1037,8 @@
 	
 	<bean id="invoice5" class="domain.Invoice">
 		<property name="invoiceesName" value="Guillermo"/>
-		<property name="VAT" value="21"/>
-		<property name="createdMoment" value="2016/03/03 19:30"/>
+		<property name="VAT" value="ESC4187529E"/>
+		<property name="creationMoment" value="2016/03/03 19:30"/>
 		<property name="totalCost" value="60"/>
 		<property name="description" value="Quiero mis dos últimos pagos"/>
 		<property name="feePayments">
