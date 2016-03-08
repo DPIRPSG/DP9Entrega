@@ -206,7 +206,8 @@ public class ServiceService {
 	}*/
 	
 	public Collection<ServiceEntity> findAllPaidAndNotBookedByCustomerId(
-			int customerId) {
+			int customerId
+			) {
 		Collection<ServiceEntity> result;
 		Collection<ServiceEntity> services;
 		Collection<FeePayment> fees;
