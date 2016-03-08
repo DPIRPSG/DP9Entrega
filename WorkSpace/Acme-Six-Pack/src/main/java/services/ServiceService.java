@@ -197,14 +197,6 @@ public class ServiceService {
 		return result;
 	}
 	
-	/*public Collection<ServiceEntity> findAllPaidAndNotBookedByCustomerId(int customerId) {
-		Collection<ServiceEntity> result;
-		
-		result = serviceRepository.findAllPaidAndNotBookedByCustomerId(customerId);
-		
-		return result;
-	}*/
-	
 	public Collection<ServiceEntity> findAllPaidAndNotBookedByCustomerId(
 			int customerId
 			) {
