@@ -393,12 +393,6 @@
 				<ref bean="feePayment12"/>
 			</list>
 		</property>
-		<property name="activities">
-			<list>
-				<!-- <ref bean="activity1"/>
-				<ref bean="activity4"/>-->
-			</list>
-		</property>
 	</bean>
 	
 	<bean id="customer2" class="domain.Customer">
@@ -442,11 +436,6 @@
 		<property name="feePayments">
 			<list>
 				<ref bean="feePayment4"/>
-			</list>
-		</property>
-		<property name="activities">
-			<list>
-				<!-- <ref bean="activity3"/>-->
 			</list>
 		</property>
 	</bean>
@@ -499,10 +488,6 @@
 				<ref bean="feePayment10"/>
 			</list>
 		</property>
-		<property name="activities">
-			<list>
-			</list>
-		</property>
 	</bean>
 	
 	<bean id="customer4" class="domain.Customer">
@@ -546,11 +531,6 @@
 		<property name="feePayments">
 			<list>
 				<ref bean="feePayment11"/>
-			</list>
-		</property>
-		<property name="activities">
-			<list>
-				<!-- <ref bean="activity4"/>-->
 			</list>
 		</property>
 	</bean>
@@ -1659,7 +1639,7 @@
 		<property name="trainer" ref="trainer1"/>
 		<property name="customers">
 			<list>
-				<!-- <ref bean="customer1"/>-->
+				<ref bean="customer1"/>
 			</list>
 		</property>
 	</bean>
@@ -1700,7 +1680,7 @@
 		<property name="trainer" ref="trainer2"/>
 		<property name="customers">
 			<list>
-				<!-- <ref bean="customer2"/>-->
+				<ref bean="customer2"/>
 			</list>
 		</property>
 	</bean>
@@ -1721,8 +1701,8 @@
 		<property name="trainer" ref="trainer4"/>
 		<property name="customers">
 			<list>
-				<!-- <ref bean="customer1"/>
-				<ref bean="customer4"/>-->
+				<ref bean="customer1"/>
+				<ref bean="customer4"/>
 			</list>
 		</property>
 	</bean>
