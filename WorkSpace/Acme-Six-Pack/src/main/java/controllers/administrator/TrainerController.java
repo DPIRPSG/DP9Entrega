@@ -74,14 +74,15 @@ public class TrainerController extends AbstractController {
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(actorForm);
 		} else {
-			try {
+			// try {
 				actorFormService.saveForm(actorForm, true);
 				result = new ModelAndView("redirect:/");
-			} catch (Throwable oops) {
+			// } catch (Throwable oops) {
+			//	System.out.println(oops.toString());
 				String errorCode;
 				errorCode = "actorForm.commit.error";
 				result = createEditModelAndView(actorForm, errorCode);
-			}
+			//}
 		}
 
 		return result;

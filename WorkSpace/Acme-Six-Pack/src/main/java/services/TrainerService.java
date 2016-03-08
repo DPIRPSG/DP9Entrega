@@ -8,14 +8,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Activity;
 import domain.Comment;
 import domain.Folder;
 import domain.Message;
+import domain.ServiceEntity;
 import domain.Trainer;
 
 
 import repositories.TrainerRepository;
 import security.Authority;
+import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
 
@@ -89,8 +92,9 @@ public class TrainerService {
 			Collection<Folder> folders;
 			Collection<Message> sent;
 			Collection<Message> received;
+			Collection<ServiceEntity> services;
+			Collection<Activity> activities;
 			Collection<Comment> comments;
-			// Collection<FeePayment>feePayments;
 			UserAccount auth;
 			
 			//Encoding password
@@ -109,10 +113,13 @@ public class TrainerService {
 			
 			// Initialize anothers
 			
-			/*comments = new ArrayList<Comment>();
-			feePayments = new ArrayList<FeePayment>();
+			services = new ArrayList<ServiceEntity>();
+			activities = new ArrayList<Activity>();
+			comments = new ArrayList<Comment>();
+			trainer.setServices(services);
+			trainer.setActivities(activities);
+			trainer.setComments(comments);
 			trainer.setCommentss(comments);
-			trainer.setFeePayments(feePayments);*/
 
 			
 		}
@@ -145,20 +152,20 @@ public class TrainerService {
 	//Other business methods -------------------------------------------------
 
 	/**
-	 * Devuelve el customers que está realizando la operación
+	 * Devuelve el trainer que está realizando la operación
 	 */
-//	//req: x
-//	public Customer findByPrincipal(){
-//		Customer result;
-//		UserAccount userAccount;
-//		
-//		userAccount = LoginService.getPrincipal();
-//		Assert.notNull(userAccount);
-//		result = trainerRepository.findByUserAccountId(userAccount.getId());
-//		Assert.notNull(result);
-//		
-//		return result;
-//	}
+	//req: x
+	public Trainer findByPrincipal(){
+		Trainer result;
+		UserAccount userAccount;
+		
+		userAccount = LoginService.getPrincipal();
+		Assert.notNull(userAccount);
+		result = trainerRepository.findByUserAccountId(userAccount.getId());
+		Assert.notNull(result);
+		
+		return result;
+	}
 	
 
 }
