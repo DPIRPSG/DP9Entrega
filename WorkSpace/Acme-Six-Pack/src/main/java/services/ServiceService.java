@@ -240,7 +240,7 @@ public class ServiceService {
 		
 		Collection<ServiceEntity> result;
 		
-		result = serviceRepository.findMostPopularService();
+		result = null;
 		
 		return result;
 	}
@@ -251,7 +251,7 @@ public class ServiceService {
 		
 		Collection<ServiceEntity> result;
 		
-		result = serviceRepository.findLeastPopularService();
+		result = null;
 		
 		return result;
 	}
