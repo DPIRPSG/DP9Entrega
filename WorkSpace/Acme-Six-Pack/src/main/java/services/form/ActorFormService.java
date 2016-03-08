@@ -8,6 +8,7 @@ import org.springframework.util.Assert;
 import domain.Actor;
 import domain.Administrator;
 import domain.Customer;
+import domain.Trainer;
 import domain.form.ActorForm;
 
 import security.UserAccount;
@@ -15,6 +16,7 @@ import security.UserAccountService;
 import services.ActorService;
 import services.AdministratorService;
 import services.CustomerService;
+import services.TrainerService;
 
 @Service
 @Transactional
@@ -29,6 +31,9 @@ public class ActorFormService {
 		
 		@Autowired
 		private CustomerService customerService;
+		
+		@Autowired
+		private TrainerService trainerService;
 		
 		@Autowired
 		private AdministratorService administratorService;
@@ -47,10 +52,16 @@ public class ActorFormService {
 		// Other business methods -------------------------------------------------
 		
 		public ActorForm createForm(){
+			return this.createForm(false);
+		}
+		
+		public ActorForm createForm(boolean newTrainer){
 			ActorForm result;
 			
-			if(actorService.checkAuthority("CUSTOMER")
-					|| actorService.checkAuthority("ADMIN")){ 
+			if((actorService.checkAuthority("CUSTOMER")
+					|| actorService.checkAuthority("ADMIN")
+					|| actorService.checkAuthority("TRAINER"))
+					&& ! newTrainer){ 
 				result = this.createFormActor(actorService.findByPrincipal());
 			}else{ //Usuario registrandose
 				result = new ActorForm();
@@ -73,21 +84,31 @@ public class ActorFormService {
 		}
 		
 		public void saveForm(ActorForm input){
-			boolean isCustoOrAdmin;
+			this.saveForm(input, false);
+		}
+		
+		public void saveForm(ActorForm input, boolean newTrainer){
+			boolean unregister;
 			
 			if(input.getPassword() != null){
 				Assert.isTrue(input.getPassword().equals(input.getRepeatedPassword()), "actorForm.error.passwordMismatch");
 			}
 			try{
-				isCustoOrAdmin = actorService.checkAuthority("CUSTOMER")
-						|| actorService.checkAuthority("ADMIN");
+				unregister = ! (actorService.checkAuthority("CUSTOMER")
+						|| actorService.checkAuthority("ADMIN")
+						|| actorService.checkAuthority("TRAINER"));
 			}catch (Exception e) {
-				isCustoOrAdmin = false;
+				unregister = true;
 			}
-			if(isCustoOrAdmin){
+			unregister = unregister || newTrainer;
+			
+			if(!unregister){
 				this.saveActor(input, actorService.checkAuthority("CUSTOMER"));
-			}else{ //Usuario registrandose
-				this.saveRegistration(input);
+			}else if(newTrainer){
+				this.saveTrainerRegistration(input);
+			}
+			else{ //Usuario registrandose
+				this.saveCustomerRegistration(input);
 			}
 		}
 		
@@ -134,11 +155,10 @@ public class ActorFormService {
 			
 		}
 		
-		private void saveRegistration(ActorForm input){
-			Assert.isTrue(input.getAcceptTerm(), "actorForm.error.termsDenied");
-
-			UserAccount acount;
+		private void saveCustomerRegistration(ActorForm input){
+			UserAccount acount;			
 			Customer result;
+			Assert.isTrue(input.getAcceptTerm(), "actorForm.error.termsDenied");
 			
 			acount = userAccountService.createComplete(input.getUsername(), input.getPassword(), "CUSTOMER");
 			result = customerService.create();
@@ -149,6 +169,24 @@ public class ActorFormService {
 			result.setUserAccount(acount);
 			
 			customerService.save(result);
-		}		
+		}	
+		
+		private void saveTrainerRegistration(ActorForm input){
+			Assert.isTrue(actorService.checkAuthority("ADMIN"), "actorForm.error.notAdmin");
+			UserAccount acount;			
+			Trainer result;
+			
+			acount = userAccountService.createComplete(input.getUsername(), input.getPassword(), "TRAINER");
+			result = trainerService.create();
+			
+			result.setName(input.getName());
+			result.setSurname(input.getSurname());
+			result.setPhone(input.getUsername());
+			result.setUserAccount(acount);
+			// result.setPicture(input.getPicture());
+			
+			trainerService.save(result);	
+			
+		}
 
 }
