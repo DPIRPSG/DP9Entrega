@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ServiceRepository;
+import domain.Activity;
 import domain.Comment;
 import domain.FeePayment;
 import domain.Gym;
@@ -33,6 +34,9 @@ public class ServiceService {
 	
 	@Autowired
 	private FeePaymentService feePaymentService;
+	
+	@Autowired
+	private ActivityService activityService;
 	
 	// Constructors -----------------------------------------------------------
 
@@ -202,10 +206,12 @@ public class ServiceService {
 	}*/
 	
 	public Collection<ServiceEntity> findAllPaidAndNotBookedByCustomerId(
-			int customerId) {
+			int customerId
+			) {
 		Collection<ServiceEntity> result;
 		Collection<ServiceEntity> services;
 		Collection<FeePayment> fees;
+		Collection<Activity> activities;
 
 		result = new ArrayList<ServiceEntity>();
 		fees = feePaymentService.findAllActiveByCustomer();
@@ -215,6 +221,13 @@ public class ServiceService {
 				if(!result.contains(service)) {
 					result.add(service);
 				}
+			}
+		}
+		
+		activities = activityService.findAllByCustomer();
+		for(Activity activity : activities) {
+			if(result.contains(activity.getService())) {
+				result.remove(activity.getService());
 			}
 		}
 		

@@ -30,8 +30,7 @@ public class Activity extends DomainEntity {
 	// Attributes -------------------------------------------------------------
 	private String title;
 	private int numberOfSeatsAvailable;
-	private Date date;
-	private Date startingTime;
+	private Date startingMoment;
 	private double duration;
 	private String description;
 	private Collection<String> pictures;
@@ -57,21 +56,11 @@ public class Activity extends DomainEntity {
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy/dd/MM HH:mm")
-	public Date getDate() {
-		return date;
+	public Date getStartingMoment() {
+		return startingMoment;
 	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	
-	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "yyyy/dd/MM HH:mm")
-	public Date getStartingTime() {
-		return startingTime;
-	}
-	public void setStartingTime(Date startingTime) {
-		this.startingTime = startingTime;
+	public void setStartingMoment(Date startingTime) {
+		this.startingMoment = startingTime;
 	}
 	
 	@Valid
