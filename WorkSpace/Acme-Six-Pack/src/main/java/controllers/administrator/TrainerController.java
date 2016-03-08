@@ -16,7 +16,7 @@ import controllers.AbstractController;
 import domain.form.ActorForm;
 
 @Controller
-@RequestMapping(value = "/admin/trainer")
+@RequestMapping(value = "/trainer/administrator")
 public class TrainerController extends AbstractController {
 
 	// Services ----------------------------------------------------------
@@ -35,18 +35,6 @@ public class TrainerController extends AbstractController {
 
 	// Listing ----------------------------------------------------------
 
-//	@RequestMapping(value = "/display", method = RequestMethod.GET)
-//	public ModelAndView display(){
-//		ModelAndView result;
-//		Administrator administrator;
-//		
-//		administrator = administratorService.findByPrincipal();
-//		
-//		result = new ModelAndView("admin/display");
-//		result.addObject("administrator", administrator);
-//		
-//		return result;
-//	}
 
 	// Creation ----------------------------------------------------------
 
@@ -74,15 +62,14 @@ public class TrainerController extends AbstractController {
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(actorForm);
 		} else {
-			// try {
+			try {
 				actorFormService.saveForm(actorForm, true);
 				result = new ModelAndView("redirect:/");
-			// } catch (Throwable oops) {
-			//	System.out.println(oops.toString());
+			} catch (Throwable oops) {
 				String errorCode;
 				errorCode = "actorForm.commit.error";
 				result = createEditModelAndView(actorForm, errorCode);
-			//}
+			}
 		}
 
 		return result;
@@ -105,7 +92,7 @@ public class TrainerController extends AbstractController {
 		result = new ModelAndView("actorForm/edit");
 		result.addObject("actorForm", administrator);
 		result.addObject("message", message);
-		result.addObject("urlAction", "admin/trainer/register.do");
+		result.addObject("urlAction", "trainer/administrator/register.do");
 
 		return result;
 	}

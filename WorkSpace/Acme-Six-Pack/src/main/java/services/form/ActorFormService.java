@@ -183,7 +183,6 @@ public class ActorFormService {
 			result.setSurname(input.getSurname());
 			result.setPhone(input.getUsername());
 			result.setUserAccount(acount);
-			// result.setPicture(input.getPicture());
 			
 			trainerService.save(result);	
 			

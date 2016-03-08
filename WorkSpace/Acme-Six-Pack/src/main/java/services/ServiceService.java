@@ -232,7 +232,7 @@ public class ServiceService {
 		
 		Collection<ServiceEntity> result;
 		
-		result = null;
+		result = serviceRepository.findMostPopularService();
 		
 		return result;
 	}
@@ -243,7 +243,7 @@ public class ServiceService {
 		
 		Collection<ServiceEntity> result;
 		
-		result = null;
+		result = serviceRepository.findLeastPopularService();
 		
 		return result;
 	}

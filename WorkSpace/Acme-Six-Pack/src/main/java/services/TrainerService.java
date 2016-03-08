@@ -119,7 +119,7 @@ public class TrainerService {
 			trainer.setServices(services);
 			trainer.setActivities(activities);
 			trainer.setComments(comments);
-			trainer.setCommentss(comments);
+			trainer.setMadeComments(comments);
 
 			
 		}
@@ -135,19 +135,6 @@ public class TrainerService {
 		
 	}
 	
-	/**
-	 * Lista los customers registrados
-	 */
-//	// req: 12.5
-//	public Collection<Customer> findAll(){
-//		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can list customers");
-//		
-//		Collection<Customer> result;
-//		
-//		result = trainerRepository.findAll();
-//		
-//		return result;
-//	}
 
 	//Other business methods -------------------------------------------------
 
