@@ -10,15 +10,15 @@ Level C:
 
 - select g1 from Gym g1 join g1.feePayment f1 where f1.activeMoment < CURRENT_DATE AND f1.inactiveMoment > CURRENT_DATE group by g1 having count(f1.activeMoment) <= all(select count(f2.activeMoment) from Gym g2 join g2.feePayment f2 where f2.activeMoment < CURRENT_DATE AND f2.inactiveMoment > CURRENT_DATE group by g2);
 
-3) The most popular service/s. -> CORREGIR BOOKING
+3) The most popular service/s. -> PROBAR EN QUERYDATABASE
 
-- 
+- select s from ServiceEntity s left join s.activities a group by s having count(a) >= all(select count(a) from ServiceEntity s left join s.activities a group by s);
 
 - select s from ServiceEntity s left join s.bookings b group by s having count(b) >= all(select count(b) from ServiceEntity s left join s.bookings b group by s);
 
-4) The least popular service/s. -> CORREGIR BOOKING
+4) The least popular service/s. -> PROBAR EN QUERYDATABASE
 
-- 
+- select s from ServiceEntity s left join s.activities a group by s having count(a) <= all(select count(a) from ServiceEntity s left join s.activities a group by s);
 
 - select s from ServiceEntity s left join s.bookings b group by s having count(b) <= all(select count(b) from ServiceEntity s left join s.bookings b group by s);
 
@@ -30,27 +30,27 @@ Level C:
 
 - select c from Customer c left join c.feePayment f group by c having count(f) <= all(select count(f) from Customer c left join c.feePayment f group by c);
 
-7) The average number of rooms per gym and its standard deviation. -> POR EMPEZAR
+7) The average number of rooms per gym and its standard deviation. -> PROBAR EN QUERYDATABASE
 
--
+- select avg(g.rooms.size) from Gym g;
 
--
+- select stddev(g.rooms.size) from Gym g;
 
-8) The gym/s that has/have more rooms than the average. -> POR EMPEZAR
+8) The gym/s that has/have more rooms than the average. -> PROBAR EN QUERYDATABASE
 
--
+- select g from Gym g group by g having g.rooms.size > (select avg(g.rooms.size) from Gym g);
 
-9) The gym/s that has/have less rooms than the average. -> POR EMPEZAR
+9) The gym/s that has/have less rooms than the average. -> PROBAR EN QUERYDATABASE
 
--
+- select g from Gym g group by g having g.rooms.size < (select avg(g.rooms.size) from Gym g);
 
 10) The customer/s to whom more invoices have been issued. -> POR EMPEZAR
 
--
+- 
 
 11) The customer/s who has/have not requested any invoices. -> POR EMPEZAR
 
--
+- 
 
 ==========
 
@@ -66,7 +66,7 @@ Level B:
 
 14) The list of activities, in decreasing order of popularity. -> POR EMPEZAR
 
--
+- 
 
 15) The average number of activities per gym, grouped by service. -> POR EMPEZAR
 
@@ -77,6 +77,8 @@ Level B:
 -
 
 17) The most popular services regarding the number of trainers that are specialists in them. -> POR EMPEZAR
+
+- 
 
 ==========
 
