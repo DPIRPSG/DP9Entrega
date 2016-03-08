@@ -44,13 +44,13 @@ Level C:
 
 - select g from Gym g group by g having g.rooms.size < (select avg(g.rooms.size) from Gym g);
 
-10) The customer/s to whom more invoices have been issued. -> POR EMPEZAR
+10) The customer/s to whom more invoices have been issued. -> PROBAR EN QUERYDATABASE y REPASAR BIEN
 
-- 
+- select c from Customer c left join c.feePayment f where f.invoice i IS NOT NULL group by c having count(i) >= all (select count(i) from Customer c left join c.feePayment f where f.invoice i IS NOT NULL group by c);
 
-11) The customer/s who has/have not requested any invoices. -> POR EMPEZAR
+11) The customer/s who has/have not requested any invoices. -> PROBAR EN QUERYDATABASE y REPASAR BIEN
 
-- 
+- select c from Customer c left join c.feePayment f where f.invoice i group by c having count(i) = 0
 
 ==========
 
