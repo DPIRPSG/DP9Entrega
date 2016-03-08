@@ -111,7 +111,7 @@ public class Activity extends DomainEntity {
 	
 	@Valid
 	@NotNull
-	@ManyToMany(mappedBy = "activities")
+	@ManyToMany
 	public Collection<Customer> getCustomers() {
 		return customers;
 	}
