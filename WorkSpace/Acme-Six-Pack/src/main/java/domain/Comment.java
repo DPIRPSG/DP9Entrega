@@ -75,7 +75,6 @@ public class Comment extends DomainEntity{
 	@Valid
 	@NotNull
 	@ManyToOne(optional=false)
-	@NotFound(action = NotFoundAction.IGNORE)
 	public Actor getActor() {
 		return actor;
 	}
@@ -86,6 +85,7 @@ public class Comment extends DomainEntity{
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
+	@NotFound(action = NotFoundAction.IGNORE)
 	public CommentedEntity getCommentedEntity() {
 		return commentedEntity;
 	}
