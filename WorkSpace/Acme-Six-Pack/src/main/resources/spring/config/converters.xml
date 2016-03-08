@@ -57,6 +57,12 @@
 		<bean class="converters.CommentedEntityToStringConverter" />
 		<bean class="converters.StringToCommentedEntityConverter" />
 		
+		<bean class="converters.RoomToStringConverter" />
+		<bean class="converters.StringToRoomConverter" />
+		
+		<bean class="converters.BulletinToStringConverter" />
+		<bean class="converters.StringToBulletinConverter" />
+		
 	</util:list>
 	
 </beans>
