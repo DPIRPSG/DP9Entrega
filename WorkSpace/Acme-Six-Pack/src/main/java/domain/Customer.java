@@ -58,7 +58,7 @@ public class Customer extends Actor {
 	// Relationships ----------------------------------------------------------
 	
 	private Collection<FeePayment> feePayments;
-	//private Collection<Activity> activities;
+	private Collection<Activity> activities;
 	private SocialIdentity socialIdentity;
 		
 	@Valid
@@ -79,7 +79,7 @@ public class Customer extends Actor {
 		this.feePayments.remove(feePayment);
 	}
 	
-	/*@Valid
+	@Valid
 	@NotNull
 	@ManyToMany
 	public Collection<Activity> getActivities() {
@@ -87,7 +87,7 @@ public class Customer extends Actor {
 	}
 	public void setActivities(Collection<Activity> activities) {
 		this.activities = activities;
-	}*/
+	}
 	
 	@Valid
 	@OneToOne(optional = true)
