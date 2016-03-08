@@ -1,4 +1,4 @@
-Queries DP8Entrega
+﻿Queries DP8Entrega
 
 Level C:
 
@@ -79,6 +79,7 @@ Level B:
 17) The most popular services regarding the number of trainers that are specialists in them. -> POR EMPEZAR
 
 - 
+
 
 ==========
 
