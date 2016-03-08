@@ -145,6 +145,7 @@ public class Gym extends CommentedEntity{
 	@Valid
 	@NotNull
 	@OneToMany(cascade = CascadeType.ALL)
+	@NotEmpty
 	public Collection<Room> getRooms() {
 		return rooms;
 	}

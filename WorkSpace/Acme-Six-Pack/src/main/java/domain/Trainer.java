@@ -10,7 +10,6 @@ import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 @Entity
@@ -61,7 +60,6 @@ public class Trainer extends Actor {
 	@Valid
 	@NotNull
 	@ManyToMany(mappedBy = "trainers")
-	@NotEmpty
 	public Collection<ServiceEntity> getServices() {
 		return services;
 	}
