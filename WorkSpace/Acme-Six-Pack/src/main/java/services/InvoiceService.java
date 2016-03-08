@@ -8,13 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.InvoiceRepository;
 import domain.Actor;
-import domain.Comment;
-import domain.CommentedEntity;
 import domain.FeePayment;
 import domain.Invoice;
-
-import repositories.InvoiceRepository;
 
 @Service
 @Transactional
@@ -60,9 +57,18 @@ public class InvoiceService {
 		
 		result.setInvoiceesName(invoiceesName);
 		result.setDescription(description);
-		result.setStartingMoment(new Date()); // Se crea una fecha en este momento porque no puede ser null, pero la fecha real se fijará en el método "save"
+		result.setCreationMoment(new Date()); // Se crea una fecha en este momento porque no puede ser null, pero la fecha real se fijará en el método "save"
 		
 		return result;
+	}
+	
+	public void save(Invoice invoice){
+		Assert.isTrue(actorService.checkAuthority("CUSTOMER"), "Only a customer can manage an invoice.");
+		Assert.notNull(invoice);
+		
+		invoice.setCreationMoment(new Date());
+		
+		invoiceRepository.save(invoice);
 	}
 	
 	public Invoice findOne(int invoiceId) {
