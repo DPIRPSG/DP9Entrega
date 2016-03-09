@@ -60,7 +60,7 @@ public abstract class Actor extends CommentedEntity{
 	private Collection<Folder> messageBoxes;
 	private Collection<Message> sent;
 	private Collection<Message> received;
-	private Collection<Comment> commentss;
+	private Collection<Comment> madeComments;
 	private UserAccount userAccount;
 	
 	@NotNull
@@ -97,11 +97,11 @@ public abstract class Actor extends CommentedEntity{
 	@Valid
 	@OneToMany(mappedBy = "actor")
 	@NotNull
-	public Collection<Comment> getCommentss() {
-		return commentss;
+	public Collection<Comment> getMadeComments() {
+		return madeComments;
 	}
-	public void setCommentss(Collection<Comment> commentss) {
-		this.commentss = commentss;
+	public void setMadeComments(Collection<Comment> commentss) {
+		this.madeComments = commentss;
 	}
 	
 	@NotNull
