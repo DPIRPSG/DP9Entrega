@@ -1,4 +1,4 @@
-package controllers;
+package controllers.administrator;
 
 import java.util.Collection;
 
@@ -10,56 +10,45 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.BulletinService;
 import services.GymService;
+import services.RoomService;
+
 import controllers.AbstractController;
-import domain.Bulletin;
 import domain.Gym;
+import domain.Room;
 
 @Controller
-@RequestMapping(value = "/bulletin")
-public class BulletinController extends AbstractController {
+@RequestMapping(value = "/room/administrator")
+public class RoomAdministratorController extends AbstractController {
 
 	// Services ----------------------------------------------------------
 
 	@Autowired
-	private BulletinService bulletinService;
+	private RoomService roomService;
 	
 	@Autowired
 	private GymService gymService;
 
 	// Constructors ----------------------------------------------------------
 
-	public BulletinController() {
+	public RoomAdministratorController() {
 		super();
 	}
 
 	// Listing ----------------------------------------------------------
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam int gymId, @RequestParam(required=false, defaultValue="") String keyword) {
+	public ModelAndView list(@RequestParam int gymId) {
 		ModelAndView result;
-		Collection<Bulletin> bulletins;
+		Collection<Room> rooms;
 		Gym gym;
-		String keywordToFind;
 
-		bulletins = bulletinService.findAllByGymId(gymId);
+		rooms = roomService.findAllByGymId(gymId);
 		gym = gymService.findOne(gymId);
 		
-		if (!keyword.equals("")) {
-			String[] keywordComoArray = keyword.split(" ");
-			for (int i = 0; i < keywordComoArray.length; i++) {
-				if (!keywordComoArray[i].equals("")) {
-					keywordToFind = keywordComoArray[i];
-					bulletins = bulletinService.findBySingleKeyword(keywordToFind, gymId);
-					break;
-				}
-			}
-		}
-		
-		result = new ModelAndView("bulletin/list");
-		result.addObject("requestURI", "bulletin/list.do");
-		result.addObject("bulletins", bulletins);
+		result = new ModelAndView("room/list");
+		result.addObject("requestURI", "room/administrator/list.do");
+		result.addObject("rooms", rooms);
 		result.addObject("gym", gym);
 
 		return result;
