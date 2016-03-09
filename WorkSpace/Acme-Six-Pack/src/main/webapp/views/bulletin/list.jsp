@@ -49,6 +49,12 @@
 <br/>
 <br/>
 
+<form action="${requestURI}">
+	<input type="hidden" name="gymId" value="${gym.id}">
+	<input type="text" name="keyword"> <input type="submit"
+		value="<spring:message code="bulletin.search" />" />&nbsp;
+</form>
+
 <!-- Action links -->
 <security:authorize access="hasRole('ADMIN')">
 	<div>

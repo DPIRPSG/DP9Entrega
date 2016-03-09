@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import repositories.BulletinRepository;
 import domain.Bulletin;
@@ -37,6 +38,17 @@ public class BulletinService {
 		Collection<Bulletin> result;
 		
 		result = bulletinRepository.findAllByGymId(gymId);
+		
+		return result;
+	}
+	
+	public Collection<Bulletin> findBySingleKeyword(String keyword, int gymId){
+		Assert.notNull(keyword);
+		Assert.isTrue(!keyword.isEmpty());
+		
+		Collection<Bulletin> result;
+
+		result = bulletinRepository.findBySingleKeyword(keyword, gymId);
 		
 		return result;
 	}
