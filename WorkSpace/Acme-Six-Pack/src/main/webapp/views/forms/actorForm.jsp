@@ -34,7 +34,7 @@
 		<form:errors class="error" path="repeatedPassword" />
 		<br />		
 		
-		<security:authorize access="!hasAnyRole('CUSTOMER', 'ADMIN')">
+		<security:authorize access="!hasAnyRole('CUSTOMER', 'ADMIN', 'TRAINER')">
 			
 			<acme:checkbox code="actorForm.createCreditCard" path="createCreditCard"/>
 			<acme:checkbox code="actorForm.createSocialIdentity" path="createSocialIdentity"/>
@@ -44,9 +44,15 @@
 			<acme:checkbox code="actorForm.acceptTerm" path="acceptTerm"/>
 			<a href="legal-terms/index.do"><spring:message
 				code="actorForm.legalTerms" /></a>
-		<br/>			
+			<br/>			
 			
-		</security:authorize>		
+		</security:authorize>
+		<security:authorize access="hasRole('TRAINER')">
+		
+			<acme:checkbox code="actorForm.picture" path="picture"/>
+			<br/>			
+			
+		</security:authorize>	
 		<br />
 		
 		<!-- Action buttons -->
