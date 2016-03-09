@@ -27,30 +27,31 @@
 			<li><a class="fNiv"><spring:message	code="master.page.manage.gym" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="gym/customer/list-feepayments-not-active.do?"><spring:message code="master.page.manage.gym.not-pay" /></a></li>
-					<li><a href="gym/customer/list-feepayments-active.do?"><spring:message code="master.page.manage.gym.pay" /></a></li>
+					<li><a href="gym/customer/list-feepayments-not-active.do"><spring:message code="master.page.manage.gym.not-pay" /></a></li>
+					<li><a href="gym/customer/list-feepayments-active.do"><spring:message code="master.page.manage.gym.pay" /></a></li>
 				</ul>
 			</li>
 			<li><a class="fNiv" href="service/customer/list.do"><spring:message code="master.page.service" /></a></li>
 			<li><a class="fNiv" href="feePayment/customer/list.do"><spring:message code="master.page.feePayments" /></a></li>
 			<li><a class="fNiv" href="folder/actor/list.do"><spring:message code="master.page.messages" /></a></li>
-			<li><a class="fNiv" href="booking/customer/list.do?"><spring:message code="master.page.bookings" /></a>	</li>		
+			<li><a class="fNiv" href="booking/customer/list.do"><spring:message code="master.page.bookings" /></a>	</li>		
 		</security:authorize>
 		
 		<security:authorize access="hasRole('ADMIN')">
 			<li><a class="fNiv"><spring:message	code="master.page.manage" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="gym/administrator/list.do?"><spring:message code="master.page.manage.gym" /></a></li>
-					<li><a href="service/administrator/list.do?"><spring:message code="master.page.manage.service" /></a></li>
-					<li><a href="spamTerm/administrator/list.do?"><spring:message code="master.page.manage.spamTerms" /></a></li>
+					<li><a href="gym/administrator/list.do"><spring:message code="master.page.manage.gym" /></a></li>
+					<li><a href="service/administrator/list.do"><spring:message code="master.page.manage.service" /></a></li>
+					<li><a href="spamTerm/administrator/list.do"><spring:message code="master.page.manage.spamTerms" /></a></li>
+					<li><a href="trainer/administrator/register.do"><spring:message code="master.page.register.trainer" /></a></li>
 				</ul>
 			</li>
 			<li><a class="fNiv"><spring:message	code="master.page.list" /></a>
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="feePayment/administrator/list.do"><spring:message code="master.page.list.feePayments" /></a></li>
-					<li><a href="booking/administrator/list.do?"><spring:message code="master.page.list.booking" /></a></li>
+					<li><a href="booking/administrator/list.do"><spring:message code="master.page.list.booking" /></a></li>
 				</ul>
 			</li>
 			<li><a class="fNiv" href="dashboard/administrator/list.do"><spring:message code="master.page.dashboard" /></a></li>
@@ -58,8 +59,8 @@
 		</security:authorize>
 		
 		<security:authorize access="isAnonymous()">
-			<li><a class="fNiv" href="gym/list.do?"><spring:message code="master.page.gym" /></a></li>
-			<li><a class="fNiv" href="service/list.do?"><spring:message code="master.page.service" /></a></li>
+			<li><a class="fNiv" href="gym/list.do"><spring:message code="master.page.gym" /></a></li>
+			<li><a class="fNiv" href="service/list.do"><spring:message code="master.page.service" /></a></li>
 			<li><a class="fNiv" href="customer/create.do"><spring:message code="master.page.register" /></a></li>
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
 		</security:authorize>

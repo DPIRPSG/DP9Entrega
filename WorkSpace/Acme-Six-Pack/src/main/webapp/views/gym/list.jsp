@@ -102,6 +102,17 @@
 		</a>
 	</display:column>
 
+	<display:column>
+		<a href="${requestUri3}gymId=${row_Gym.id}"> <spring:message
+				code="gym.rooms" />
+		</a>
+	</display:column>
+	
+	<display:column>
+		<a href="${requestUri4}gymId=${row_Gym.id}"> <spring:message
+				code="gym.bulletins" />
+		</a>
+	</display:column>
 
 </display:table>
 
