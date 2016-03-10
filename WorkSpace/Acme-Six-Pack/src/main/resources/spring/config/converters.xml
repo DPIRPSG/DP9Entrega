@@ -63,6 +63,9 @@
 		<bean class="converters.BulletinToStringConverter" />
 		<bean class="converters.StringToBulletinConverter" />
 		
+		<bean class="converters.TrainerToStringConverter" />
+		<bean class="converters.StringToTrainerConverter" />
+		
 	</util:list>
 	
 </beans>
