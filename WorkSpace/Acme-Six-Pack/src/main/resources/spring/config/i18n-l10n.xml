@@ -42,7 +42,8 @@
 		<value>/views/creditCard/messages</value>
 		<value>/views/room/messages</value>
 		<value>/views/bulletin/messages</value>	
-		<value>/views/trainer/messages</value>	
+		<value>/views/trainer/messages</value>
+		<value>/views/activity/messages</value>	
 		
 		<value>/views/forms/messages</value>
 			
