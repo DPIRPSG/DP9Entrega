@@ -83,7 +83,7 @@ public class ServiceTrainerController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public ModelAndView add(@RequestParam(required=false) Integer serviceId) {
+	public ModelAndView add(@RequestParam(required=true) Integer serviceId) {
 		ModelAndView result;
 		ServiceEntity serv;
 				
@@ -96,7 +96,7 @@ public class ServiceTrainerController extends AbstractController {
 	} 
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView remove(@RequestParam(required=false) Integer serviceId) {
+	public ModelAndView remove(@RequestParam(required=true) Integer serviceId) {
 		ModelAndView result;
 		ServiceEntity serv;
 				
