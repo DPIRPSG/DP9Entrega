@@ -60,7 +60,7 @@
 <!-- Action links -->
 <security:authorize access="hasRole('ADMIN')">
 	<div>
-		<a href="room/administrator/create.do"> <spring:message
+		<a href="room/administrator/create.do?gymId=${gym.id}"> <spring:message
 				code="room.create" />
 		</a>
 	</div>

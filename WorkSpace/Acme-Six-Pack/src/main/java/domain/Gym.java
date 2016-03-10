@@ -152,4 +152,12 @@ public class Gym extends CommentedEntity{
 	public void setRooms(Collection<Room> rooms) {
 		this.rooms = rooms;
 	}
+	
+	public void addRoom(Room room) {
+		this.rooms.add(room);
+	}
+
+	public void removeRoom(Room room) {
+		this.rooms.remove(room);
+	}
 }
