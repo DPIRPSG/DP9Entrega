@@ -11,11 +11,11 @@
 	
 	<definition name="invoice/draft" extends="master.page">
 		<put-attribute name="title" value="Draft of the invoice" />
-		<put-attribute name="body" value="/views/invoice/invoice/draft.jsp" />
+		<put-attribute name="body" value="/views/invoice/draft.jsp" />
 	</definition>
 	
 	<definition name="invoice/create" extends="master.page">	
-		<put-attribute name="title" value="Crete a new invoice" />
+		<put-attribute name="title" value="Create a new invoice" />
 		<put-attribute name="body" value="/views/invoice/create.jsp" />
 	</definition>
 	

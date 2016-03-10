@@ -29,7 +29,8 @@
 		<!-- Action buttons -->
 		<acme:submit name="save" code="invoice.draft.confirm"/>
 		&nbsp;
-		<acme:cancel code="invoice.draft.cancel" url="/invoice/customer/create.do?invoiceId=${invoice.id}"/>
+		<acme:submit name="cancel" code="invoice.draft.cancel"/>
+<%-- 		<acme:cancel code="invoice.draft.cancel" url="/invoice/customer/create.do?invoiceId=${invoice.id}"/> --%>
 		
 	</form:form>
 	

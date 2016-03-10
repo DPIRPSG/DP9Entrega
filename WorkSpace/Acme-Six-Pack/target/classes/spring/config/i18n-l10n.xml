@@ -41,7 +41,8 @@
 		<value>/views/feePayment/messages</value>
 		<value>/views/creditCard/messages</value>
 		<value>/views/room/messages</value>
-		<value>/views/bulletin/messages</value>	
+		<value>/views/bulletin/messages</value>
+		<value>/views/invoice/messages</value>	
 		
 		<value>/views/forms/messages</value>
 			

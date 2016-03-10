@@ -33,6 +33,7 @@
 			</li>
 			<li><a class="fNiv" href="service/customer/list.do"><spring:message code="master.page.service" /></a></li>
 			<li><a class="fNiv" href="feePayment/customer/list.do"><spring:message code="master.page.feePayments" /></a></li>
+			<li><a class="fNiv" href="invoice/customer/list.do"><spring:message code="master.page.invoice" /></a></li>
 			<li><a class="fNiv" href="folder/actor/list.do"><spring:message code="master.page.messages" /></a></li>
 			<li><a class="fNiv" href="booking/customer/list.do"><spring:message code="master.page.bookings" /></a>	</li>		
 		</security:authorize>

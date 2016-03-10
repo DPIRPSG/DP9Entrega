@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.InvoiceRepository;
-import domain.Actor;
 import domain.FeePayment;
 import domain.Invoice;
 
@@ -26,9 +25,6 @@ public class InvoiceService {
 
 	@Autowired
 	private ActorService actorService;
-	
-	@Autowired
-	private FeePaymentService feePaymentService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -42,21 +38,10 @@ public class InvoiceService {
 		Assert.isTrue(actorService.checkAuthority("CUSTOMER"), "Only a customer can manage an invoice.");
 		
 		Invoice result;
-		String invoiceesName;
-		Actor customer;
-		String description;
-		Integer numberOfFeePayments;
-		Collection<FeePayment> allHisPayments;
 		
 		result = new Invoice();
-		customer = actorService.findByPrincipal();
-		invoiceesName = customer.getName();
-		allHisPayments = feePaymentService.findAllByCustomer();
-		numberOfFeePayments = allHisPayments.size();
-		description = "This invoice summarizes the total of " + numberOfFeePayments + " pays, that you (" + customer.getName() + customer.getSurname() + ") have made to Acme-Six-Pack Co., Inc.";
 		
-		result.setInvoiceesName(invoiceesName);
-		result.setDescription(description);
+		result.setTotalCost(0.0);
 		result.setCreationMoment(new Date()); // Se crea una fecha en este momento porque no puede ser null, pero la fecha real se fijará en el método "save"
 		
 		return result;
@@ -66,6 +51,16 @@ public class InvoiceService {
 		Assert.isTrue(actorService.checkAuthority("CUSTOMER"), "Only a customer can manage an invoice.");
 		Assert.notNull(invoice);
 		
+		Collection<FeePayment> feePayments;
+		double totalCost;
+		
+		totalCost = invoice.getTotalCost();
+		feePayments = invoice.getFeePayments();
+		for(FeePayment f: feePayments){
+			totalCost += f.getAmount();
+		}
+		
+		invoice.setTotalCost(totalCost);
 		invoice.setCreationMoment(new Date());
 		
 		invoiceRepository.save(invoice);

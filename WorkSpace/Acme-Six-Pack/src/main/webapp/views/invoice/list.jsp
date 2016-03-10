@@ -25,8 +25,8 @@
 		<spring:message code="invoice.invoiceesName" var="invoiceesNameHeader" />
 		<acme:displayColumn title="${invoiceesNameHeader}" sorteable="true" value="${row_invoice.invoiceesName}"/>
 		
-		<spring:message code="invoice.VAR" var="VARHeader" />
-		<acme:displayColumn title="${VARHeader}" sorteable="true" value="${row_invoice.VAR}"/>
+		<spring:message code="invoice.VAT" var="VATHeader" />
+		<acme:displayColumn title="${VATHeader}" sorteable="true" value="${row_invoice.VAT}"/>
 	
 		<spring:message code="invoice.creationMoment" var="creationMomentHeader" />
 		<acme:displayColumn title="${creationMomentHeader}" sorteable="true" value="${row_invoice.creationMoment}" format="{0,date,yyyy/MM/dd}"/>

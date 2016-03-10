@@ -13,24 +13,41 @@
 <security:authorize access = "hasRole('CUSTOMER')">
 
 	<!-- Form -->
-	<form:form action="invoice/customer/create.do" modelAttribute="invoice">
+	<form:form action="invoice/customer/create.do" modelAttribute="invoiceForm">
 		<!-- Hidden Attributes -->
-		<form:hidden path="id"/>
-		<form:hidden path="version"/>
-		
-		<form:hidden path="creationMoment"/>
-		<form:hidden path="totalCost"/>
 		
 		<!-- Editable Attributes -->
 		
-		<acme:textbox code="invoice.invoiceesName" path="invoice.invoiceesName" />
-		<acme:textbox code="invoice.VAT" path="invoice.VAT" />
-		<acme:textbox code="invoice.description" path="invoice.description" />
+		<acme:textbox code="invoiceForm.invoiceesName" path="invoiceesName" />
+		<acme:textbox code="invoiceForm.VAT" path="VAT" />
+		<acme:textarea code="invoiceForm.description" path="description" />
+		
+<%-- 		<form:label path="feePaymentsNotIssued"> --%>
+<%-- 			<spring:message code="invoiceForm.feePaymentsNotIssued" /> --%>
+<%-- 		</form:label> --%>
+<%-- 		<form:select name="feePaymentsNotIssued" path="feePaymentsNotIssued" multiple="multiple"> --%>
+<!-- 		    <option value="">---</option> -->
+<%-- 		    <jstl:forEach var="feePayment" items="${invoiceForm.feePaymentsNotIssued}" > --%>
+<%-- 		        <form:option value="${feePayment.id}"><jstl:out value="${feePayment.gym.name} - ${feePayment.amount} (${feePayment.paymentMoment})"/></form:option> --%>
+<%-- 		    </jstl:forEach> --%>
+<%-- 		</form:select> --%>
+		
+		<form:label path="feePaymentsNotIssued">
+			<spring:message code="invoiceForm.feePaymentsNotIssued" />
+		</form:label>
+		<form:select name="feePaymentsNotIssued" path="feePaymentsNotIssued" multiple="multiple">
+		    <option value="">---</option>
+		    <jstl:forEach var="feePayment" items="feePaymentsNotIssued" >
+		        <form:option value="id"><jstl:out value="${gym.name} - ${amount} (${paymentMoment})"/></form:option>
+		    </jstl:forEach>
+		</form:select>
+		<form:errors path="${path}" cssClass="error" />
+		<br />
 		
 		<!-- Action buttons -->
 		<acme:submit name="save" code="invoice.create.save"/>
 		&nbsp;
-		<acme:cancel code="invoice.create.cancel" url="/invoice/customer/list.do?customer=${customer.id}"/>
+		<acme:cancel code="invoice.create.cancel" url="/invoice/customer/list.do"/>
 		<br />
 	
 	</form:form>

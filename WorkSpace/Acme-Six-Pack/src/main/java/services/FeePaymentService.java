@@ -199,6 +199,14 @@ public class FeePaymentService {
 		
 		return result;
 	}
+	
+	public Collection<FeePayment> findAllByCustomerIdNotIssued(int customerId) {
+		Collection<FeePayment> result;
+		
+		result = feePaymentRepository.findAllByCustomerIdNotIssued(customerId);
+		
+		return result;
+	}
 
 	private boolean compruebaFecha(CreditCard creditCard) {
 		boolean result;

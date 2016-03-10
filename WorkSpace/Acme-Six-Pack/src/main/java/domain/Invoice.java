@@ -15,7 +15,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.data.annotation.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -29,6 +28,7 @@ public class Invoice extends DomainEntity {
 	private String VAT;
 	private Date creationMoment;
 	private String description;
+	private double totalCost;
 
 	@NotBlank
 	@NotNull
@@ -65,17 +65,25 @@ public class Invoice extends DomainEntity {
 	@Valid
 	@Min(0)
 	@Digits(integer=9, fraction=2)
-	@Transient
 	public double getTotalCost() {
-		double result;
-		
-		result = 0.0;
-		
-		for(FeePayment f: feePayments){
-			result += f.getAmount();
-		}
-		
-		return result;
+//		double result;
+//		
+//		if(totalCost != null){
+//			result = 0.0;
+//			
+//			for(FeePayment f: feePayments){
+//				result += f.getAmount();
+//			}
+//		}else{
+//			result = totalCost;
+//		}
+//		
+//		return result;
+		return totalCost;
+	}
+	
+	public void setTotalCost(double totalCost) {
+		this.totalCost = totalCost;
 	}
 
 	@NotBlank

@@ -14,9 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
 import services.InvoiceService;
+import services.form.InvoiceFormService;
 import controllers.AbstractController;
 import domain.Actor;
 import domain.Invoice;
+import domain.form.InvoiceForm;
 
 @Controller
 @RequestMapping("/invoice/customer")
@@ -28,8 +30,10 @@ public class InvoiceCustomerController extends AbstractController {
 	private InvoiceService invoiceService;
 	
 	@Autowired
-	private ActorService actorService;
+	private InvoiceFormService invoiceFormService;
 	
+	@Autowired
+	private ActorService actorService;
 	
 	// Constructors --------------------------------------------------------
 	
@@ -41,11 +45,16 @@ public class InvoiceCustomerController extends AbstractController {
 	// Creating --------------------------------------------------------------
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam Integer customerId) {
+	public ModelAndView list() {
 		ModelAndView result;
 		Collection<Invoice> invoices;
+		Actor customer;
+		Integer customerId;
 		
+		customer = actorService.findByPrincipal();
+		customerId = customer.getId();
 		invoices = invoiceService.findAllByCustomerId(customerId);
+		
 		
 		result = new ModelAndView("invoice/list");
 		result.addObject("invoices", invoices);
@@ -57,27 +66,29 @@ public class InvoiceCustomerController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
-		Invoice invoice;
+		InvoiceForm invoiceForm;
 		
-		invoice = invoiceService.create();
+		invoiceForm = invoiceFormService.create();
 		
-		result = createEditModelAndView(invoice);
+		result = createEditModelAndView(invoiceForm);
 		
 		return result;
 	}
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST, params="save")
-	public ModelAndView create(@Valid Invoice invoice, BindingResult binding) {
+	public ModelAndView create(@Valid InvoiceForm invoiceForm, BindingResult binding) {
 		ModelAndView result;
+		Invoice invoice;
 		
 		if (binding.hasErrors()) {
-			result = createEditModelAndView(invoice);
+			result = createEditModelAndView(invoiceForm);
 		} else {
 			try {
+				invoice = invoiceFormService.reconstruct(invoiceForm);
 				result = new ModelAndView("invoice/draft");
 				result.addObject("invoice", invoice);
 			} catch (Throwable oops) {
-				result = createEditModelAndView(invoice, "comment.commit.error");
+				result = createEditModelAndView(invoiceForm, "invoice.commit.error");
 			}
 		}
 		
@@ -99,18 +110,43 @@ public class InvoiceCustomerController extends AbstractController {
 		ModelAndView result;
 		Actor customer;
 		Integer customerId;
+		InvoiceForm invoiceForm;
+		
+		customer = actorService.findByPrincipal();
+		customerId = customer.getId();
 		
 		if (binding.hasErrors()) {
-			result = createEditModelAndView(invoice);
+			invoiceForm = invoiceFormService.deconstruct(invoice);
+			result = createEditModelAndView(invoiceForm);
 		} else {
 			try {
-				customer = actorService.findByPrincipal();
-				customerId = customer.getId();
 				invoiceService.save(invoice);
 				
 				result = new ModelAndView("redirect:../list.do?customerId=" + customerId);
 			} catch (Throwable oops) {
-				result = createEditModelAndView(invoice, "comment.commit.error");
+				invoiceForm = invoiceFormService.deconstruct(invoice);
+				result = createEditModelAndView(invoiceForm, "invoice.commit.error");
+			}
+		}
+		
+		return result;
+	}
+	
+	@RequestMapping(value="/draft", method=RequestMethod.POST, params="cancel")
+	public ModelAndView draftCancel(@Valid Invoice invoice, BindingResult binding) {
+		ModelAndView result;
+		InvoiceForm invoiceForm;
+		
+		if (binding.hasErrors()) {
+			invoiceForm = invoiceFormService.deconstruct(invoice);
+			result = createEditModelAndView(invoiceForm);
+		} else {
+			try {
+				invoiceForm = invoiceFormService.deconstruct(invoice);
+				result = createEditModelAndView(invoiceForm);
+			} catch (Throwable oops) {
+				invoiceForm = invoiceFormService.deconstruct(invoice);
+				result = createEditModelAndView(invoiceForm, "invoice.commit.error");
 			}
 		}
 		
@@ -119,19 +155,19 @@ public class InvoiceCustomerController extends AbstractController {
 	
 	// Ancillary methods ---------------------------------------------------
 	
-	protected ModelAndView createEditModelAndView(Invoice invoice) {
+	protected ModelAndView createEditModelAndView(InvoiceForm invoiceForm) {
 		ModelAndView result;
 		
-		result = createEditModelAndView(invoice, null);
+		result = createEditModelAndView(invoiceForm, null);
 		
 		return result;
 	}
 	
-	protected ModelAndView createEditModelAndView(Invoice invoice, String message) {
+	protected ModelAndView createEditModelAndView(InvoiceForm invoiceForm, String message) {
 		ModelAndView result;
 		
 		result = new ModelAndView("invoice/create");
-		result.addObject("invoice", invoice);
+		result.addObject("invoiceForm", invoiceForm);
 		result.addObject("message", message);
 		
 		return result;
