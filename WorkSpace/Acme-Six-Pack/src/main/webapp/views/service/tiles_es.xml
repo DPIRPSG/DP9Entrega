@@ -9,6 +9,11 @@
 		<put-attribute name="body" value="/views/service/list.jsp" />
 	</definition>
 	
+	<definition name="service/list/specialised" extends="master.page">	
+		<put-attribute name="title" value="Lista de Servicios especializados" />
+		<put-attribute name="body" value="/views/service/list.jsp" />
+	</definition>
+	
 	<definition name="service/edit" extends="master.page">	
 		<put-attribute name="title" value="Editar un Servicio" />
 		<put-attribute name="body" value="/views/service/edit.jsp" />
