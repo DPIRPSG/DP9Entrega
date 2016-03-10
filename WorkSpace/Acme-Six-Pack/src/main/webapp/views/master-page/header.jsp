@@ -33,7 +33,6 @@
 			</li>
 			<li><a class="fNiv" href="service/customer/list.do"><spring:message code="master.page.service" /></a></li>
 			<li><a class="fNiv" href="feePayment/customer/list.do"><spring:message code="master.page.feePayments" /></a></li>
-			<li><a class="fNiv" href="folder/actor/list.do"><spring:message code="master.page.messages" /></a></li>
 			<li><a class="fNiv" href="booking/customer/list.do"><spring:message code="master.page.bookings" /></a>	</li>		
 		</security:authorize>
 		
@@ -55,9 +54,17 @@
 				</ul>
 			</li>
 			<li><a class="fNiv" href="dashboard/administrator/list.do"><spring:message code="master.page.dashboard" /></a></li>
-			<li><a class="fNiv" href="folder/actor/list.do"><spring:message code="master.page.messages" /></a></li>
 		</security:authorize>
 		
+		<security:authorize access="hasRole('TRAINER')">
+			<li><a class="fNiv"><spring:message	code="master.page.manage" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="service/trainer/specialised.do"><spring:message code="master.page.manage.service" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+				
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="gym/list.do"><spring:message code="master.page.gym" /></a></li>
 			<li><a class="fNiv" href="service/list.do"><spring:message code="master.page.service" /></a></li>
@@ -66,6 +73,8 @@
 		</security:authorize>
 		
 		<security:authorize access="isAuthenticated()">
+			<li><a class="fNiv" href="folder/actor/list.do"><spring:message code="master.page.messages" /></a></li>
+		
 			<!-- <li><a href="j_spring_security_logout"><spring:message code="master.page.logout" />(<security:authentication property="principal.username" />)</a></li> -->
 			<li><a class="fNiv"><security:authentication property="principal.username" /></a>
 				<ul>
