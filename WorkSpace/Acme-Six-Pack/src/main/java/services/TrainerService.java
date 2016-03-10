@@ -135,6 +135,22 @@ public class TrainerService {
 		return modify;
 	}
 	
+	public Collection<Trainer> findAll(){
+		Collection<Trainer> result;
+		
+		result = trainerRepository.findAll();
+		
+		return result;
+	}
+	
+	public Trainer findOne(int id){
+		Trainer result;
+		
+		result = trainerRepository.findOne(id);
+		
+		return result;
+	}
+	
 
 	//Other business methods -------------------------------------------------
 

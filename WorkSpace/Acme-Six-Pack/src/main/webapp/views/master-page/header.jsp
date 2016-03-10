@@ -32,6 +32,7 @@
 				</ul>
 			</li>
 			<li><a class="fNiv" href="service/customer/list.do"><spring:message code="master.page.service" /></a></li>
+			<li><a class="fNiv" href="trainer/list.do"><spring:message code="master.page.trainer" /></a></li>
 			<li><a class="fNiv" href="feePayment/customer/list.do"><spring:message code="master.page.feePayments" /></a></li>
 			<li><a class="fNiv" href="booking/customer/list.do"><spring:message code="master.page.bookings" /></a>	</li>		
 		</security:authorize>
@@ -51,6 +52,7 @@
 					<li class="arrow"></li>
 					<li><a href="feePayment/administrator/list.do"><spring:message code="master.page.list.feePayments" /></a></li>
 					<li><a href="booking/administrator/list.do"><spring:message code="master.page.list.booking" /></a></li>
+					<li><a href="trainer/list.do"><spring:message code="master.page.trainer" /></a></li>
 				</ul>
 			</li>
 			<li><a class="fNiv" href="dashboard/administrator/list.do"><spring:message code="master.page.dashboard" /></a></li>
@@ -63,11 +65,14 @@
 					<li><a href="service/trainer/specialised.do"><spring:message code="master.page.manage.service" /></a></li>
 				</ul>
 			</li>
+			<li><a class="fNiv" href="trainer/list.do"><spring:message code="master.page.trainer" /></a></li>
+			
 		</security:authorize>
 				
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="gym/list.do"><spring:message code="master.page.gym" /></a></li>
 			<li><a class="fNiv" href="service/list.do"><spring:message code="master.page.service" /></a></li>
+			<li><a class="fNiv" href="trainer/list.do"><spring:message code="master.page.trainer" /></a></li>
 			<li><a class="fNiv" href="customer/create.do"><spring:message code="master.page.register" /></a></li>
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
 		</security:authorize>
