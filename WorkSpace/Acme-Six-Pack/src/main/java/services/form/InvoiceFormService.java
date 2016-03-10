@@ -41,7 +41,7 @@ public class InvoiceFormService {
 
 	// Methods -----------------------------------------------------------
 
-	public InvoiceForm create() {
+	public InvoiceForm create(String languageCookie) {
 		Assert.isTrue(actorService.checkAuthority("CUSTOMER"), "Only a customer can manage an invoice.");
 		InvoiceForm result;
 		String invoiceesName;
@@ -57,10 +57,15 @@ public class InvoiceFormService {
 		invoiceesName = customer.getName();
 		feePaymentsNotIssued = feePaymentService.findAllByCustomerIdNotIssued(customerId);
 		numberOfFeePayments = feePaymentsNotIssued.size();
-		description = "This invoice summarizes the total of " + numberOfFeePayments + " pays, that you (" + customer.getName() + " " + customer.getSurname() + ") have made to Acme-Six-Pack Co., Inc.";
+		if(languageCookie.equals("es")){
+			description = "Esta factura resume el total de " + numberOfFeePayments + " pagos, que tú (" + customer.getName() + " " + customer.getSurname() + ") has realizado a Acme-Six-Pack Co., Inc.";
+		}else{
+			description = "This invoice summarizes the total of " + numberOfFeePayments + " payments, that you (" + customer.getName() + " " + customer.getSurname() + ") have made to Acme-Six-Pack Co., Inc.";
+		}
 		
 		result.setInvoiceesName(invoiceesName);
 		result.setDescription(description);
+		result.setFeePaymentsNotIssued(feePaymentsNotIssued);
 		
 		return result;
 	}
@@ -88,7 +93,7 @@ public class InvoiceFormService {
 		
 		InvoiceForm result;
 		
-		result = this.create();
+		result = this.create("en");
 		result.setInvoiceesName(invoice.getInvoiceesName());
 		result.setVAT(invoice.getVAT());
 		result.setDescription(invoice.getDescription());

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,11 +65,11 @@ public class InvoiceCustomerController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@CookieValue(value = "language", required = false, defaultValue = "en") String languageCookie) {
 		ModelAndView result;
 		InvoiceForm invoiceForm;
 		
-		invoiceForm = invoiceFormService.create();
+		invoiceForm = invoiceFormService.create(languageCookie);
 		
 		result = createEditModelAndView(invoiceForm);
 		
@@ -79,16 +80,22 @@ public class InvoiceCustomerController extends AbstractController {
 	public ModelAndView create(@Valid InvoiceForm invoiceForm, BindingResult binding) {
 		ModelAndView result;
 		Invoice invoice;
+		InvoiceForm invoiceFormErrors;
+		
+		invoiceFormErrors = invoiceFormService.create("en");
+		invoiceFormErrors.setInvoiceesName(invoiceForm.getInvoiceesName());
+		invoiceFormErrors.setVAT(invoiceForm.getVAT());
+		invoiceFormErrors.setDescription(invoiceForm.getDescription());
 		
 		if (binding.hasErrors()) {
-			result = createEditModelAndView(invoiceForm);
+			result = createEditModelAndView(invoiceFormErrors);
 		} else {
 			try {
 				invoice = invoiceFormService.reconstruct(invoiceForm);
 				result = new ModelAndView("invoice/draft");
 				result.addObject("invoice", invoice);
 			} catch (Throwable oops) {
-				result = createEditModelAndView(invoiceForm, "invoice.commit.error");
+				result = createEditModelAndView(invoiceFormErrors, "invoice.commit.error");
 			}
 		}
 		

@@ -22,26 +22,16 @@
 		<acme:textbox code="invoiceForm.VAT" path="VAT" />
 		<acme:textarea code="invoiceForm.description" path="description" />
 		
-<%-- 		<form:label path="feePaymentsNotIssued"> --%>
-<%-- 			<spring:message code="invoiceForm.feePaymentsNotIssued" /> --%>
-<%-- 		</form:label> --%>
-<%-- 		<form:select name="feePaymentsNotIssued" path="feePaymentsNotIssued" multiple="multiple"> --%>
-<!-- 		    <option value="">---</option> -->
-<%-- 		    <jstl:forEach var="feePayment" items="${invoiceForm.feePaymentsNotIssued}" > --%>
-<%-- 		        <form:option value="${feePayment.id}"><jstl:out value="${feePayment.gym.name} - ${feePayment.amount} (${feePayment.paymentMoment})"/></form:option> --%>
-<%-- 		    </jstl:forEach> --%>
-<%-- 		</form:select> --%>
-		
 		<form:label path="feePaymentsNotIssued">
 			<spring:message code="invoiceForm.feePaymentsNotIssued" />
 		</form:label>
 		<form:select name="feePaymentsNotIssued" path="feePaymentsNotIssued" multiple="multiple">
-		    <option value="">---</option>
-		    <jstl:forEach var="feePayment" items="feePaymentsNotIssued" >
-		        <form:option value="id"><jstl:out value="${gym.name} - ${amount} (${paymentMoment})"/></form:option>
+<!-- 		    <option value="">---</option> -->
+		    <jstl:forEach var="feePayment" items="${invoiceForm.feePaymentsNotIssued}" >
+		        <form:option value="${feePayment.id}"><jstl:out value="${feePayment.gym.name} - ${feePayment.amount} (${feePayment.paymentMoment})"/></form:option>
 		    </jstl:forEach>
 		</form:select>
-		<form:errors path="${path}" cssClass="error" />
+		<form:errors path="feePaymentsNotIssued" cssClass="error" />
 		<br />
 		
 		<!-- Action buttons -->
