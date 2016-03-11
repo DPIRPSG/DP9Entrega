@@ -41,7 +41,7 @@ public class ExchangeRateAdministratorController extends AbstractController {
 		super();
 	}
 		
-	// Index ------------------------------------------------------------------		
+	// List ------------------------------------------------------------------		
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
@@ -57,6 +57,8 @@ public class ExchangeRateAdministratorController extends AbstractController {
 
 		return result;
 	}
+	
+	// Create & Edit -------------------
 	
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
@@ -82,25 +84,7 @@ public class ExchangeRateAdministratorController extends AbstractController {
 		return result;
 	}
 	
-	private ModelAndView createEditModelAndView(ExchangeRate exchangeRate) {
-		ModelAndView result;
-		
-		result = createEditModelAndView(exchangeRate, null);
-		
-		return result;
-	}
-
-	private ModelAndView createEditModelAndView(ExchangeRate exchangeRate,
-			String message) {
-		ModelAndView result;
-		
-		result = new ModelAndView("exchangeRate/edit");
-		result.addObject("exchangeRate", exchangeRate);
-		result.addObject("message", message);
-		result.addObject("urlAction", "exchangeRate/administrator/edit.do");
-		
-		return result;
-	}
+	
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid ExchangeRate exchangeRate, BindingResult binding) {
@@ -135,6 +119,28 @@ public class ExchangeRateAdministratorController extends AbstractController {
 			errorCode = "exchangeRate.commit.error";
 			result = createEditModelAndView(exchangeRate, errorCode);
 		}
+		return result;
+	}
+	
+	// Other methods -----------------------
+	
+	private ModelAndView createEditModelAndView(ExchangeRate exchangeRate) {
+		ModelAndView result;
+		
+		result = createEditModelAndView(exchangeRate, null);
+		
+		return result;
+	}
+
+	private ModelAndView createEditModelAndView(ExchangeRate exchangeRate,
+			String message) {
+		ModelAndView result;
+		
+		result = new ModelAndView("exchangeRate/edit");
+		result.addObject("exchangeRate", exchangeRate);
+		result.addObject("message", message);
+		result.addObject("urlAction", "exchangeRate/administrator/edit.do");
+		
 		return result;
 	}
 	
