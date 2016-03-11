@@ -69,6 +69,9 @@
 		<bean class="converters.ActivityToStringConverter" />
 		<bean class="converters.StringToActivityConverter" />
 		
+		<bean class="converters.CurriculumToStringConverter" />
+		<bean class="converters.StringToCurriculumConverter" />
+		
 	</util:list>
 	
 </beans>

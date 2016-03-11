@@ -38,14 +38,26 @@ public class TrainerController extends AbstractController {
 	// Listing ----------------------------------------------------------
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam(required=false, defaultValue="") String keyword) {
 		ModelAndView result;
 		Collection<Trainer> trainers;
+		String keywordToFind;
+		
+		trainers = trainerService.findAll();
+		
+		if (!keyword.equals("")) {
+			String[] keywordComoArray = keyword.split(" ");
+			for (int i = 0; i < keywordComoArray.length; i++) {
+				if (!keywordComoArray[i].equals("")) {
+					keywordToFind = keywordComoArray[i];
+					trainers = trainerService.findBySingleKeyword(keywordToFind);
+					break;
+				}
+			}
+		}
 				
 		result = new ModelAndView("trainer/list");
 		result.addObject("requestURI", "trainer/list.do");
-
-		trainers = trainerService.findAll();
 		
 		result.addObject("trainers", trainers);
 
