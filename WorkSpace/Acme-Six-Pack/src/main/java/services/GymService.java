@@ -10,10 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.GymRepository;
+import domain.Bulletin;
 import domain.Comment;
 import domain.Customer;
 import domain.FeePayment;
 import domain.Gym;
+import domain.Room;
 import domain.ServiceEntity;
 
 @Service
@@ -52,10 +54,14 @@ public class GymService {
 		Collection<ServiceEntity> services;
 		Collection<Comment> comments;
 		Collection<FeePayment> feePayments;
+		Collection<Bulletin> bulletins;
+		Collection<Room> rooms;
 		
 		services = new ArrayList<>();
 		feePayments = new ArrayList<>();
 		comments = new ArrayList<>();
+		bulletins = new ArrayList<>();
+		rooms = new ArrayList<>();
 		
 		
 		result = new Gym();
@@ -63,6 +69,8 @@ public class GymService {
 		result.setServices(services);
 		result.setFeePayments(feePayments);
 		result.setComments(comments);
+		result.setRooms(rooms);
+		result.setBulletins(bulletins);
 		
 		return result;
 	}
@@ -109,6 +117,7 @@ public class GymService {
 			Assert.isTrue(gym.getFeePayments().containsAll(feePayments) && gym.getFeePayments().size() == feePayments.size());
 			Assert.isTrue(gym.getComments().containsAll(comments) && gym.getComments().size() == comments.size());
 		}
+		
 		services = gym.getServices();
 		
 		gym = this.save(gym);
