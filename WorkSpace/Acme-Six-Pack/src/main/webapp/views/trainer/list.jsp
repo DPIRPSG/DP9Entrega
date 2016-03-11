@@ -45,6 +45,11 @@
 <br/>
 <br/>
 
+<form action="${requestURI}">
+	<input type="text" name="keyword"> <input type="submit"
+		value="<spring:message code="trainer.search" />" />&nbsp;
+</form>
+
 
 <!-- Action links -->
 

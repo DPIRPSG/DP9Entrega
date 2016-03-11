@@ -207,6 +207,17 @@ public class TrainerService {
 		this.save(actTrainer);
 		
 	}
+
+	public Collection<Trainer> findBySingleKeyword(String keyword) {
+		Assert.notNull(keyword);
+		Assert.isTrue(!keyword.isEmpty());
+		
+		Collection<Trainer> result;
+
+		result = trainerRepository.findBySingleKeyword(keyword);
+		
+		return result;
+	}
 	
 
 }

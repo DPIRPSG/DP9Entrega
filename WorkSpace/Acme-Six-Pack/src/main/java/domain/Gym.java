@@ -142,6 +142,14 @@ public class Gym extends CommentedEntity{
 		this.bulletins = bulletins;
 	}
 	
+	public void addBulletin(Bulletin bulletin) {
+		this.bulletins.add(bulletin);
+	}
+
+	public void removeBulletin(Bulletin bulletin) {
+		this.bulletins.remove(bulletin);
+	}
+	
 	@Valid
 	@NotNull
 	@OneToMany(cascade = CascadeType.ALL)
@@ -151,5 +159,13 @@ public class Gym extends CommentedEntity{
 	}
 	public void setRooms(Collection<Room> rooms) {
 		this.rooms = rooms;
+	}
+	
+	public void addRoom(Room room) {
+		this.rooms.add(room);
+	}
+
+	public void removeRoom(Room room) {
+		this.rooms.remove(room);
 	}
 }

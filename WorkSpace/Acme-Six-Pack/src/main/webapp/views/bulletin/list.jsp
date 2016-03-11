@@ -17,14 +17,6 @@
 	name="bulletins" requestURI="${requestURI}" id="row_Bulletin">
 	<!-- Action links -->
 
-	<security:authorize access="hasRole('ADMIN')">
-		<display:column>
-			<a href="bulletin/administrator/edit.do?roomId=${row_Bulletin.id}"> <spring:message
-					code="bulletin.edit" />
-			</a>
-		</display:column>
-	</security:authorize>
-
 	<!-- Attributes -->
 	<spring:message code="bulletin.title" var="titleHeader" />
 	<display:column title="${titleHeader}"
@@ -58,7 +50,7 @@
 <!-- Action links -->
 <security:authorize access="hasRole('ADMIN')">
 	<div>
-		<a href="bulletin/administrator/create.do"> <spring:message
+		<a href="bulletin/administrator/create.do?gymId=${gym.id}"> <spring:message
 				code="bulletin.create" />
 		</a>
 	</div>
