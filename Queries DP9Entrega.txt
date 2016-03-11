@@ -1,121 +1,245 @@
-﻿Queries DP8Entrega
+﻿Queries DP9Entrega
 
-Level C:
 
-1) The most popular gym/s. -> REPASAR
 
-- select g1 from Gym g1 left join g1.feePayment f1 where f1.activeMoment < CURRENT_DATE AND f1.inactiveMoment > CURRENT_DATE group by g1 having count(f1.activeMoment) >= all(select count(f2.activeMoment) from Gym g2 left join g2.feePayment f2 where f2.activeMoment < CURRENT_DATE AND f2.inactiveMoment > CURRENT_DATE group by g2);
+Level C: 1.0
 
-2) The least popular gyms/s. -> REPASAR
 
-- select g1 from Gym g1 join g1.feePayment f1 where f1.activeMoment < CURRENT_DATE AND f1.inactiveMoment > CURRENT_DATE group by g1 having count(f1.activeMoment) <= all(select count(f2.activeMoment) from Gym g2 join g2.feePayment f2 where f2.activeMoment < CURRENT_DATE AND f2.inactiveMoment > CURRENT_DATE group by g2);
 
-3) The most popular service/s. -> PROBAR EN QUERYDATABASE
+1) The most popular gym/s. -> TERMINADO
+
+
+
+- select g1 from Gym g1 left join g1.feePayments f1 where f1.activeMoment < CURRENT_DATE AND f1.inactiveMoment > CURRENT_DATE group by g1 having count(f1.activeMoment) >= all(select count(f2.activeMoment) from Gym g2 left join g2.feePayments f2 where f2.activeMoment < CURRENT_DATE AND f2.inactiveMoment > CURRENT_DATE group by g2);
+
+
+
+2) The least popular gyms/s. -> TERMINADO
+
+
+
+- select g1 from Gym g1 join g1.feePayments f1 where f1.activeMoment < CURRENT_DATE AND f1.inactiveMoment > CURRENT_DATE group by g1 having count(f1.activeMoment) <= all(select count(f2.activeMoment) from Gym g2 join g2.feePayments f2 where f2.activeMoment < CURRENT_DATE AND f2.inactiveMoment > CURRENT_DATE group by g2);
+
+
+
+3) The most popular service/s. -> REPASAR (Hay que poner un servicio con en más de una actividad para ver si de verdad funciona)
+
+
 
 - select s from ServiceEntity s left join s.activities a group by s having count(a) >= all(select count(a) from ServiceEntity s left join s.activities a group by s);
 
-- select s from ServiceEntity s left join s.bookings b group by s having count(b) >= all(select count(b) from ServiceEntity s left join s.bookings b group by s);
 
-4) The least popular service/s. -> PROBAR EN QUERYDATABASE
+
+4) The least popular service/s. -> REPASAR (Hay que poner un servicio con en más de una actividad para ver si de verdad funciona)
+
+
 
 - select s from ServiceEntity s left join s.activities a group by s having count(a) <= all(select count(a) from ServiceEntity s left join s.activities a group by s);
 
-- select s from ServiceEntity s left join s.bookings b group by s having count(b) <= all(select count(b) from ServiceEntity s left join s.bookings b group by s);
 
-5) The customer/s who has/have paid more fees. -> REPASAR
 
-- select c from Customer c left join c.feePayment f group by c having count(f) >= all(select count(f) from Customer c left join c.feePayment f group by c);
+5) The customer/s who has/have paid more fees. -> TERMINADO
 
-6) The customer/s who has/have paid less fees. -> REPASAR
 
-- select c from Customer c left join c.feePayment f group by c having count(f) <= all(select count(f) from Customer c left join c.feePayment f group by c);
 
-7) The average number of rooms per gym and its standard deviation. -> PROBAR EN QUERYDATABASE
+- select c from Customer c left join c.feePayments f group by c having count(f) >= all(select count(f) from Customer c left join c.feePayments f group by c);
+
+
+
+6) The customer/s who has/have paid less fees. -> TERMINADO
+
+
+
+- select c from Customer c left join c.feePayments f group by c having count(f) <= all(select count(f) from Customer c left join c.feePayments f group by c);
+
+
+==========
+
+
+Level C: 2.0
+
+
+7) The average number of rooms per gym and its standard deviation. -> TERMINADO
+
+
 
 - select avg(g.rooms.size) from Gym g;
 
+
+
 - select stddev(g.rooms.size) from Gym g;
 
-8) The gym/s that has/have more rooms than the average. -> PROBAR EN QUERYDATABASE
 
-- select g from Gym g group by g having g.rooms.size > (select avg(g.rooms.size) from Gym g);
 
-9) The gym/s that has/have less rooms than the average. -> PROBAR EN QUERYDATABASE
+8) The gym/s that has/have more rooms than the average. -> TERMINADO
+
+
+
+- select g from Gym g group by g having g.rooms.size >= (select avg(g.rooms.size) from Gym g);
+
+
+
+9) The gym/s that has/have less rooms than the average. -> TERMINADO
+
+
 
 - select g from Gym g group by g having g.rooms.size < (select avg(g.rooms.size) from Gym g);
 
-10) The customer/s to whom more invoices have been issued. -> PROBAR EN QUERYDATABASE y REPASAR BIEN
 
-- select c from Customer c left join c.feePayment f where f.invoice i IS NOT NULL group by c having count(i) >= all (select count(i) from Customer c left join c.feePayment f where f.invoice i IS NOT NULL group by c);
 
-11) The customer/s who has/have not requested any invoices. -> PROBAR EN QUERYDATABASE y REPASAR BIEN
+10) The customer/s to whom more invoices have been issued. -> TERMINADO
 
-- select c from Customer c left join c.feePayment f where f.invoice i group by c having count(i) = 0
+
+- select c1 from Customer c1 left join c1.feePayments f1 left join f1.invoice i1 where i1 IS NOT NULL group by c1 having count(distinct i1) >= all(select count(distinct i2) from Customer c2 left join c2.feePayments f2 left join f2.invoice i2 where i2 IS NOT NULL group by c2);
+
+
+11) The customer/s who has/have not requested any invoices. -> TERMINADO
+
+
+
+- select c from Customer c left join c.feePayments f left join f.invoice i where i IS NULL group by c;
+
+
 
 ==========
 
-Level B:
 
-12) The actor/s who sends/send more spam messages. -> REPASAR
+
+Level B: 1.0
+
+
+
+12) The actor/s who sends/send more spam messages. -> TERMINADO
+
+
 
 - select m1.sender from Folder f1 left join f1.messages m1 where f1.name = 'SpamBox' group by f1 having count(m1) >= all(select count(m2) from Folder f2 left join f2.messages m2 where f2.name = 'SpamBox' group by f2);
 
-13) The average number of messages in an actor’s message boxes. -> REPASAR
+
+
+13) The average number of messages in an actor’s message boxes. -> TERMINADO
+
+
 
 - select avg(a.sent.size) from Actor a;
 
-14) The list of activities, in decreasing order of popularity. -> POR EMPEZAR
+==========
 
-- 
 
-15) The average number of activities per gym, grouped by service. -> POR EMPEZAR
+Level B: 2.0
 
--
 
-16) The average number of services in which trainers specialise. -> POR EMPEZAR
+14) The list of activities, in decreasing order of popularity. -> TERMINADO
 
--
 
-17) The most popular services regarding the number of trainers that are specialists in them. -> POR EMPEZAR
 
-- 
+- select a from Activity a left join a.customers c group by a order by count(c) desc;
+
+
+
+15) The average number of activities per gym, grouped by service. -> REPASAR (Hay que poner un servicio con en más de una actividad para ver si de verdad funciona)
+
+
+
+- select avg(s.activities.size) from Gym g left join g.services s group by s;
+
+
+
+16) The average number of services in which trainers specialise. -> TERMINADO
+
+
+
+- select avg(t.services.size) from Trainer t;
+
+
+
+17) The most popular services regarding the number of trainers that are specialists in them. -> TERMINADO
+
+
+
+- select s from ServiceEntity s left join s.trainers t group by s having count(t) >= all(select count(t) from ServiceEntity s left join s.trainers t group by s);
+
 
 
 ==========
 
-Level A:
 
-18) The gyms/s that has/have more comments. -> REPASAR
+
+Level A: 1.0
+
+
+
+18) The gyms/s that has/have more comments. -> TERMINADO
+
+
 
 - select g from Gym g left join g.comments c group by g having count(c) >= all(select count(c) from Gym g left join g.comments c group by g);
 
-19) The service/s that has/have more comments. -> REPASAR
+
+
+19) The service/s that has/have more comments. -> TERMINADO
+
+
 
 - select s from ServiceEntity s left join s.comments c group by s having count(c) >= all(select count(c) from ServiceEntity s left join s.comments c group by s);
 
-20) The average number of comments written by the actors, including the standard deviation. -> REPASAR
 
-- select avg(a.comments.size) from Actor a;
 
-- select stddev(a.comments.size) from Actor a;
+20) The average number of comments written by the actors, including the standard deviation. -> TERMINADO
 
-21) The average number of comments per gym. -> REPASAR
+
+
+- select avg(a.madeComments.size) from Actor a;
+
+
+
+- select stddev(a.madeComments.size) from Actor a;
+
+
+
+21) The average number of comments per gym. -> TERMINADO
+
+
 
 - select avg(g.comments.size) from Gym g;
 
-22) The average number of comments per service. -> REPASAR
+
+
+22) The average number of comments per service. -> TERMINADO
+
+
 
 - select avg(s.comments.size) from ServiceEntity s;
 
-23) The customer/s who has/have been removed more comments. -> REPASAR
 
-- select c from Customer c left join c.comments k where k.deleted IS TRUE group by c having count(k) >= all(select count(k) from Customer c left join c.comments k where k.deleted IS TRUE group by c);
 
-24) The list of services, which must include indications regarding the total number of trainers that specialise in each of them. -> POR EMPEZAR
+23) The customer/s who has/have been removed more comments. -> TERMINADO
 
--
+- select c from Customer c left join c.madeComments m where m.deleted IS TRUE group by c having count(m) >= all(select count(m) from Customer c left join c.madeComments m where m.deleted is TRUE group by c);
 
-25) The ratio of trainers whose curriculum is up-to-date. A curriculum is considered outdated when a trainer does not update it for more than one year. -> POR EMPEZAR
 
--
+==========
+
+Level A: 2.0
+
+
+24) The list of services, which must include indications regarding the total number of trainers that specialise in each of them. -> TERMINADO
+
+
+
+- select s, count(t) from ServiceEntity s left join s.trainers t group by s;
+
+
+
+25) The ratio of trainers whose curriculum is up-to-date. A curriculum is considered outdated when a trainer does not update it for more than one year. -> SIN TERMINAR
+
+
+
+- select (count(distinct t1)*1.0)/(count(distinct t2)*1.0) from Trainer t1, Trainer t2 where …
+
+- Prueba a sacar el CURRENT_DATE y empieza a restarle valores para ver cómo se comporta. Si funciona sólo hay que ver cuánto es el valor de un año.
+
+
+
+==========
 
