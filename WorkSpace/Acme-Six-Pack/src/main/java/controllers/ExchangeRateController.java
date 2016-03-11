@@ -40,20 +40,43 @@ public class ExchangeRateController extends AbstractController {
 
 	@RequestMapping(value = "/edit")
 	public ModelAndView edit(@RequestParam(required=false, defaultValue="", value="requestURI") String requestURI
-			, @RequestParam(required=true, value="exchangeRateId") String exchangeRateId
+			, @RequestParam(required=false, value="exchangeRateId") String exchangeRateId
 			, HttpServletResponse response) {
 
 		ModelAndView result;
+		ExchangeRate exchangeRate;
+
+		exchangeRate = exchangeRateService.findOne(Integer.valueOf(exchangeRateId));
+		result = this.load(exchangeRate, requestURI, response);
+		
+
+		return result;
+	}
+	
+	@RequestMapping(value = "/load")
+	public ModelAndView edit(@RequestParam(required=false, defaultValue="", value="requestURI") String requestURI
+			, HttpServletResponse response) {
+
+		ModelAndView result;
+		ExchangeRate exchangeRate;
+
+		exchangeRate = exchangeRateService.findByCurrency("EUR");
+		result = this.load(exchangeRate, requestURI, response);
+		
+		return result;
+	}
+
+	public void loadCookies(ExchangeRate exRate
+			, HttpServletResponse response){
+		
 		Cookie cook1;
 		Cookie cook2;
 		Cookie cook3;
 		Cookie cook4;		
 		Cookie cook5;
-		ExchangeRate exchangeRate;
 		String res;
 		
 		res = "";
-		exchangeRate = exchangeRateService.findOne(Integer.valueOf(exchangeRateId));
 		
 		for(ExchangeRate ja:exchangeRateService.findAll()){
 			res += String.valueOf(ja.getId()) + ", " + String.valueOf(ja.getRate()) +
@@ -61,10 +84,10 @@ public class ExchangeRateController extends AbstractController {
 		}
 		
 		cook1 = new Cookie("exchangeRate_all", res);
-		cook2 = new Cookie("exchangeRate_id", exchangeRateId);
-		cook3 = new Cookie("exchangeRate_rate", String.valueOf(exchangeRate.getRate()));
-		cook4 = new Cookie("exchangeRate_currency", exchangeRate.getCurrency());		
-		cook5 = new Cookie("exchangeRate_name", exchangeRate.getName());		
+		cook2 = new Cookie("exchangeRate_id", String.valueOf(exRate.getId()));
+		cook3 = new Cookie("exchangeRate_rate", String.valueOf(exRate.getRate()));
+		cook4 = new Cookie("exchangeRate_currency", exRate.getCurrency());		
+		cook5 = new Cookie("exchangeRate_name", exRate.getName());		
 		
 		cook1.setPath("/");
 		cook2.setPath("/");
@@ -77,9 +100,18 @@ public class ExchangeRateController extends AbstractController {
 		response.addCookie(cook3);
 		response.addCookie(cook4);
 		response.addCookie(cook5);
+	}	
+	
+	private ModelAndView load(ExchangeRate exRate
+			, String requestURI
+			, HttpServletResponse response){
+		
+		ModelAndView result;
+		
+		this.loadCookies(exRate, response);
 		
 		result = new ModelAndView("redirect:../" + requestURI);
-
+		
 		return result;
 	}
 }

@@ -29,9 +29,8 @@
 <jstl:set var="toEvaluate" value="${cookie.containsKey('exchangeRate_id') && cookie.containsKey('exchangeRate_all')}" />	
 
 <jstl:if test="${toEvaluate=='false'}">
-	<spring:message code="exchangeRate.errorLoad" /> <a href="exchangeRate/edit.do?requestURI=${requestURI}&exchangeRateId=132"> <spring:message
+	<spring:message code="exchangeRate.errorLoad" /> <a href="exchangeRate/load.do?requestURI=${requestURI}"> <spring:message
 				code="exchangeRate.here" /></a>
-<%-- 		<jstl:redirect url="exchangeRate/edit.do?requestURI=${requestURI}"/> --%>
 </jstl:if>
 
 <jstl:if test="${toEvaluate=='true'}">

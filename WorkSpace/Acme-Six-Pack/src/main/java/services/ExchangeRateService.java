@@ -44,6 +44,14 @@ public class ExchangeRateService {
 		return result;
 	}
 	
+	public ExchangeRate findByCurrency(String text){
+		ExchangeRate result;
+		
+		result = exchangeRateRepository.findByCurrency(text);
+		
+		return result;
+	}
+	
 	//Other business methods -------------------------------------------------
 	
 
