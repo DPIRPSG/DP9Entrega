@@ -15,6 +15,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -23,8 +25,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.ExchangeRateService;
 import services.ServiceService;
 
+import domain.ExchangeRate;
 import domain.ServiceEntity;
 
 @Controller
@@ -39,6 +43,12 @@ public class WelcomeController extends AbstractController {
 	@Autowired
 	private ActorService actorService;
 
+	@Autowired
+	private ExchangeRateController exchangeRateController;
+	
+	@Autowired
+	private ExchangeRateService exchangeRateService;
+	
 	// Constructors -----------------------------------------------------------
 
 	public WelcomeController() {
@@ -52,6 +62,9 @@ public class WelcomeController extends AbstractController {
 			@RequestParam(required = false, defaultValue = "") String messageStatus
 			,@CookieValue(value = "createCreditCard", required = false, defaultValue = "false") String createCreditCard
 			,@CookieValue(value = "createSocialIdentity", required = false, defaultValue = "false") String createSocialIdentity
+			,@CookieValue(value = "exchangeRate_id", required = false, defaultValue = "null") String exchangeRate_id
+			,@CookieValue(value = "exchangeRate_all", required = false, defaultValue = "null") String exchangeRate_all
+			, HttpServletResponse response
 			) {
 		ModelAndView result;
 		SimpleDateFormat formatter;
@@ -94,6 +107,14 @@ public class WelcomeController extends AbstractController {
 			result = new ModelAndView("redirect:/creditCard/customer/edit.do");
 		}else if(createSocialIdentity.equals("true") && actorService.checkAuthority("CUSTOMER")){
 			result = new ModelAndView("redirect:/socialIdentity/customer/edit.do");			
+		}
+		
+		if(exchangeRate_all.equals("null")||exchangeRate_id.equals("null")){
+			ExchangeRate exRate;
+			
+			exRate = exchangeRateService.findByCurrency("EUR");
+			
+			exchangeRateController.loadCookies(exRate, response);
 		}
 
 		return result;
