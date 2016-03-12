@@ -9,6 +9,9 @@ import org.springframework.util.Assert;
 
 import domain.Activity;
 import domain.Customer;
+import domain.Room;
+import domain.ServiceEntity;
+import domain.Trainer;
 import repositories.ActivityRepository;
 
 @Service
@@ -27,6 +30,9 @@ public class ActivityService {
 	
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private RoomService roomService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -107,5 +113,47 @@ public class ActivityService {
 		result = activityRepository.findAll();
 		
 		return result;
+	}
+	
+	public Activity save(Activity activity){
+		
+		Assert.notNull(activity);
+		Activity result;
+		
+		result = activityRepository.save(activity);
+		
+		return result;
+	}
+	
+	public void saveToEdit(Activity activity){
+		
+		Assert.notNull(activity);
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can save an Activity");
+				
+		if(activity.getId() != 0){
+			
+			Activity activityPreSave;
+			ServiceEntity service;
+			Room room;
+			Trainer trainer;
+			
+			Collection<Activity> roomActivities;
+			
+			activityPreSave = activityRepository.findOne(activity.getId());
+			
+			service = activityPreSave.getService();
+			room = activityPreSave.getRoom();
+			trainer = activityPreSave.getTrainer();
+			
+			Assert.isTrue(service.getGyms().contains(room.getGym()));
+			Assert.isTrue(trainer.getServices().contains(service));
+						
+			roomActivities = room.getActivities();
+			roomActivities.remove(activity);
+			room.setActivities(roomActivities);
+			roomService.save(room);
+		}
+		
+		this.save(activity);
 	}
 }

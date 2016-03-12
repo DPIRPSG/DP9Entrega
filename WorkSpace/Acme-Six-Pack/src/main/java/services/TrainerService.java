@@ -219,5 +219,14 @@ public class TrainerService {
 		return result;
 	}
 	
+	public Collection<Trainer> findAllByServiceId(int serviceId){
+		
+		Collection<Trainer> result;
+		
+		result = trainerRepository.findAllByServiceId(serviceId);
+		
+		return result;
+		
+	}
 
 }
