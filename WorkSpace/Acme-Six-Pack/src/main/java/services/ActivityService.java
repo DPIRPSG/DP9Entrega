@@ -90,6 +90,17 @@ public class ActivityService {
 		
 	}
 	
+	public void delete(Activity activity){
+		
+		 Assert.notNull(activity);
+		 Assert.isTrue(activity.getId() != 0);
+		 Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only a admin can deleted an activity");
+		 Assert.isTrue(activity.getDeleted() == false, "This activity is already deleted");
+		 
+		 activity.setDeleted(true);
+		 activityRepository.save(activity);
+	}
+	
 	public Activity findOne(int activityId){
 		
 		Assert.notNull(activityId);
@@ -100,5 +111,13 @@ public class ActivityService {
 		activity = activityRepository.findOne(activityId);
 		
 		return activity;
+	}
+	
+	public Collection<Activity> findAll(){
+		Collection<Activity> result;
+		
+		result = activityRepository.findAll();
+		
+		return result;
 	}
 }
