@@ -30,6 +30,24 @@
 
 	<!-- Attributes -->
 	
+	<security:authorize access="hasRole('CUSTOMER')">
+	<spring:message code="activity.cancel" var="cancelHeader"/>
+	<jstl:if test="${row_Activity.deleted == false}">
+		<display:column title="${cancelHeader}"
+		sortable = "true">
+		<a href="activity/customer/cancel.do?activityId=${row_Activity.id}"> <spring:message
+				code="activity.cancel"/>
+		</a>
+		</display:column>
+	</jstl:if>
+	</security:authorize>
+	
+	<spring:message code="activity.deleted" var="deletedHeader" />
+	<display:column title="${deletedHeader}"
+		sortable="true">
+		<jstl:out value="${row_Activity.deleted}"/>
+	</display:column>
+	
 	<spring:message code="activity.title" var="titleHeader" />
 	<display:column title="${titleHeader}"
 		sortable="true">

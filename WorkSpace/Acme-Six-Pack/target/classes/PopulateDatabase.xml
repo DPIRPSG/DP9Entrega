@@ -972,6 +972,7 @@
 			<list>
 			</list>
 		</property>
+		<property name="deleted" value="false"/>
 		<property name="service" ref="service4"/>
 		<property name="room" ref="room4"/>
 		<property name="trainer" ref="trainer1"/>
@@ -992,6 +993,7 @@
 			<list>
 			</list>
 		</property>
+		<property name="deleted" value="false"/>
 		<property name="service" ref="service3"/>
 		<property name="room" ref="room3"/>
 		<property name="trainer" ref="trainer5"/>
@@ -1011,6 +1013,7 @@
 			<list>
 			</list>
 		</property>
+		<property name="deleted" value="false"/>
 		<property name="service" ref="service2"/>
 		<property name="room" ref="room2"/>
 		<property name="trainer" ref="trainer2"/>
@@ -1031,6 +1034,7 @@
 			<list>
 			</list>
 		</property>
+		<property name="deleted" value="false"/>
 		<property name="service" ref="service1"/>
 		<property name="room" ref="room5"/>
 		<property name="trainer" ref="trainer4"/>
