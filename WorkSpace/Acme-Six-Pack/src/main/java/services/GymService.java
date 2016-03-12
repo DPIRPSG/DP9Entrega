@@ -38,6 +38,9 @@ public class GymService {
 	@Autowired
 	private ActorService actorService;
 	
+	@Autowired
+	private RoomService roomService;
+	
 	// Constructors -----------------------------------------------------------
 
 	public GymService() {
@@ -116,11 +119,26 @@ public class GymService {
 			
 			Assert.isTrue(gym.getFeePayments().containsAll(feePayments) && gym.getFeePayments().size() == feePayments.size());
 			Assert.isTrue(gym.getComments().containsAll(comments) && gym.getComments().size() == comments.size());
+		}else{
+			Collection<Room> rooms;
+			Room defaultRoom;
+			
+			defaultRoom = roomService.create();
+			defaultRoom.setDescription("Descripcion defecto");
+			defaultRoom.setName("nombre defecto");
+			defaultRoom.setNumberOfSeats(1);
+			defaultRoom.setGym(gym);
+			
+			rooms = new ArrayList<Room>();
+			rooms.add(defaultRoom);
+			
+			gym.setRooms(rooms);
 		}
 		
 		services = gym.getServices();
 		
 		gym = this.save(gym);
+
 		
 		for(ServiceEntity service : services) {
 			if(!servicesPreSave.contains(service)){

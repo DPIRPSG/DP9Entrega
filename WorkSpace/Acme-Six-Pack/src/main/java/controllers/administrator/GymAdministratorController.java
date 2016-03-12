@@ -106,14 +106,18 @@ public class GymAdministratorController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid Gym gym, BindingResult binding) {
 		ModelAndView result;
-		boolean bindingError;
+		int limitError;
 		
+		limitError = 0;
+		System.out.println(binding);
 		if(binding.hasFieldErrors("services")){
-			bindingError = binding.getErrorCount() > 2;
-		}else{
-			bindingError = binding.getErrorCount() > 0;
+			limitError += 2;
 		}
-		if (bindingError) {
+		if(binding.hasFieldErrors("rooms")){
+			limitError += 1;
+		}		
+		
+		if (limitError < binding.getErrorCount()) {
 			result = createEditModelAndView(gym);
 		} else {
 			try {
