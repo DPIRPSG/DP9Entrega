@@ -37,7 +37,7 @@
 		<value>/views/bulletin/tiles.xml</value>
 		<value>/views/trainer/tiles.xml</value>
 		<value>/views/activity/tiles.xml</value>
-		
+		<value>/views/exchangeRate/tiles.xml</value>		
 		
 		<value>/views/forms/tiles.xml</value>
 		

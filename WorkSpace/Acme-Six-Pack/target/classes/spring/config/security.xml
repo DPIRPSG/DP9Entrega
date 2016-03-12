@@ -48,6 +48,7 @@
 		<security:intercept-url pattern="/service/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/feePayment/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/admin/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/exchangeRate/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/trainer/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/room/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/bulletin/administrator/**" access="hasRole('ADMIN')" />
@@ -73,7 +74,8 @@
 		<security:intercept-url pattern="/service/list.do" access="permitAll" />
 		<security:intercept-url pattern="/room/list.do" access="permitAll" />
 		<security:intercept-url pattern="/bulletin/list.do" access="permitAll" />
-		<security:intercept-url pattern="/trainer/**" access="permitAll" />
+		<security:intercept-url pattern="/trainer/*.do" access="permitAll" />
+		<security:intercept-url pattern="/exchangeRate/*.do" access="permitAll" />
 		
 		<security:intercept-url pattern="/customer/create.do" access="!hasAnyRole('CUSTOMER', 'ADMIN')" />
 
