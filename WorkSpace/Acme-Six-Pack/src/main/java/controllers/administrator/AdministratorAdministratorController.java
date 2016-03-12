@@ -19,7 +19,7 @@ import domain.form.ActorForm;
 
 @Controller
 @RequestMapping(value = "/admin/administrator")
-public class AdministratorController extends AbstractController {
+public class AdministratorAdministratorController extends AbstractController {
 
 	// Services ----------------------------------------------------------
 
@@ -34,7 +34,7 @@ public class AdministratorController extends AbstractController {
 
 	// Constructors ----------------------------------------------------------
 
-	public AdministratorController() {
+	public AdministratorAdministratorController() {
 		super();
 	}
 
