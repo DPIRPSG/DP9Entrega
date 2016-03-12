@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import domain.Actor;
+import domain.form.ActorType;
 
 import repositories.ActorRepository;
 import security.Authority;
@@ -85,8 +86,29 @@ public class ActorService {
 			result = false;
 		}
 		
-		
-		
+		return result;
+	}
+	
+	/**
+	 * Dice que tipo de actor es el usuario actual
+	 * @return ActorType
+	 */
+	public ActorType discoverActorType() {
+		ActorType result;
+		try {
+			if (this.checkAuthority("CUSTOMER")) {
+				result = ActorType.CUSTOMER;
+			} else if (this.checkAuthority("ADMIN")) {
+				result = ActorType.ADMIN;
+			} else if (this.checkAuthority("TRAINER")) {
+				result = ActorType.TRAINER;
+			} else {
+				result = null;
+			}
+		} catch (Exception e) {
+			result = null;
+		}
+
 		return result;
 	}
 	
