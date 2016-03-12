@@ -75,6 +75,7 @@
 		<security:intercept-url pattern="/bulletin/list.do" access="permitAll" />
 		<security:intercept-url pattern="/trainer/*.do" access="permitAll" />
 		<security:intercept-url pattern="/exchangeRate/*.do" access="permitAll" />
+		<security:intercept-url pattern="/activity/list.do" access="permitAll" />
 		
 		<security:intercept-url pattern="/customer/create.do" access="!hasAnyRole('CUSTOMER', 'ADMIN')" />
 
