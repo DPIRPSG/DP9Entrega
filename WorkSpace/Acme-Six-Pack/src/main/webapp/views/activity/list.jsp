@@ -16,15 +16,21 @@
 	<!-- Action links -->
 
 	<security:authorize access="hasRole('ADMIN')">
-		<display:column>
+		<spring:message code="activity.edit" var="editHeader"/>
+		<display:column title="${editHeader}" sortable="true">
+		<jstl:if test="${row_Activity.deleted == false}">
 			<a href="activity/administrator/edit.do?activityId=${row_Activity.id}"> <spring:message
 					code="activity.edit" />
 			</a>
+		</jstl:if>
 		</display:column>
-		<display:column>
+		<spring:message code="activity.delete" var="deleteHeader"/>
+		<display:column title="${deleteHeader}" sortable="true">
+		<jstl:if test="${row_Activity.deleted == false}">
 			<a href="activity/administrator/delete.do?activityId=${row_Activity.id}"> <spring:message
 					code="activity.delete" />
 			</a>
+		</jstl:if>
 		</display:column>
 	</security:authorize>
 
@@ -32,14 +38,14 @@
 	
 	<security:authorize access="hasRole('CUSTOMER')">
 	<spring:message code="activity.cancel" var="cancelHeader"/>
-	<jstl:if test="${row_Activity.deleted == false}">
 		<display:column title="${cancelHeader}"
 		sortable = "true">
+		<jstl:if test="${row_Activity.deleted == false}">
 		<a href="activity/customer/cancel.do?activityId=${row_Activity.id}"> <spring:message
 				code="activity.cancel"/>
 		</a>
+		</jstl:if>
 		</display:column>
-	</jstl:if>
 	</security:authorize>
 	
 	<spring:message code="activity.deleted" var="deletedHeader" />
