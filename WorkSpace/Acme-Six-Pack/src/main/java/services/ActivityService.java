@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,10 @@ public class ActivityService {
 	private ActorService actorService;
 	
 	@Autowired
-	private RoomService roomService;
+	private ServiceService serviceService;
+	
+	@Autowired
+	private TrainerService trainerService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -41,35 +45,63 @@ public class ActivityService {
 	}
 
 	// Simple CRUD methods ----------------------------------------------------
-
-	// Other business methods -------------------------------------------------
-
-	/**
-	 * 
-	 * @return Devuelve todos los activities de un customer en concreto
-	 */
-	public Collection<Activity> findAllByCustomer(){
-		Collection<Activity> result;
-		Customer customer;
+	
+	public Activity createWithGym(int gymId, int serviceId){
 		
-		customer = customerService.findByPrincipal();
-		Assert.notNull(customer);
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can create an activity");
 		
-		result = activityRepository.findAllByCustomer(customer.getId());
+		Activity result;
+		Collection<Customer> customers;
+		Trainer trainer;
+		ServiceEntity service;
+		Room room;
+		
+		customers = new ArrayList<>();
+		trainer = new Trainer();
+		service = serviceService.findOne(serviceId);
+		room = new Room();
+		
+		result = new Activity();
+		
+		result.setCustomers(customers);
+		result.setTrainer(trainer);
+		result.setService(service);
+		result.setRoom(room);
+		
+		return result;
+	}
+
+	public Activity save(Activity activity){
+		
+		Assert.notNull(activity);
+		Activity result;
+		
+		result = activityRepository.save(activity);
 		
 		return result;
 	}
 	
-	/**
-	 * 
-	 * @return Devuelve todos los activities de un gym en concreto
-	 */
-	public Collection<Activity> findAllByGymId(int gymId){
-		Collection<Activity> result;
+	public void saveToEdit(Activity activity){
 		
-		result = activityRepository.findAllByGymId(gymId);
+		Assert.notNull(activity);
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can save an Activity");
 		
-		return result;		
+		Activity activityPreSave;
+		
+		activityPreSave = findOne(activity.getId());
+		
+		Assert.isTrue(activity.getRoom().getGym().getServices().contains(activity.getService()), "The Gym must include the Service you want");
+		Assert.isTrue(activity.getTrainer().getServices().contains(activity.getService()), "The Trainer must be specialized in the Service you ask for");
+		Assert.isTrue(activity.getRoom().getGym().equals(activityPreSave.getRoom().getGym()), "You must keep the gym");
+		
+		Trainer trainer;
+		
+		trainer = activity.getTrainer();
+		trainer.getActivities().add(activity);
+		
+		trainerService.save(trainer);
+				
+		this.save(activity);
 	}
 	
 	public void cancel(Activity activity){
@@ -107,6 +139,16 @@ public class ActivityService {
 		 activityRepository.save(activity);
 	}
 	
+	// Other business methods -------------------------------------------------
+	
+	public Collection<Activity> findAll(){
+		Collection<Activity> result;
+		
+		result = activityRepository.findAll();
+		
+		return result;
+	}
+	
 	public Activity findOne(int activityId){
 		
 		Assert.notNull(activityId);
@@ -119,53 +161,32 @@ public class ActivityService {
 		return activity;
 	}
 	
-	public Collection<Activity> findAll(){
+	/**
+	 * 
+	 * @return Devuelve todos los activities de un customer en concreto
+	 */
+	public Collection<Activity> findAllByCustomer(){
+		Collection<Activity> result;
+		Customer customer;
+		
+		customer = customerService.findByPrincipal();
+		Assert.notNull(customer);
+		
+		result = activityRepository.findAllByCustomer(customer.getId());
+		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @return Devuelve todos los activities de un gym en concreto
+	 */
+	public Collection<Activity> findAllByGymId(int gymId){
 		Collection<Activity> result;
 		
-		result = activityRepository.findAll();
+		result = activityRepository.findAllByGymId(gymId);
 		
-		return result;
+		return result;		
 	}
 	
-	public Activity save(Activity activity){
-		
-		Assert.notNull(activity);
-		Activity result;
-		
-		result = activityRepository.save(activity);
-		
-		return result;
-	}
-	
-	public void saveToEdit(Activity activity){
-		
-		Assert.notNull(activity);
-		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can save an Activity");
-				
-		if(activity.getId() != 0){
-			
-			Activity activityPreSave;
-			ServiceEntity service;
-			Room room;
-			Trainer trainer;
-			
-			Collection<Activity> roomActivities;
-			
-			activityPreSave = activityRepository.findOne(activity.getId());
-			
-			service = activityPreSave.getService();
-			room = activityPreSave.getRoom();
-			trainer = activityPreSave.getTrainer();
-			
-			Assert.isTrue(service.getGyms().contains(room.getGym()));
-			Assert.isTrue(trainer.getServices().contains(service));
-						
-			roomActivities = room.getActivities();
-			roomActivities.remove(activity);
-			room.setActivities(roomActivities);
-			roomService.save(room);
-		}
-		
-		this.save(activity);
-	}
 }

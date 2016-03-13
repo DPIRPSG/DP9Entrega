@@ -19,8 +19,6 @@
 	<!-- Editable Attributes -->
 	
 	<form:hidden path="customers" />
-	<form:hidden path="service" />
-
 	
 	<!-- Action buttons -->
 	
@@ -30,9 +28,8 @@
 	<acme:textbox code="activity.duration" path="duration"/>
 	<acme:textarea code="activity.description" path="description"/>
 	<acme:textarea code="activity.pictures" path="pictures"/>
-	
-	<acme:textbox code="activity.service" path="service.name"/>
-		
+			
+	<acme:select items="${services}" itemLabel="name" code="activity.service" path="service"/>
 	<acme:select items="${rooms}" itemLabel="name" code="activity.room" path="room"/>
 	<acme:select items="${trainers}" itemLabel="name" code="activity.trainer" path="trainer"/>
 	
