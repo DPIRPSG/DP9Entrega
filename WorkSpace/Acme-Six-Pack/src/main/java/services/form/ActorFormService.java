@@ -87,12 +87,13 @@ public class ActorFormService {
 			return result;
 		}
 		
-		public void saveForm(ActorForm input){
-			this.saveForm(input, false);
+		public int saveForm(ActorForm input){
+			return this.saveForm(input, false);
 		}
 		
-		public void saveForm(ActorForm input, boolean newTrainer){
+		public int saveForm(ActorForm input, boolean newTrainer){
 			boolean unregister;
+			int result;
 			
 			if(input.getPassword() != null){
 				Assert.isTrue(input.getPassword().equals(input.getRepeatedPassword()), "actorForm.error.passwordMismatch");
@@ -107,18 +108,20 @@ public class ActorFormService {
 			unregister = unregister || newTrainer;
 			
 			if(!unregister){
-				this.saveActor(input, actorService.discoverActorType());
+				result = this.saveActor(input, actorService.discoverActorType());
 			}else if(newTrainer){
-				this.saveTrainerRegistration(input);
+				result = this.saveTrainerRegistration(input);
 			}
 			else{ //Usuario registrandose
-				this.saveCustomerRegistration(input);
+				result = this.saveCustomerRegistration(input);
 			}
+			return result;
 		}
 		
-		private void saveActor(ActorForm input, ActorType actorType){
+		private int saveActor(ActorForm input, ActorType actorType){
 			UserAccount acount;
 			String pass;
+			int res;
 			
 			acount = actorService.findByPrincipal().getUserAccount();
 			pass = input.getPassword();
@@ -142,6 +145,7 @@ public class ActorFormService {
 				result.setUserAccount(acount);
 				
 				customerService.save(result);
+				res = result.getId();
 				
 			}else if(actorType.equals(ActorType.ADMIN)){
 				Administrator result;
@@ -154,6 +158,7 @@ public class ActorFormService {
 				result.setUserAccount(acount);
 				
 				administratorService.save(result);
+				res = result.getId();
 			}else if(actorType.equals(ActorType.TRAINER)){
 				Trainer result;
 				
@@ -167,16 +172,18 @@ public class ActorFormService {
 				result.setUserAccount(acount);
 				
 				trainerService.save(result);
-				
+				res = result.getId();
 			}else{
 				Assert.notNull(null, "Unexpected ActorType");
+				res = 0;
 			}
 			
-			
+			return res;
 		}
 		
-		private void saveCustomerRegistration(ActorForm input){
-			UserAccount acount;			
+		private int saveCustomerRegistration(ActorForm input){
+			UserAccount acount;	
+			int res;			
 			Customer result;
 			Assert.isTrue(input.getAcceptTerm(), "actorForm.error.termsDenied");
 			
@@ -188,13 +195,16 @@ public class ActorFormService {
 			result.setPhone(input.getUsername());
 			result.setUserAccount(acount);
 			
-			customerService.save(result);
+			result = customerService.save(result);
+			res = result.getId();
+			return res;
 		}	
 		
-		private void saveTrainerRegistration(ActorForm input){
+		private int saveTrainerRegistration(ActorForm input){
 			Assert.isTrue(actorService.checkAuthority("ADMIN"), "actorForm.error.notAdmin");
 			UserAccount acount;			
 			Trainer result;
+			int res;
 			
 			acount = userAccountService.createComplete(input.getUsername(), input.getPassword(), "TRAINER");
 			result = trainerService.create();
@@ -204,8 +214,10 @@ public class ActorFormService {
 			result.setPhone(input.getUsername());
 			result.setUserAccount(acount);
 			
-			trainerService.save(result);	
+			result = trainerService.save(result);	
+			res = result.getId();
 			
+			return res;
 		}
 
 }

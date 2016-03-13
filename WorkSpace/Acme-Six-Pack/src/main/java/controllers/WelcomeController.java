@@ -71,6 +71,7 @@ public class WelcomeController extends AbstractController {
 		String moment;
 		Collection<ServiceEntity> services;
 		ServiceEntity service;
+		int actorId;
 		
 		formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		moment = formatter.format(new Date());
@@ -103,9 +104,15 @@ public class WelcomeController extends AbstractController {
 			result.addObject("messageStatus", messageStatus);
 		}
 		
-		if(createCreditCard.equals("true") && actorService.checkAuthority("CUSTOMER")){
+		try{
+			actorId = actorService.findByPrincipal().getId();
+		}catch (Exception e) {
+			actorId = 0;
+		}
+		
+		if(createCreditCard.equals(String.valueOf(actorId) + "true") && actorService.checkAuthority("CUSTOMER")){
 			result = new ModelAndView("redirect:/creditCard/customer/edit.do");
-		}else if(createSocialIdentity.equals("true") && actorService.checkAuthority("CUSTOMER")){
+		}else if(createSocialIdentity.equals(String.valueOf(actorId) + "true") && actorService.checkAuthority("CUSTOMER")){
 			result = new ModelAndView("redirect:/socialIdentity/customer/edit.do");			
 		}
 		
