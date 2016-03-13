@@ -18,6 +18,11 @@
 		<acme:textbox code="actorForm.name" path="name"/>
 		<acme:textbox code="actorForm.surname" path="surname"/>
 		<acme:textbox code="actorForm.phone" path="phone"/>
+		<security:authorize access="hasRole('TRAINER')">
+			<acme:textbox code="actorForm.picture" path="picture"/>
+			<br/>			
+		</security:authorize>	
+		
 		<acme:textbox code="actorForm.username" path="username"/>
 		
 		<form:label path="password">
@@ -47,12 +52,7 @@
 			<br/>			
 			
 		</security:authorize>
-		<security:authorize access="hasRole('TRAINER')">
-		
-			<acme:checkbox code="actorForm.picture" path="picture"/>
-			<br/>			
-			
-		</security:authorize>	
+
 		<br />
 		
 		<!-- Action buttons -->

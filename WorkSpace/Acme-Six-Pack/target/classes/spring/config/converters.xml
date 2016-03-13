@@ -21,6 +21,9 @@
 		<bean class="converters.AuthorityToStringConverter" />
 		<bean class="converters.StringToAuthorityConverter" />
 		
+		<bean class="converters.ActivityToStringConverter" />
+		<bean class="converters.StringToActivityConverter" />
+		
 		<bean class="converters.ActorToStringConverter" />
 		<bean class="converters.StringToActorConverter" />
 		
@@ -62,9 +65,19 @@
 		
 		<bean class="converters.BulletinToStringConverter" />
 		<bean class="converters.StringToBulletinConverter" />
-		
+
 		<bean class="converters.InvoiceToStringConverter" />
 		<bean class="converters.StringToInvoiceConverter" />
+
+		<bean class="converters.TrainerToStringConverter" />
+		<bean class="converters.StringToTrainerConverter" />
+		
+		<bean class="converters.ActivityToStringConverter" />
+		<bean class="converters.StringToActivityConverter" />
+		
+		<bean class="converters.CurriculumToStringConverter" />
+		<bean class="converters.StringToCurriculumConverter" />
+>>>>>>> refs/remotes/origin/Develop
 		
 	</util:list>
 	

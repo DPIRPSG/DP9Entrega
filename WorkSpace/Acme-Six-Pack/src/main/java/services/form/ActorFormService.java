@@ -10,6 +10,7 @@ import domain.Administrator;
 import domain.Customer;
 import domain.Trainer;
 import domain.form.ActorForm;
+import domain.form.ActorType;
 
 import security.UserAccount;
 import security.UserAccountService;
@@ -52,16 +53,13 @@ public class ActorFormService {
 		// Other business methods -------------------------------------------------
 		
 		public ActorForm createForm(){
-			return this.createForm(false);
+			return this.createForm(actorService.discoverActorType());
 		}
 		
-		public ActorForm createForm(boolean newTrainer){
+		public ActorForm createForm(ActorType actorType){
 			ActorForm result;
 			
-			if((actorService.checkAuthority("CUSTOMER")
-					|| actorService.checkAuthority("ADMIN")
-					|| actorService.checkAuthority("TRAINER"))
-					&& ! newTrainer){ 
+			if(actorType != null){ 
 				result = this.createFormActor(actorService.findByPrincipal());
 			}else{ //Usuario registrandose
 				result = new ActorForm();
@@ -79,6 +77,12 @@ public class ActorFormService {
 			result.setSurname(actor.getSurname());
 			result.setPhone(actor.getPhone());
 			result.setUsername(actor.getUserAccount().getUsername());
+			if(actorService.checkAuthority("TRAINER")){
+				Trainer actTrainer;
+				
+				actTrainer = trainerService.findByPrincipal();
+				result.setPicture(actTrainer.getPicture());
+			}
 			
 			return result;
 		}
@@ -103,7 +107,7 @@ public class ActorFormService {
 			unregister = unregister || newTrainer;
 			
 			if(!unregister){
-				this.saveActor(input, actorService.checkAuthority("CUSTOMER"));
+				this.saveActor(input, actorService.discoverActorType());
 			}else if(newTrainer){
 				this.saveTrainerRegistration(input);
 			}
@@ -112,7 +116,7 @@ public class ActorFormService {
 			}
 		}
 		
-		private void saveActor(ActorForm input, boolean isConsumer){
+		private void saveActor(ActorForm input, ActorType actorType){
 			UserAccount acount;
 			String pass;
 			
@@ -127,7 +131,7 @@ public class ActorFormService {
 				}
 			}
 			
-			if(isConsumer){
+			if(actorType.equals(ActorType.CUSTOMER)){
 				Customer result;
 				
 				result = customerService.findByPrincipal();
@@ -139,7 +143,7 @@ public class ActorFormService {
 				
 				customerService.save(result);
 				
-			}else{ //isAdmin
+			}else if(actorType.equals(ActorType.ADMIN)){
 				Administrator result;
 				
 				result = administratorService.findByPrincipal();
@@ -150,6 +154,22 @@ public class ActorFormService {
 				result.setUserAccount(acount);
 				
 				administratorService.save(result);
+			}else if(actorType.equals(ActorType.TRAINER)){
+				Trainer result;
+				
+				result = trainerService.findByPrincipal();
+				
+				result.setName(input.getName());
+				result.setSurname(input.getSurname());
+				result.setPhone(input.getPhone());
+				result.setPicture(input.getPicture());
+				
+				result.setUserAccount(acount);
+				
+				trainerService.save(result);
+				
+			}else{
+				Assert.notNull(null, "Unexpected ActorType");
 			}
 			
 			

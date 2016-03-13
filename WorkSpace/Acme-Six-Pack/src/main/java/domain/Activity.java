@@ -34,6 +34,7 @@ public class Activity extends DomainEntity {
 	private double duration;
 	private String description;
 	private Collection<String> pictures;
+	private boolean deleted;
 	
 	@NotBlank
 	@NotNull
@@ -90,7 +91,14 @@ public class Activity extends DomainEntity {
 	}
 	public void setPictures(Collection<String> pictures) {
 		this.pictures = pictures;
-	}	
+	}
+	
+	public boolean getDeleted() {
+		return deleted;
+	}
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 	// Relationships ----------------------------------------------------------
 	private Collection<Customer> customers;

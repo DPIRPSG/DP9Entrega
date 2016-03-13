@@ -1,0 +1,17 @@
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="exchangeRate/list" extends="master.page">	
+		<put-attribute name="title" value="List of exchanges rates" />
+		<put-attribute name="body" value="/views/exchangeRate/list.jsp" />
+	</definition>
+	
+	<definition name="exchangeRate/edit" extends="master.page">	
+		<put-attribute name="title" value="Edit a exchange rate" />
+		<put-attribute name="body" value="/views/exchangeRate/edit.jsp" />
+	</definition>
+	
+</tiles-definitions>

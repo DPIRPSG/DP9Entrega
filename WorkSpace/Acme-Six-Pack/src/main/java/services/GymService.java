@@ -10,10 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.GymRepository;
+import domain.Bulletin;
 import domain.Comment;
 import domain.Customer;
 import domain.FeePayment;
 import domain.Gym;
+import domain.Room;
 import domain.ServiceEntity;
 
 @Service
@@ -36,6 +38,9 @@ public class GymService {
 	@Autowired
 	private ActorService actorService;
 	
+	@Autowired
+	private RoomService roomService;
+	
 	// Constructors -----------------------------------------------------------
 
 	public GymService() {
@@ -52,10 +57,14 @@ public class GymService {
 		Collection<ServiceEntity> services;
 		Collection<Comment> comments;
 		Collection<FeePayment> feePayments;
+		Collection<Bulletin> bulletins;
+		Collection<Room> rooms;
 		
 		services = new ArrayList<>();
 		feePayments = new ArrayList<>();
 		comments = new ArrayList<>();
+		bulletins = new ArrayList<>();
+		rooms = new ArrayList<>();
 		
 		
 		result = new Gym();
@@ -63,6 +72,8 @@ public class GymService {
 		result.setServices(services);
 		result.setFeePayments(feePayments);
 		result.setComments(comments);
+		result.setRooms(rooms);
+		result.setBulletins(bulletins);
 		
 		return result;
 	}
@@ -108,10 +119,26 @@ public class GymService {
 			
 			Assert.isTrue(gym.getFeePayments().containsAll(feePayments) && gym.getFeePayments().size() == feePayments.size());
 			Assert.isTrue(gym.getComments().containsAll(comments) && gym.getComments().size() == comments.size());
+		}else{
+			Collection<Room> rooms;
+			Room defaultRoom;
+			
+			defaultRoom = roomService.create();
+			defaultRoom.setDescription("Para cualquier tipo de actividad");
+			defaultRoom.setName("Habitación general");
+			defaultRoom.setNumberOfSeats(30);
+			defaultRoom.setGym(gym);
+			
+			rooms = new ArrayList<Room>();
+			rooms.add(defaultRoom);
+			
+			gym.setRooms(rooms);
 		}
+		
 		services = gym.getServices();
 		
 		gym = this.save(gym);
+
 		
 		for(ServiceEntity service : services) {
 			if(!servicesPreSave.contains(service)){
@@ -134,6 +161,11 @@ public class GymService {
 		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can delete gyms");
 		Assert.isTrue(gym.getFeePayments().isEmpty());
 		Assert.isTrue(gym.getComments().isEmpty());
+		Assert.isTrue(gym.getBulletins().isEmpty());
+		
+		for(Room room : gym.getRooms()) {
+			Assert.isTrue(room.getActivities().isEmpty());
+		}
 		
 		Collection<ServiceEntity> services;
 		

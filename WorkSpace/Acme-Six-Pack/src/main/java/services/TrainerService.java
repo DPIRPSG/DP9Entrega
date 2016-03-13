@@ -72,7 +72,7 @@ public class TrainerService {
 	 * Almacena en la base de datos el cambio
 	 */
 	// req: 10.1
-	public void save(Trainer trainer){
+	public Trainer save(Trainer trainer){
 		Assert.notNull(trainer);
 		
 		Trainer modify;
@@ -132,7 +132,23 @@ public class TrainerService {
 			folders = folderService.initializeSystemFolder(modify);
 			folderService.save(folders);
 		}
+		return modify;
+	}
+	
+	public Collection<Trainer> findAll(){
+		Collection<Trainer> result;
 		
+		result = trainerRepository.findAll();
+		
+		return result;
+	}
+	
+	public Trainer findOne(int id){
+		Trainer result;
+		
+		result = trainerRepository.findOne(id);
+		
+		return result;
 	}
 	
 
@@ -150,6 +166,55 @@ public class TrainerService {
 		Assert.notNull(userAccount);
 		result = trainerRepository.findByUserAccountId(userAccount.getId());
 		Assert.notNull(result);
+		
+		return result;
+	}
+	
+	public void addService(ServiceEntity serv){
+		Trainer actTrainer;
+		Collection<ServiceEntity> services;
+		Collection<Trainer> trainers;
+		
+		actTrainer = this.findByPrincipal();
+		services = actTrainer.getServices();
+		trainers = serv.getTrainers();
+		
+		trainers.add(actTrainer);
+		serv.setTrainers(trainers);
+		
+		services.add(serv);
+		actTrainer.setServices(services);
+		
+		this.save(actTrainer);
+		
+	}
+	
+	public void removeService(ServiceEntity serv){
+		Trainer actTrainer;
+		Collection<ServiceEntity> services;
+		Collection<Trainer> trainers;
+		
+		actTrainer = this.findByPrincipal();
+		services = actTrainer.getServices();
+		trainers = serv.getTrainers();
+		
+		trainers.remove(actTrainer);
+		serv.setTrainers(trainers);
+		
+		services.remove(serv);
+		actTrainer.setServices(services);
+		
+		this.save(actTrainer);
+		
+	}
+
+	public Collection<Trainer> findBySingleKeyword(String keyword) {
+		Assert.notNull(keyword);
+		Assert.isTrue(!keyword.isEmpty());
+		
+		Collection<Trainer> result;
+
+		result = trainerRepository.findBySingleKeyword(keyword);
 		
 		return result;
 	}

@@ -20,7 +20,7 @@ import domain.SpamTerm;
 
 @Controller
 @RequestMapping(value = "/spamTerm/administrator")
-public class SpamTermController extends AbstractController{
+public class SpamTermAdministratorController extends AbstractController{
 
 	//Services ----------------------------------------------------------
 
@@ -29,7 +29,7 @@ public class SpamTermController extends AbstractController{
 	
 	//Constructors ----------------------------------------------------------
 	
-	public SpamTermController(){
+	public SpamTermAdministratorController(){
 		super();
 	}
 

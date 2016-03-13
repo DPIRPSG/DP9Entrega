@@ -17,7 +17,7 @@ import domain.form.ActorForm;
 
 @Controller
 @RequestMapping(value = "/trainer/administrator")
-public class TrainerController extends AbstractController {
+public class TrainerAdministratorController extends AbstractController {
 
 	// Services ----------------------------------------------------------
 
@@ -29,7 +29,7 @@ public class TrainerController extends AbstractController {
 
 	// Constructors ----------------------------------------------------------
 
-	public TrainerController() {
+	public TrainerAdministratorController() {
 		super();
 	}
 
@@ -43,7 +43,7 @@ public class TrainerController extends AbstractController {
 		ModelAndView result;
 		ActorForm trainer;
 		
-		trainer = actorFormService.createForm(true);
+		trainer = actorFormService.createForm(null);
 		
 		result = createEditModelAndView(trainer);
 		

@@ -590,6 +590,8 @@
 		<property name="bulletins">
 			<list>
 				<ref bean="bulletin1"/>
+				<ref bean="bulletin2"/>
+				<ref bean="bulletin3"/>
 			</list>
 		</property>
 		<property name="rooms">
@@ -627,6 +629,9 @@
 		</property>
 		<property name="bulletins">
 			<list>
+				<ref bean="bulletin4"/>
+				<ref bean="bulletin5"/>
+				<ref bean="bulletin6"/>
 			</list>
 		</property>
 		<property name="rooms">
@@ -666,6 +671,9 @@
 		</property>
 		<property name="bulletins">
 			<list>
+				<ref bean="bulletin7"/>
+				<ref bean="bulletin8"/>
+				<ref bean="bulletin9"/>
 			</list>
 		</property>
 		<property name="rooms">
@@ -763,6 +771,62 @@
 		<property name="description" value="Mañana habrá una reunión de los empleados para debatir sobre que nueva actividad se podría hacer"/>
 		<property name="publishMoment" value="2016/03/01 12:00"/>
 		<property name="gym" ref="gym1" />
+	</bean>
+	
+	<bean id="bulletin2" class="domain.Bulletin">
+		<property name="title" value="Cerrado por obras"/>
+		<property name="description" value="Mañana estará cerrado el gimnasio para hacer unas obras"/>
+		<property name="publishMoment" value="2016/03/07 12:00"/>
+		<property name="gym" ref="gym1" />
+	</bean>
+	
+	<bean id="bulletin3" class="domain.Bulletin">
+		<property name="title" value="Descuentos de Marzo"/>
+		<property name="description" value="Durante este mes de Marzo los pagos tendrán un descuento de un 10%"/>
+		<property name="publishMoment" value="2016/03/01 12:00"/>
+		<property name="gym" ref="gym1" />
+	</bean>
+	
+	<bean id="bulletin4" class="domain.Bulletin">
+		<property name="title" value="Buscamos empleados"/>
+		<property name="description" value="Se buscan entrenadores que sean expertos en Spinning"/>
+		<property name="publishMoment" value="2016/03/05 12:00"/>
+		<property name="gym" ref="gym2" />
+	</bean>
+	
+	<bean id="bulletin5" class="domain.Bulletin">
+		<property name="title" value="Cambio de horario"/>
+		<property name="description" value="A partir del mes de Abril habrá un nuevo horario, que será de 10 a 19"/>
+		<property name="publishMoment" value="2016/03/07 12:00"/>
+		<property name="gym" ref="gym2" />
+	</bean>
+	
+	<bean id="bulletin6" class="domain.Bulletin">
+		<property name="title" value="Clase de Spinning"/>
+		<property name="description" value="Apúntate a la nueva actividad de Spinning! Te encantará!"/>
+		<property name="publishMoment" value="2016/03/02 12:00"/>
+		<property name="gym" ref="gym2" />
+	</bean>
+	
+	<bean id="bulletin7" class="domain.Bulletin">
+		<property name="title" value="Torneo de Karate"/>
+		<property name="description" value="Hasta finales de mes te podrás apuntar al torneo de karate"/>
+		<property name="publishMoment" value="2016/03/01 12:00"/>
+		<property name="gym" ref="gym3" />
+	</bean>
+	
+	<bean id="bulletin8" class="domain.Bulletin">
+		<property name="title" value="Clase de Fitness"/>
+		<property name="description" value="Apúntate a la nueva actividad de Fitnes! Te encantará!"/>
+		<property name="publishMoment" value="2016/03/01 12:00"/>
+		<property name="gym" ref="gym3" />
+	</bean>
+	
+	<bean id="bulletin9" class="domain.Bulletin">
+		<property name="title" value="Clase de Karate"/>
+		<property name="description" value="Apúntate a la nueva actividad de Karate Te encantará!"/>
+		<property name="publishMoment" value="2016/03/01 12:00"/>
+		<property name="gym" ref="gym3" />
 	</bean>
 	
 	<!-- Services -->
@@ -908,6 +972,7 @@
 			<list>
 			</list>
 		</property>
+		<property name="deleted" value="false"/>
 		<property name="service" ref="service4"/>
 		<property name="room" ref="room4"/>
 		<property name="trainer" ref="trainer1"/>
@@ -928,6 +993,7 @@
 			<list>
 			</list>
 		</property>
+		<property name="deleted" value="false"/>
 		<property name="service" ref="service3"/>
 		<property name="room" ref="room3"/>
 		<property name="trainer" ref="trainer5"/>
@@ -947,6 +1013,7 @@
 			<list>
 			</list>
 		</property>
+		<property name="deleted" value="false"/>
 		<property name="service" ref="service2"/>
 		<property name="room" ref="room2"/>
 		<property name="trainer" ref="trainer2"/>
@@ -967,6 +1034,7 @@
 			<list>
 			</list>
 		</property>
+		<property name="deleted" value="false"/>
 		<property name="service" ref="service1"/>
 		<property name="room" ref="room5"/>
 		<property name="trainer" ref="trainer4"/>

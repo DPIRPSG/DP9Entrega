@@ -76,6 +76,26 @@
 				code="service.comments" />
 		</a>
 	</display:column>
+	
+		
+	<security:authorize access="hasRole('TRAINER')">
+		<jstl:if test="${addService}">
+		
+			<display:column>
+				<a href="service/trainer/add.do?serviceId=${row_Service.id}"> <spring:message
+					code="service.add" />
+				</a>
+			</display:column>
+		</jstl:if>
+		<jstl:if test="${!addService}">
+		
+			<display:column>
+				<a href="service/trainer/delete.do?serviceId=${row_Service.id}"> <spring:message
+					code="service.delete" />
+				</a>
+			</display:column>
+		</jstl:if>
+	</security:authorize>
 
 </display:table>
 
@@ -84,6 +104,15 @@
 
 
 <!-- Action links -->
+<security:authorize access="hasRole('TRAINER')">
+	<jstl:if test="${!addService}">
+		<div>
+			<a href="service/trainer/list.do"> <spring:message
+				code="service.addMore" />
+			</a>
+		</div>
+	</jstl:if>
+</security:authorize>
 <security:authorize access="hasRole('ADMIN')">
 	<div>
 		<a href="service/administrator/create.do"> <spring:message
@@ -91,6 +120,8 @@
 		</a>
 	</div>
 </security:authorize>
+
+
 
 <!-- Alert -->
 <jstl:if test="${messageStatus != Null && messageStatus != ''}">
