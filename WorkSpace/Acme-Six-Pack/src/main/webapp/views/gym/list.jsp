@@ -108,6 +108,12 @@
 				code="gym.comments" />
 		</a>
 	</display:column>
+	
+	<display:column>
+		<a href="activity/list.do?gymId=${row_Gym.id}"> <spring:message
+				code="gym.activities" />
+		</a>
+	</display:column>
 
 	<display:column>
 		<a href="${requestUri3}gymId=${row_Gym.id}"> <spring:message

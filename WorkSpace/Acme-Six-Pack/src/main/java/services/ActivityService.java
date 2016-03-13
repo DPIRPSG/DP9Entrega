@@ -60,6 +60,18 @@ public class ActivityService {
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @return Devuelve todos los activities de un gym en concreto
+	 */
+	public Collection<Activity> findAllByGymId(int gymId){
+		Collection<Activity> result;
+		
+		result = activityRepository.findAllByGymId(gymId);
+		
+		return result;		
+	}
+	
 	public void cancel(Activity activity){
 		
 		Assert.notNull(activity);

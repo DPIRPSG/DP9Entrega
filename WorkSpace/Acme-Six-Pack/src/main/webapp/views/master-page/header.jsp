@@ -52,6 +52,9 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="feePayment/administrator/list.do"><spring:message code="master.page.list.feePayments" /></a></li>
+					<li><a href="booking/administrator/list.do"><spring:message code="master.page.list.booking" /></a></li>
+					<li><a href="trainer/administrator/list.do"><spring:message code="master.page.trainer" /></a></li>
+					<li><a href="exchangeRate/administrator/list.do"><spring:message code="master.page.exchangeRate" /></a></li>	
 					<li><a href="trainer/list.do"><spring:message code="master.page.trainer" /></a></li>
 				</ul>
 			</li>
@@ -89,6 +92,9 @@
 					</security:authorize>
 					<security:authorize access="hasRole('ADMIN')">
 						<li><a href="admin/administrator/display.do"><spring:message code="master.page.customer.info" /></a></li>
+					</security:authorize>	
+					<security:authorize access="hasRole('TRAINER')">
+						<li><a href="trainer/trainer/display.do"><spring:message code="master.page.customer.info" /></a></li>
 					</security:authorize>					
 					<li><b><a href="j_spring_security_logout"><spring:message code="master.page.logout" /></a></b></li>
 				</ul>

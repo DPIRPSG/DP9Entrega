@@ -60,8 +60,11 @@
 		<security:intercept-url pattern="/customer/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/socialIdentity/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/gym/customer/**" access="hasRole('CUSTOMER')" />
-		<security:intercept-url pattern="/activity/customer/**" access="hasAnyRole('CUSTOMER')"/>		
+		<security:intercept-url pattern="/activity/customer/**" access="hasAnyRole('CUSTOMER')"/>
+		
+		
 		<security:intercept-url pattern="/service/trainer/**" access="hasRole('TRAINER')" />	
+		<security:intercept-url pattern="/trainer/trainer/**" access="hasRole('TRAINER')" />	
 		
 		
 		<security:intercept-url pattern="/folder/actor/**" access="hasAnyRole('CUSTOMER', 'ADMIN', 'TRAINER')"/>
@@ -77,6 +80,7 @@
 		<security:intercept-url pattern="/bulletin/list.do" access="permitAll" />
 		<security:intercept-url pattern="/trainer/*.do" access="permitAll" />
 		<security:intercept-url pattern="/exchangeRate/*.do" access="permitAll" />
+		<security:intercept-url pattern="/activity/list.do" access="permitAll" />
 		
 		<security:intercept-url pattern="/customer/create.do" access="!hasAnyRole('CUSTOMER', 'ADMIN')" />
 
