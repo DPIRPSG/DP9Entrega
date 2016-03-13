@@ -109,7 +109,6 @@ public class GymAdministratorController extends AbstractController {
 		int limitError;
 		
 		limitError = 0;
-		System.out.println(binding);
 		if(binding.hasFieldErrors("services")){
 			limitError += 2;
 		}
