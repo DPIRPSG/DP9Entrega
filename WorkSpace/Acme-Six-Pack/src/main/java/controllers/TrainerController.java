@@ -65,7 +65,7 @@ public class TrainerController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/specialities", method = RequestMethod.GET)
-	public ModelAndView specialised(@RequestParam(required=false) int trainerId) {
+	public ModelAndView specialised(@RequestParam(required=true) int trainerId) {
 		ModelAndView result;
 		Trainer actTrainer;
 		Collection<ServiceEntity> services;
