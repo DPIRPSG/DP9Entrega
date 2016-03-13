@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.FeePaymentService;
 import services.InvoiceService;
 import services.form.InvoiceFormService;
 import controllers.AbstractController;
 import domain.Actor;
+import domain.FeePayment;
 import domain.Invoice;
 import domain.form.InvoiceForm;
 
@@ -35,6 +37,9 @@ public class InvoiceCustomerController extends AbstractController {
 	
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private FeePaymentService feePaymentService;
 	
 	// Constructors --------------------------------------------------------
 	
@@ -80,58 +85,24 @@ public class InvoiceCustomerController extends AbstractController {
 	public ModelAndView create(@Valid InvoiceForm invoiceForm, BindingResult binding) {
 		ModelAndView result;
 		Invoice invoice;
-		InvoiceForm invoiceFormErrors;
+		Actor customer;
+		Integer customerId;
+		Collection<FeePayment> feePaymentsNotIssued;
 		
-		invoiceFormErrors = invoiceFormService.create("en");
-		invoiceFormErrors.setInvoiceesName(invoiceForm.getInvoiceesName());
-		invoiceFormErrors.setVAT(invoiceForm.getVAT());
-		invoiceFormErrors.setDescription(invoiceForm.getDescription());
+		customer = actorService.findByPrincipal();
+		customerId = customer.getId();
+		feePaymentsNotIssued = feePaymentService.findAllByCustomerIdNotIssued(customerId);
+		
+		invoiceForm.setFeePaymentsNotIssued(feePaymentsNotIssued);
 		
 		if (binding.hasErrors()) {
-			result = createEditModelAndView(invoiceFormErrors);
+			result = createEditModelAndView(invoiceForm);
 		} else {
 			try {
 				invoice = invoiceFormService.reconstruct(invoiceForm);
 				result = new ModelAndView("invoice/draft");
 				result.addObject("invoice", invoice);
 			} catch (Throwable oops) {
-				result = createEditModelAndView(invoiceFormErrors, "invoice.commit.error");
-			}
-		}
-		
-		return result;
-	}
-	
-	@RequestMapping(value = "/draft", method = RequestMethod.GET)
-	public ModelAndView draft(@RequestParam @Valid Invoice invoice) {
-		ModelAndView result;
-		
-		result = new ModelAndView("invoice/draft");
-		result.addObject("invoice", invoice);
-		
-		return result;
-	}
-	
-	@RequestMapping(value="/draft", method=RequestMethod.POST, params="save")
-	public ModelAndView draft(@Valid Invoice invoice, BindingResult binding) {
-		ModelAndView result;
-		Actor customer;
-		Integer customerId;
-		InvoiceForm invoiceForm;
-		
-		customer = actorService.findByPrincipal();
-		customerId = customer.getId();
-		
-		if (binding.hasErrors()) {
-			invoiceForm = invoiceFormService.deconstruct(invoice);
-			result = createEditModelAndView(invoiceForm);
-		} else {
-			try {
-				invoiceService.save(invoice);
-				
-				result = new ModelAndView("redirect:../list.do?customerId=" + customerId);
-			} catch (Throwable oops) {
-				invoiceForm = invoiceFormService.deconstruct(invoice);
 				result = createEditModelAndView(invoiceForm, "invoice.commit.error");
 			}
 		}
@@ -139,26 +110,63 @@ public class InvoiceCustomerController extends AbstractController {
 		return result;
 	}
 	
-	@RequestMapping(value="/draft", method=RequestMethod.POST, params="cancel")
-	public ModelAndView draftCancel(@Valid Invoice invoice, BindingResult binding) {
-		ModelAndView result;
-		InvoiceForm invoiceForm;
-		
-		if (binding.hasErrors()) {
-			invoiceForm = invoiceFormService.deconstruct(invoice);
-			result = createEditModelAndView(invoiceForm);
-		} else {
-			try {
-				invoiceForm = invoiceFormService.deconstruct(invoice);
-				result = createEditModelAndView(invoiceForm);
-			} catch (Throwable oops) {
-				invoiceForm = invoiceFormService.deconstruct(invoice);
-				result = createEditModelAndView(invoiceForm, "invoice.commit.error");
-			}
-		}
-		
-		return result;
-	}
+//	@RequestMapping(value = "/draft", method = RequestMethod.GET)
+//	public ModelAndView draft(@RequestParam @Valid Invoice invoice) {
+//		ModelAndView result;
+//		
+//		result = new ModelAndView("invoice/draft");
+//		result.addObject("invoice", invoice);
+//		
+//		return result;
+//	}
+//	
+//	@RequestMapping(value="/draft", method=RequestMethod.POST, params="save")
+//	public ModelAndView draft(@Valid Invoice invoice, BindingResult binding) {
+//		ModelAndView result;
+//		Actor customer;
+//		Integer customerId;
+//		InvoiceForm invoiceForm;
+//		
+//		customer = actorService.findByPrincipal();
+//		customerId = customer.getId();
+//		
+//		if (binding.hasErrors()) {
+//			invoiceForm = invoiceFormService.deconstruct(invoice);
+//			result = createEditModelAndView(invoiceForm);
+//		} else {
+//			try {
+//				invoiceService.save(invoice);
+//				
+//				result = new ModelAndView("redirect:../list.do?customerId=" + customerId);
+//			} catch (Throwable oops) {
+//				invoiceForm = invoiceFormService.deconstruct(invoice);
+//				result = createEditModelAndView(invoiceForm, "invoice.commit.error");
+//			}
+//		}
+//		
+//		return result;
+//	}
+//	
+//	@RequestMapping(value="/draft", method=RequestMethod.POST, params="cancel")
+//	public ModelAndView draftCancel(@Valid Invoice invoice, BindingResult binding) {
+//		ModelAndView result;
+//		InvoiceForm invoiceForm;
+//		
+//		if (binding.hasErrors()) {
+//			invoiceForm = invoiceFormService.deconstruct(invoice);
+//			result = createEditModelAndView(invoiceForm);
+//		} else {
+//			try {
+//				invoiceForm = invoiceFormService.deconstruct(invoice);
+//				result = createEditModelAndView(invoiceForm);
+//			} catch (Throwable oops) {
+//				invoiceForm = invoiceFormService.deconstruct(invoice);
+//				result = createEditModelAndView(invoiceForm, "invoice.commit.error");
+//			}
+//		}
+//		
+//		return result;
+//	}
 	
 	// Ancillary methods ---------------------------------------------------
 	

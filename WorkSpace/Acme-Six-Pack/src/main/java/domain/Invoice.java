@@ -105,7 +105,7 @@ public class Invoice extends DomainEntity {
 	public Collection<FeePayment> getFeePayments() {
 		return feePayments;
 	}
-	public void setFeePayments(Collection<FeePayment> feePayment) {
-		this.feePayments = feePayment;
+	public void setFeePayments(Collection<FeePayment> feePayments) {
+		this.feePayments = feePayments;
 	}
 }
