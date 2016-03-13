@@ -14,6 +14,7 @@ import domain.Comment;
 import domain.FeePayment;
 import domain.Gym;
 import domain.ServiceEntity;
+import domain.Trainer;
 
 @Service
 @Transactional
@@ -53,10 +54,14 @@ public class ServiceService {
 		Collection<Gym> gyms;
 		Collection<Comment> comments;
 		Collection<String> pictures;
+		Collection<Activity> activities;
+		Collection<Trainer> trainers;
 		
-		gyms = new ArrayList<>();
-		pictures = new ArrayList<>();
-		comments = new ArrayList<>();
+		gyms = new ArrayList<Gym>();
+		pictures = new ArrayList<String>();
+		comments = new ArrayList<Comment>();
+		activities = new ArrayList<Activity>();
+		trainers = new ArrayList<Trainer>();
 		
 		
 		result = new ServiceEntity();
@@ -64,6 +69,8 @@ public class ServiceService {
 		result.setGyms(gyms);
 		result.setPictures(pictures);
 		result.setComments(comments);
+		result.setActivities(activities);
+		result.setTrainers(trainers);
 		
 		return result;
 	}
@@ -95,6 +102,15 @@ public class ServiceService {
 			
 			Assert.isTrue(service.getGyms().containsAll(gyms) && service.getGyms().size() == gyms.size());
 			Assert.isTrue(service.getComments().containsAll(comments) && service.getComments().size() == comments.size());
+		} else {
+			Collection<Activity> activities;
+			Collection<Trainer> trainers;
+			
+			activities = new ArrayList<Activity>();
+			trainers = new ArrayList<Trainer>();
+			
+			service.setActivities(activities);
+			service.setTrainers(trainers);
 		}
 		
 		serviceRepository.save(service);
@@ -107,6 +123,7 @@ public class ServiceService {
 		Assert.isTrue(service.getGyms().isEmpty());
 		Assert.isTrue(service.getComments().isEmpty());
 		Assert.isTrue(service.getName() != "Fitness", "El servicio de Fitness lo pueden tener todos los gimnasios, luego no se deberá borrar");
+		Assert.isTrue(service.getActivities().isEmpty());
 		
 		serviceRepository.delete(service);
 	}
