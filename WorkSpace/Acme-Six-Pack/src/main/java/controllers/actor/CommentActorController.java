@@ -53,13 +53,17 @@ public class CommentActorController extends AbstractController {
 	}
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST, params="save")
-	public ModelAndView save(@Valid Comment comment, BindingResult binding) {
+	public ModelAndView save(@Valid Comment comment,@RequestParam int commentedEntityId, BindingResult binding) {
 		ModelAndView result;
 		CommentedEntity commentedEntity;
-		int commentedEntityId;
+		//int commentedEntityId;
 		
-		commentedEntity = comment.getCommentedEntity();
-		commentedEntityId = commentedEntity.getId();
+		//commentedEntity = comment.getCommentedEntity();
+		commentedEntity = commentedEntityService.findOne(commentedEntityId);
+		
+		comment.setCommentedEntity(commentedEntity);
+		
+		//commentedEntityId = commentedEntity.getId();
 		
 		if (binding.hasErrors()) {
 			result = createEditModelAndView(comment, commentedEntity);
