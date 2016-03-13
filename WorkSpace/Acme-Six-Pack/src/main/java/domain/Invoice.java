@@ -68,6 +68,9 @@ public class Invoice extends DomainEntity {
 		return totalCost;
 	}
 
+	public void setTotalCost(double totalCost) {
+		this.totalCost = totalCost;
+	}
 
 	@NotBlank
 	@NotNull
