@@ -15,34 +15,23 @@
 	<div>
 	<table>
 
-	<acme:display code="customer.name" value="${customer.name}"/>
-	<acme:display code="customer.surname" value="${customer.surname}"/>
-	<acme:display code="customer.phone" value="${customer.phone}"/>
-	<acme:display code="customer.username" value="${customer.userAccount.username}"/>
+	<acme:display code="trainer.name" value="${trainer.name}"/>
+	<acme:display code="trainer.surname" value="${trainer.surname}"/>
+	<acme:display code="trainer.phone" value="${trainer.phone}"/>
+	<acme:display code="trainer.username" value="${trainer.userAccount.username}"/>
+	<tr>
+		<th><spring:message code="trainer.picture" /> :</th>
+		<td><img src="${trainer.picture}" style="width:204px;"/></td>
+	</tr>
 	
-	<tr>
-		<th><spring:message code="customer.creditCard" /> :</th>
-		<td><a href="creditCard/customer/display.do"> 
-				<spring:message code="customer.display" />
-			</a>
-		</td>
-	</tr>
-	<tr>
-		<th><spring:message code="customer.socialIdentity" /> :</th>
-		<td><a href="socialIdentity/customer/display.do"> 
-				<spring:message code="customer.display" />
-			</a>
-		</td>
-	</tr>
 	</table>
 	</div>
 
 	
 	<!-- Action links -->
 	<div>
-		<b><a href="customer/customer/edit.do"> 
-			<spring:message code="customer.edit" />
+		<b><a href="trainer/trainer/edit.do"> 
+			<spring:message code="trainer.edit" />
 		</a></b>
 	</div>
 	<br/>
-	<spring:message code="customer.delete"/>

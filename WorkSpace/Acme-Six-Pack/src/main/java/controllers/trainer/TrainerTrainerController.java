@@ -1,4 +1,4 @@
-package controllers.administrator;
+package controllers.trainer;
 
 import javax.validation.Valid;
 
@@ -10,17 +10,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.TrainerService;
 import services.form.ActorFormService;
 
 import controllers.AbstractController;
+import domain.Trainer;
 import domain.form.ActorForm;
 
 @Controller
-@RequestMapping(value = "/trainer/administrator")
-public class TrainerAdministratorController extends AbstractController {
+@RequestMapping(value = "/trainer/trainer")
+public class TrainerTrainerController extends AbstractController {
 
 	// Services ----------------------------------------------------------
 
+	@Autowired
+	private TrainerService trainerService;
+	
 	@Autowired
 	private ActorFormService actorFormService;
 	
@@ -29,23 +34,35 @@ public class TrainerAdministratorController extends AbstractController {
 
 	// Constructors ----------------------------------------------------------
 
-	public TrainerAdministratorController() {
+	public TrainerTrainerController() {
 		super();
 	}
 
 	// Listing ----------------------------------------------------------
 
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(){
+		ModelAndView result;
+		Trainer trainer;
+		
+		trainer = trainerService.findByPrincipal();
+		
+		result = new ModelAndView("trainer/display");
+		result.addObject("trainer", trainer);
+		
+		return result;
+	}
 
 	// Creation ----------------------------------------------------------
 
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(){
 		ModelAndView result;
-		ActorForm trainer;
+		ActorForm administrator;
 		
-		trainer = actorFormService.createForm(null);
+		administrator = actorFormService.createForm();
 		
-		result = createEditModelAndView(trainer);
+		result = createEditModelAndView(administrator);
 		
 		return result;
 	}
@@ -53,7 +70,7 @@ public class TrainerAdministratorController extends AbstractController {
 	// Edition ----------------------------------------------------------
 
 	
-	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid ActorForm actorForm, BindingResult binding) {
 		actorFormValidator.validate(actorForm, binding);
 		
@@ -63,8 +80,8 @@ public class TrainerAdministratorController extends AbstractController {
 			result = createEditModelAndView(actorForm);
 		} else {
 			try {
-				actorFormService.saveForm(actorForm, true);
-				result = new ModelAndView("redirect:/");
+				actorFormService.saveForm(actorForm);
+				result = new ModelAndView("redirect:display.do");
 			} catch (Throwable oops) {
 				String errorCode;
 				errorCode = "actorForm.commit.error";
@@ -92,7 +109,7 @@ public class TrainerAdministratorController extends AbstractController {
 		result = new ModelAndView("actorForm/edit");
 		result.addObject("actorForm", administrator);
 		result.addObject("message", message);
-		result.addObject("urlAction", "trainer/administrator/register.do");
+		result.addObject("urlAction", "trainer/trainer/edit.do");
 
 		return result;
 	}

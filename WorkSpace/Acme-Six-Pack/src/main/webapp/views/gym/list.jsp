@@ -9,6 +9,13 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
+<acme:exchange requestURI="${requestURI}"/>
+<fmt:parseNumber var="exchangeRateNumber" type="number" value="${cookie['exchangeRate_rate'].value}" />
+
+<br/>
+
 
 <!-- Listing grid -->
 <display:table pagesize="5" class="displaytag" keepStatus="true"
@@ -81,7 +88,7 @@
 	<spring:message code="gym.fee" var="feeHeader" />
 	<display:column title="${feeHeader}"
 		sortable="true">
-		<jstl:out value="${row_Gym.fee}"/>
+		<jstl:out value="${exchangeRateNumber * row_Gym.fee}"/>
 	</display:column>
 
 	<spring:message code="gym.picture" var="pictureHeader" />
@@ -99,6 +106,12 @@
 	<display:column>
 		<a href="comment/list.do?commentedEntityId=${row_Gym.id}"> <spring:message
 				code="gym.comments" />
+		</a>
+	</display:column>
+	
+	<display:column>
+		<a href="activity/list.do?gymId=${row_Gym.id}"> <spring:message
+				code="gym.activities" />
 		</a>
 	</display:column>
 

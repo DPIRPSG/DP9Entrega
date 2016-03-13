@@ -24,6 +24,9 @@ public class ActivityService {
 
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private ActorService actorService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -47,6 +50,73 @@ public class ActivityService {
 		Assert.notNull(customer);
 		
 		result = activityRepository.findAllByCustomer(customer.getId());
+		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @return Devuelve todos los activities de un gym en concreto
+	 */
+	public Collection<Activity> findAllByGymId(int gymId){
+		Collection<Activity> result;
+		
+		result = activityRepository.findAllByGymId(gymId);
+		
+		return result;		
+	}
+	
+	public void cancel(Activity activity){
+		
+		Assert.notNull(activity);
+		Assert.isTrue(activity.getId() != 0);
+		Assert.isTrue(actorService.checkAuthority("CUSTOMER"), "Only a customer can cancel an activity");
+		Assert.isTrue(activity.getDeleted() == false, "This activity is already deleted by the administrator");
+		
+		Customer customer;
+		
+		customer = customerService.findByPrincipal();
+		
+		Assert.isTrue(activity.getCustomers().contains(customer));
+		Assert.isTrue(customer.getActivities().contains(activity));
+		
+		activity.getCustomers().remove(customer);
+		customer.getActivities().remove(activity);
+		
+		Assert.isTrue(!activity.getCustomers().contains(customer), "The booking was not canceled 1");
+		Assert.isTrue(!customer.getActivities().contains(activity), "The booking was not canceled 2");
+		
+		activityRepository.save(activity);
+		
+	}
+	
+	public void delete(Activity activity){
+		
+		 Assert.notNull(activity);
+		 Assert.isTrue(activity.getId() != 0);
+		 Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only a admin can deleted an activity");
+		 Assert.isTrue(activity.getDeleted() == false, "This activity is already deleted");
+		 
+		 activity.setDeleted(true);
+		 activityRepository.save(activity);
+	}
+	
+	public Activity findOne(int activityId){
+		
+		Assert.notNull(activityId);
+		Assert.isTrue(activityId != 0);
+		
+		Activity activity;
+		
+		activity = activityRepository.findOne(activityId);
+		
+		return activity;
+	}
+	
+	public Collection<Activity> findAll(){
+		Collection<Activity> result;
+		
+		result = activityRepository.findAll();
 		
 		return result;
 	}
