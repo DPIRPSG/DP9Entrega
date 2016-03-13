@@ -82,7 +82,7 @@ public class Comment extends DomainEntity{
 		this.actor = actor;
 	}
 	
-	@NotNull
+	//@NotNull
 	@Valid
 	@ManyToOne(optional = false)
 	@NotFound(action = NotFoundAction.IGNORE)
