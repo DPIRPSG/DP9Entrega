@@ -87,15 +87,17 @@ public class CreditCardController extends AbstractController {
 		} else {
 			try {
 				Cookie cook1;
+				int actId;
 				
 				customerService.saveCreditCard(creditCard);
+				actId = customerService.findByPrincipal().getId();
 				
 				cook1 = new Cookie("createCreditCard", "false");
 				cook1.setPath("/");
 			
 				response.addCookie(cook1);
 				
-				if(createSocialIdentity.equals("true")){
+				if(createSocialIdentity.equals(String.valueOf(actId) + "true")){
 					result = new ModelAndView("redirect:/socialIdentity/customer/edit.do");					
 				}else{
 					result = new ModelAndView("redirect:display.do");					

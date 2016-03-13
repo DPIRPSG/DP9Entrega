@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.SocialIdentityService;
 
 import controllers.AbstractController;
@@ -25,6 +26,9 @@ public class SocialIdentityController extends AbstractController {
 
 	@Autowired
 	private SocialIdentityService socialIdentityService;
+	
+	@Autowired
+	private ActorService actorService;
 
 	// Constructors ----------------------------------------------------------
 
@@ -77,13 +81,16 @@ public class SocialIdentityController extends AbstractController {
 		} else {
 			try {
 				Cookie cook1;
+				int actId;
+				
+				actId = actorService.findByPrincipal().getId();
 				
 				cook1 = new Cookie("createSocialIdentity", "false");
 				cook1.setPath("/");
 			
 				response.addCookie(cook1);
 				
-				if(createCreditCard.equals("true")){
+				if(createCreditCard.equals(String.valueOf(actId) + "true")){
 					result = new ModelAndView("redirect:/creditCard/customer/edit.do");					
 				}else{				
 					socialIdentityService.save(socialIdentity);
