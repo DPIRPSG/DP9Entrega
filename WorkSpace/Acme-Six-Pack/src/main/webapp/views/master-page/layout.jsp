@@ -38,6 +38,7 @@
 <link rel="stylesheet" href="styles/jmenu.css" media="screen"
 	type="text/css" />
 <link rel="stylesheet" href="styles/displaytag.css" type="text/css">
+<link rel="stylesheet" href="styles/print.css" type="text/css"  media="print" />
 
 <title><tiles:insertAttribute name="title" ignore="true" /></title>
 
@@ -76,7 +77,7 @@
 		<tiles:insertAttribute name="header" />
 	</div>
 	<div>
-		<h1>
+		<h1 class="noPrint">
 			<tiles:insertAttribute name="title" />
 		</h1>
 		<tiles:insertAttribute name="body" />	

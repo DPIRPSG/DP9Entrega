@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.InvoiceRepository;
+import domain.Actor;
 import domain.FeePayment;
 import domain.Invoice;
 
@@ -86,6 +87,16 @@ public class InvoiceService {
 		result = invoiceRepository.findAllByCustomerId(customerId);
 		
 		return result;
+	}
+	
+	public void checkCustomer(int customerId) {
+		Actor customerPrincipal;
+		Actor customerReal;
+		
+		customerPrincipal = actorService.findByPrincipal();
+		customerReal = actorService.findOne(customerId);
+		
+		Assert.isTrue(customerPrincipal == customerReal, "You can't print an Invoice of other Customer.");
 	}
 	
 }

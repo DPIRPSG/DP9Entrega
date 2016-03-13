@@ -17,7 +17,7 @@
 		
 		<!-- Action links -->
 		<display:column>
-			<!-- Insertar link para imprimir una factura -->
+			<acme:link href="invoice/customer/print.do?invoiceId=${row_invoice.id}" code="invoice.print"/>
 		</display:column>
 		
 		

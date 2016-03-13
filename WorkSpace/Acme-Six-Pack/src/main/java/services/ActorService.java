@@ -34,6 +34,14 @@ public class ActorService {
 	}
 	
 	// Simple CRUD methods ----------------------------------------------------
+	
+	public Actor findOne(int actorId){
+		Actor result;
+		
+		result = actorRepository.findOne(actorId);
+		
+		return result;
+	}
 
 	public Collection<Actor> findAll(){
 		Collection<Actor> result;

@@ -13,6 +13,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
+<div class="noPrint">
 <div>
 	<a href=""> 
 		<img src="images/logo.png" style="height:128px;" alt="ACME, Inc.  Your gym Company" /></a>
@@ -111,5 +112,7 @@
 </div>
 
 <!-- OJO !!!! El script de cancel.tag está en el footer!!!! -->
+
+</div>
 
 
