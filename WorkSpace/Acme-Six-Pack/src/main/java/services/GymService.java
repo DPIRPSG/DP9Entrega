@@ -124,9 +124,9 @@ public class GymService {
 			Room defaultRoom;
 			
 			defaultRoom = roomService.create();
-			defaultRoom.setDescription("Descripcion defecto");
-			defaultRoom.setName("nombre defecto");
-			defaultRoom.setNumberOfSeats(1);
+			defaultRoom.setDescription("Para cualquier tipo de actividad");
+			defaultRoom.setName("Habitación general");
+			defaultRoom.setNumberOfSeats(30);
 			defaultRoom.setGym(gym);
 			
 			rooms = new ArrayList<Room>();
@@ -161,6 +161,11 @@ public class GymService {
 		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can delete gyms");
 		Assert.isTrue(gym.getFeePayments().isEmpty());
 		Assert.isTrue(gym.getComments().isEmpty());
+		Assert.isTrue(gym.getBulletins().isEmpty());
+		
+		for(Room room : gym.getRooms()) {
+			Assert.isTrue(room.getActivities().isEmpty());
+		}
 		
 		Collection<ServiceEntity> services;
 		

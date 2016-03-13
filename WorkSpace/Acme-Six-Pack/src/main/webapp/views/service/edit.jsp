@@ -16,8 +16,9 @@
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="comments" />
-	<form:hidden path="bookings"/>
+	<form:hidden path="activities"/>
 	<form:hidden path="gyms"/>
+	<form:hidden path="trainers"/>
 	
 	
 	<!-- Editable Attributes -->
