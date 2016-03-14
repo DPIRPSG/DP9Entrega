@@ -48,14 +48,14 @@ public class ServiceAdministratorController extends AbstractController {
 		
 		if (gymId != null) {
 			services = serviceService.findAllByGym(gymId);
+			result.addObject("gymId", gymId);
 		}
 		
 		customers = serviceService.numbersOfCustomersByService(services);
 
-		
 		result.addObject("services", services);
 		result.addObject("customers", customers);
-
+		
 		return result;
 	}
 
