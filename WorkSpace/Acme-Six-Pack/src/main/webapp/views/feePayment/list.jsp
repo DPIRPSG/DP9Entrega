@@ -45,6 +45,12 @@
 		<spring:message code="feePayment.amount" var="amountHeader" />
 		<acme:displayColumn title="${amountHeader}" sorteable="true" value="${row_feePayment.amount}"/>
 		
+		<security:authorize access="hasRole('CUSTOMER')">
+			<div>
+				<acme:link href="invoice/customer/create.do" code="feePayment.invoice.create"/>
+			</div>
+		</security:authorize>
+		
 			
 	</display:table>
 

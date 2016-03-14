@@ -66,6 +66,12 @@ public class FeePaymentService {
 	
 	public void save(FeePayment feePayment) {
 		Assert.notNull(feePayment);
+		
+		feePaymentRepository.save(feePayment);
+	}
+	
+	public void saveToEdit(FeePayment feePayment) {
+		Assert.notNull(feePayment);
 		//Los checks de quien puede realizar modificaciones están dentro del if/else
 		if (feePayment.getId() == 0) {
 			Assert.isTrue(compruebaFecha(feePayment.getCreditCard()), "La tarjeta de credito no puede estar caducada");
@@ -196,6 +202,14 @@ public class FeePaymentService {
 		customer = customerService.findByPrincipal();
 		
 		result = feePaymentRepository.findAllByCustomerAndGym(customer.getId(), gymId);
+		
+		return result;
+	}
+	
+	public Collection<FeePayment> findAllByCustomerIdNotIssued(int customerId) {
+		Collection<FeePayment> result;
+		
+		result = feePaymentRepository.findAllByCustomerIdNotIssued(customerId);
 		
 		return result;
 	}

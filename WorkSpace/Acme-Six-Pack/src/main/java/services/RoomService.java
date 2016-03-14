@@ -38,23 +38,30 @@ public class RoomService {
 	
 	// Simple CRUD methods ----------------------------------------------------
 
-	public Room create(int gymId) {
+	public Room create() {
 		Assert.isTrue(actorService.checkAuthority("ADMIN"),
 				"Only an admin can create rooms");
 		
 		Room result;
 		Collection<String> pictures;
 		Collection<Activity> activities;
-		Gym gym;
 		
 		result = new Room();
 		
-		gym = gymService.findOne(gymId);
 		pictures = new ArrayList<String>();
 		activities = new ArrayList<Activity>();
 		
 		result.setPictures(pictures);
 		result.setActivities(activities);
+		
+		return result;
+	}
+	public Room create(int gymId) {
+		Room result;
+		Gym gym;
+		
+		gym = gymService.findOne(gymId);
+		result = this.create();
 		result.setGym(gym);
 		
 		return result;
@@ -113,6 +120,14 @@ public class RoomService {
 		gymService.save(gym);
 		roomRepository.delete(room);
 		
+	}
+	
+	public Collection<Room> findAll(){
+		Collection<Room> result;
+		
+		result = roomRepository.findAll();
+		
+		return result;
 	}
 	
 	public Room findOne(int roomId) {

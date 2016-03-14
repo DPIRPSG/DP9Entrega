@@ -39,13 +39,25 @@ public class BulletinAdministratorController extends AbstractController {
 	// Listing ----------------------------------------------------------
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam int gymId) {
+	public ModelAndView list(@RequestParam int gymId, @RequestParam(required=false, defaultValue="") String keyword) {
 		ModelAndView result;
 		Collection<Bulletin> bulletins;
 		Gym gym;
+		String keywordToFind;
 
 		bulletins = bulletinService.findAllByGymId(gymId);
 		gym = gymService.findOne(gymId);
+		
+		if (!keyword.equals("")) {
+			String[] keywordComoArray = keyword.split(" ");
+			for (int i = 0; i < keywordComoArray.length; i++) {
+				if (!keywordComoArray[i].equals("")) {
+					keywordToFind = keywordComoArray[i];
+					bulletins = bulletinService.findBySingleKeyword(keywordToFind, gymId);
+					break;
+				}
+			}
+		}
 
 		result = new ModelAndView("bulletin/list");
 		result.addObject("requestURI", "bulletin/administrator/list.do");

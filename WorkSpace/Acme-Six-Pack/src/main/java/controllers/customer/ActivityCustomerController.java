@@ -44,6 +44,28 @@ public class ActivityCustomerController extends AbstractController{
 		return result;
 	}
 	
+	@RequestMapping(value="book", method = RequestMethod.GET)
+	public ModelAndView book(@RequestParam int activityId){
+		
+		ModelAndView result;
+		Activity activity;
+		
+		activity = activityService.findOne(activityId);
+		Assert.notNull(activity);
+		
+		try{
+			activityService.book(activity);
+			result = new ModelAndView("redirect:list.do");
+			result.addObject("messageStatus", "activity.book.ok");
+		}catch(Throwable oops){
+			result = new ModelAndView("redirect:list.do");
+			result.addObject("messageStatus", "activity.commit.error");
+		}
+		
+		
+		return result;
+	}
+	
 	@RequestMapping(value="/cancel", method = RequestMethod.GET)
 	public ModelAndView cancel(@RequestParam int activityId){
 		

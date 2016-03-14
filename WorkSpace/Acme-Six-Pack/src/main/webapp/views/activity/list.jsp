@@ -37,6 +37,7 @@
 	<!-- Attributes -->
 	
 	<security:authorize access="hasRole('CUSTOMER')">
+	<jstl:if test="${hayGymId == null}">
 	<spring:message code="activity.cancel" var="cancelHeader"/>
 		<display:column title="${cancelHeader}"
 		sortable = "true">
@@ -46,6 +47,7 @@
 		</a>
 		</jstl:if>
 		</display:column>
+	</jstl:if>
 	</security:authorize>
 	
 	<spring:message code="activity.deleted" var="deletedHeader" />
@@ -115,6 +117,20 @@
 		sortable="false">
 		<jstl:out value="${row_Activity.trainer.name}"/>
 	</display:column>
+	
+	<security:authorize access="hasRole('CUSTOMER')">
+	<jstl:if test="${hayGymId == true}">
+	<spring:message code="activity.book" var="activityHeader"/>
+		<display:column title="${activityHeader}"
+		sortable = "true">
+		<jstl:if test="${row_Activity.deleted == false}">
+		<a href="activity/customer/book.do?activityId=${row_Activity.id}"> <spring:message
+				code="activity.book"/>
+		</a>
+		</jstl:if>
+		</display:column>
+	</jstl:if>
+	</security:authorize>
 
 </display:table>
 

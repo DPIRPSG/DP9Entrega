@@ -22,7 +22,7 @@
 
 <%-- Attributes --%> 
 
-<%@ attribute name="name" required="true" %> 
+<%@ attribute name="name" required="true" %>
 <%@ attribute name="code" required="true" %>
 <%@ attribute name="codeConfirm" required="true" %>
 

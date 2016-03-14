@@ -54,16 +54,16 @@
 		</jstl:forEach>
 	</display:column>
 
-	<jstl:if test="${hayGymId}">
-		<security:authorize access="hasRole('CUSTOMER')">
-			<display:column>
-				<a
-					href="booking/customer/create.do?gymId=${gymId}&serviceId=${row_Service.id}">
-					<spring:message code="booking.create" />
-				</a>
-			</display:column>
-		</security:authorize>
-	</jstl:if>
+<%-- 	<jstl:if test="${hayGymId}"> --%>
+<%-- 		<security:authorize access="hasRole('CUSTOMER')"> --%>
+<%-- 			<display:column> --%>
+<!-- 				<a -->
+<%-- 					href="booking/customer/create.do?gymId=${gymId}&serviceId=${row_Service.id}"> --%>
+<%-- 					<spring:message code="booking.create" /> --%>
+<!-- 				</a> -->
+<%-- 			</display:column> --%>
+<%-- 		</security:authorize> --%>
+<%-- 	</jstl:if> --%>
 
 	<display:column>
 		<a href="gym/list.do?serviceId=${row_Service.id}"> <spring:message
@@ -77,9 +77,17 @@
 		</a>
 	</display:column>
 	
+	<display:column>
+		<a 
+			href="activity/administrator/create.do?gymId=${gymId}&serviceId=${row_Service.id}">
+			<spring:message code="activity.create"/>
+		</a>
+	
+	</display:column>
+	
 		
 	<security:authorize access="hasRole('TRAINER')">
-		<jstl:if test="${addService}">
+		<jstl:if test="${addService == 'true'}">
 		
 			<display:column>
 				<a href="service/trainer/add.do?serviceId=${row_Service.id}"> <spring:message
@@ -87,7 +95,7 @@
 				</a>
 			</display:column>
 		</jstl:if>
-		<jstl:if test="${!addService}">
+		<jstl:if test="${addService == 'false'}">
 		
 			<display:column>
 				<a href="service/trainer/delete.do?serviceId=${row_Service.id}"> <spring:message
@@ -105,7 +113,7 @@
 
 <!-- Action links -->
 <security:authorize access="hasRole('TRAINER')">
-	<jstl:if test="${!addService}">
+	<jstl:if test="${addService == 'false'}">
 		<div>
 			<a href="service/trainer/list.do"> <spring:message
 				code="service.addMore" />
@@ -120,8 +128,6 @@
 		</a>
 	</div>
 </security:authorize>
-
-
 
 <!-- Alert -->
 <jstl:if test="${messageStatus != Null && messageStatus != ''}">
