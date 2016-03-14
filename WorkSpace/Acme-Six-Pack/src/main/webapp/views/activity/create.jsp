@@ -11,27 +11,26 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <!-- Form -->
-<form:form action="activity/administrator/edit.do" modelAttribute="activity">
+<form:form action="activity/administrator/create.do" modelAttribute="activity">
 	<!-- Hidden Attributes -->
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	
+	<form:hidden path="title"/>
+	<form:hidden path="numberOfSeatsAvailable"/>
+	<form:hidden path="startingMoment"/>
+	<form:hidden path="duration"/>
+	<form:hidden path="description"/>
+	<form:hidden path="pictures"/>
 	<form:hidden path="deleted"/>
 	
 	<form:hidden path="customers" />
-	<form:hidden path="service"/>
+	<form:hidden path="room"/>
+	<form:hidden path="trainer"/>
 	
 	<!-- Editable Attributes -->
-	
-	<acme:textbox code="activity.title" path="title"/>
-	<acme:textbox code="activity.numberOfSeatsAvailable" path="numberOfSeatsAvailable"/>
-	<acme:textbox code="activity.startingMoment" path="startingMoment"/>
-	<acme:textbox code="activity.duration" path="duration"/>
-	<acme:textarea code="activity.description" path="description"/>
-	<acme:textarea code="activity.pictures" path="pictures"/>
 			
-	<acme:select items="${rooms}" itemLabel="name" code="activity.room" path="room"/>
-	<acme:select items="${trainers}" itemLabel="name" code="activity.trainer" path="trainer"/>
+	<acme:select items="${services}" itemLabel="name" code="activity.service" path="service"/>
 	
 	<!-- Action buttons -->
 	
@@ -39,6 +38,6 @@
 	
 	<acme:submit name="save" code="activity.save"/>
 	
-	<acme:cancel code="room.cancel" url="activity/administrator/list.do"/>
+	<acme:cancel code="activity.cancel" url="activity/administrator/list.do"/>
 
 </form:form>
