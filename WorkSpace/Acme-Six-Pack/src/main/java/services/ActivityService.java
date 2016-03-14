@@ -37,6 +37,9 @@ public class ActivityService {
 	
 	@Autowired
 	private TrainerService trainerService;
+	
+	@Autowired
+	private RoomService roomService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -70,6 +73,22 @@ public class ActivityService {
 		
 		return result;
 	}
+	
+public Activity createWithoutGym(){
+		
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can create an activity");
+		
+		Activity result;
+		Collection<Customer> customers;
+		
+		customers = new ArrayList<>();
+		
+		result = new Activity();
+		
+		result.setCustomers(customers);
+		
+		return result;
+	}
 
 	public Activity save(Activity activity){
 		
@@ -86,22 +105,38 @@ public class ActivityService {
 		Assert.notNull(activity);
 		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can save an Activity");
 		
-		Activity activityPreSave;
-		
-		activityPreSave = findOne(activity.getId());
-		
+		if(activity.getId() == 0) {	
 		Assert.isTrue(activity.getRoom().getGym().getServices().contains(activity.getService()), "The Gym must include the Service you want");
 		Assert.isTrue(activity.getTrainer().getServices().contains(activity.getService()), "The Trainer must be specialized in the Service you ask for");
-		Assert.isTrue(activity.getRoom().getGym().equals(activityPreSave.getRoom().getGym()), "You must keep the gym");
+		Assert.isTrue(activity.getNumberOfSeatsAvailable() <= activity.getRoom().getNumberOfSeats(), "The number os seats of the activity can be less than the number of seats of the Room");
 		
+		Collection<Customer> customers;
+		Room room;
 		Trainer trainer;
+		ServiceEntity service;
 		
+		customers = new ArrayList<Customer>();
+		
+		activity.setDeleted(false);
+		activity.setCustomers(customers);
+		
+		activity = this.save(activity);
+		
+		room = activity.getRoom();
 		trainer = activity.getTrainer();
-		trainer.getActivities().add(activity);
+		service = activity.getService();
 		
+		room.addActivity(activity);
+		trainer.addActivity(activity);
+		service.addActivity(activity);
+		
+		roomService.save(room);
 		trainerService.save(trainer);
-				
-		this.save(activity);
+		serviceService.save(service);
+		} else {
+			this.save(activity);
+		}
+		
 	}
 	
 	public void cancel(Activity activity){

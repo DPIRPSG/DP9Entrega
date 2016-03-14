@@ -1,5 +1,6 @@
 package controllers.administrator;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -14,12 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActivityService;
-import services.RoomService;
 import services.ServiceService;
-import services.TrainerService;
 
 import controllers.AbstractController;
 import domain.Activity;
+import domain.Gym;
 import domain.Room;
 import domain.ServiceEntity;
 import domain.Trainer;
@@ -31,12 +31,6 @@ public class ActivityAdministratorController extends AbstractController{
 	// Services ----------------------------------------------------------
 	@Autowired
 	private ActivityService activityService;
-	
-	@Autowired
-	private TrainerService trainerService;
-	
-	@Autowired
-	private RoomService roomService;
 	
 	@Autowired
 	private ServiceService serviceService;
@@ -65,24 +59,30 @@ public class ActivityAdministratorController extends AbstractController{
 	// Edition ----------------------------------------------------------
 	
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam int gymId, @RequestParam int serviceId){
+	public ModelAndView create(){
 		ModelAndView result;
 		Activity activity;
 		
-		Collection<Trainer> trainers;
-		Collection<Room> rooms;
-		Collection<ServiceEntity> services;
+		activity = activityService.createWithoutGym();
 		
-		activity = activityService.createWithGym(gymId, serviceId);
-		trainers = trainerService.findAllByServiceId(serviceId);
-		rooms = roomService.findAllByGymId(gymId);
-		services = serviceService.findAllByGym(gymId);
+		result = createEditModelAndViewCreate(activity);
 		
-		result = createEditModelAndView2(activity);
-		result.addObject("trainers", trainers);
-		result.addObject("rooms", rooms);
-		result.addObject("services", services);
+		return result;
+	}
+	
+	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
+	public ModelAndView saveOfCreate(Activity activity, BindingResult binding){
+		ModelAndView result;
 		
+		if(binding.hasErrors()){
+			result = createEditModelAndView(activity);
+		}else{
+			try{
+				result = createEditModelAndView(activity);
+			}catch(Throwable oops){
+				result = createEditModelAndView(activity, "activity.commit.error");
+			}
+		}
 		return result;
 	}
 	
@@ -91,19 +91,9 @@ public class ActivityAdministratorController extends AbstractController{
 		ModelAndView result;
 		Activity activity;
 		
-		Collection<Trainer> trainers;	
-		Collection<Room> rooms;
-		Collection<ServiceEntity> services;
-
 		activity = activityService.findOne(activityId);
-		trainers = trainerService.findAll();
-		rooms = roomService.findAllByGymId(activity.getRoom().getGym().getId());
-		services = serviceService.findAllByGym(activity.getRoom().getGym().getId());
 		
-		result = createEditModelAndView2(activity);
-		result.addObject("trainers", trainers);
-		result.addObject("rooms", rooms);
-		result.addObject("services", services);
+		result = createEditModelAndView(activity);
 
 		return result;
 	}
@@ -112,25 +102,14 @@ public class ActivityAdministratorController extends AbstractController{
 	public ModelAndView save(@Valid Activity activity, BindingResult binding){
 		ModelAndView result;
 		
-		Collection<Trainer> trainers;	
-		Collection<Room> rooms;
-		Collection<ServiceEntity> services;
-		
-		trainers = trainerService.findAll();
-		rooms = roomService.findAllByGymId(activity.getRoom().getGym().getId());
-		services = serviceService.findAllByGym(activity.getRoom().getGym().getId());
-		
 		if(binding.hasErrors()){
-			result = createEditModelAndView2(activity);
+			result = createEditModelAndView(activity);
 		}else{
 			try{
 				activityService.saveToEdit(activity);
 				result = new ModelAndView("redirect:list.do");
 			}catch(Throwable oops){
-				result = createEditModelAndView2(activity, "activity.commit.error");
-				result.addObject("trainers", trainers);
-				result.addObject("rooms", rooms);
-				result.addObject("services", services);
+				result = createEditModelAndView(activity, "activity.commit.error");
 			}
 		}
 		return result;
@@ -170,28 +149,44 @@ public class ActivityAdministratorController extends AbstractController{
 	
 	protected ModelAndView createEditModelAndView(Activity activity, String message) {
 		ModelAndView result;
-
-		result = new ModelAndView("activity/list");
-		result.addObject("activity", activity);
-		result.addObject("message", message);
-
-		return result;
-	}
-	
-	protected ModelAndView createEditModelAndView2(Activity activity) {
-		ModelAndView result;
-
-		result = createEditModelAndView2(activity, null);
-
-		return result;
-	}
-	
-	protected ModelAndView createEditModelAndView2(Activity activity, String message) {
-		ModelAndView result;
+		Collection<Room> rooms;
+		Collection<Trainer> trainers;
+		
+		rooms = new ArrayList<Room>();
+		
+		for(Gym gym : activity.getService().getGyms()) {
+			rooms.addAll(gym.getRooms());
+		}
+		trainers = activity.getService().getTrainers();
 
 		result = new ModelAndView("activity/edit");
 		result.addObject("activity", activity);
 		result.addObject("message", message);
+		result.addObject("rooms", rooms);
+		result.addObject("trainers", trainers);
+
+		return result;
+	}
+	
+	protected ModelAndView createEditModelAndViewCreate(Activity activity) {
+		ModelAndView result;
+
+		result = createEditModelAndViewCreate(activity, null);
+
+		return result;
+	}
+	
+	protected ModelAndView createEditModelAndViewCreate(Activity activity, String message) {
+		ModelAndView result;
+		Collection<ServiceEntity> services;
+		
+		services = serviceService.findAll();
+
+		result = new ModelAndView("activity/create");
+		result.addObject("activity", activity);
+		result.addObject("message", message);
+
+		result.addObject("services", services);
 
 		return result;
 	}
