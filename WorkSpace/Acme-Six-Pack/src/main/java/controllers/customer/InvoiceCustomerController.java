@@ -1,6 +1,7 @@
 package controllers.customer;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -164,6 +165,29 @@ public class InvoiceCustomerController extends AbstractController {
 				result = createEditModelAndView(invoiceForm, "invoice.commit.error");
 			}
 		}
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/print", method = RequestMethod.GET)
+	public ModelAndView print(@RequestParam int invoiceId) {
+		ModelAndView result;
+		Invoice invoice;
+		Date printMoment;
+		Actor customer;
+		int customerId;
+		
+		customer = actorService.findByPrincipal();
+		customerId = customer.getId();
+		invoiceService.checkCustomer(customerId);
+		invoice = invoiceService.findOne(invoiceId);
+		printMoment = new Date();
+		
+		result = new ModelAndView("invoice/print");
+		result.addObject("invoice", invoice);
+		result.addObject("printMoment", printMoment);
+		result.addObject("customer", customer);
+		result.addObject("requestURI", "invoice/customer/print.do");
 		
 		return result;
 	}
