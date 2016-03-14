@@ -40,11 +40,10 @@ public class InvoiceService {
 	public Invoice create(){
 		Assert.isTrue(actorService.checkAuthority("CUSTOMER"), "Only a customer can manage an invoice.");
 		
-		Invoice result;
+		Invoice result;		
 		
 		result = new Invoice();
 		
-		result.setTotalCost(0.0);
 		result.setCreationMoment(new Date()); // Se crea una fecha en este momento porque no puede ser null, pero la fecha real se fijará en el método "save"
 		
 		return result;
@@ -57,7 +56,8 @@ public class InvoiceService {
 		Collection<FeePayment> feePayments;
 		double totalCost;
 		
-		totalCost = invoice.getTotalCost();
+		totalCost = 0.0;
+		
 		feePayments = invoice.getFeePayments();
 		for(FeePayment f: feePayments){
 			totalCost += f.getAmount();

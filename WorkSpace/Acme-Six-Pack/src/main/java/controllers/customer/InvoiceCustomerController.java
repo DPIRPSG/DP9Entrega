@@ -179,18 +179,11 @@ public class InvoiceCustomerController extends AbstractController {
 	}
 	
 	protected ModelAndView createEditModelAndView(InvoiceForm invoiceForm, String message) {
-		ModelAndView result;
-		Collection<FeePayment> feePayments;
-		int customerId;
-		
-		customerId = actorService.findByPrincipal().getId();
-		
-		feePayments = feePaymentService.findAllByCustomerIdNotIssued(customerId);
+		ModelAndView result;		
 		
 		result = new ModelAndView("invoice/create");
 		result.addObject("invoiceForm", invoiceForm);
 		result.addObject("message", message);
-		result.addObject("feePayments", feePayments);
 		
 		return result;
 	}
