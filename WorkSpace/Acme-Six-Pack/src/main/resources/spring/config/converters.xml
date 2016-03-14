@@ -66,6 +66,9 @@
 		<bean class="converters.BulletinToStringConverter" />
 		<bean class="converters.StringToBulletinConverter" />
 		
+		<bean class="converters.InvoiceToStringConverter" />
+		<bean class="converters.StringToInvoiceConverter" />
+
 		<bean class="converters.TrainerToStringConverter" />
 		<bean class="converters.StringToTrainerConverter" />
 		

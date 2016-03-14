@@ -28,6 +28,9 @@ public class CommentService {
 	
 	@Autowired
 	private CommentedEntityService commentedEntityService;
+	
+	@Autowired
+	private TrainerService trainerService;
 
 	//Constructors -----------------------------------------------------------
 	
@@ -42,15 +45,23 @@ public class CommentService {
 	 */
 	
 	public Comment create(int entityId){
-		Assert.isTrue(actorService.checkAuthority("ADMIN") || actorService.checkAuthority("CUSTOMER"), "Only an admin or a customer can create comments");
+		Assert.isTrue(actorService.checkAuthority("ADMIN") || actorService.checkAuthority("CUSTOMER") || actorService.checkAuthority("TRAINER"), "Only an admin, a customer or a trainer can create comments");
 		
 		Comment result;
 		CommentedEntity commentedEntity;
 		Actor actor;
+		Actor actorCommented;
 		
 		result = new Comment();
 		
 		commentedEntity = commentedEntityService.findOne(entityId);
+		actorCommented = actorService.findOne(entityId);
+		
+		if(actorCommented != null) {
+			actorCommented = trainerService.findOne(entityId);
+			Assert.isTrue(actorCommented != null, "Only a gym, service or trainer can be commented");
+		}
+		
 		Assert.notNull(commentedEntity, "Cannot create a Comment without a Entity asociated.");
 		actor = actorService.findByPrincipal();
 		Assert.notNull(actor, "Cannot create a Comment without an Actor asociated.");
@@ -68,7 +79,7 @@ public class CommentService {
 	 */
 	
 	public void save(Comment comment){
-		Assert.isTrue(actorService.checkAuthority("ADMIN") || actorService.checkAuthority("CUSTOMER"), "Only an admin or a customer can save comments");
+		Assert.isTrue(actorService.checkAuthority("ADMIN") || actorService.checkAuthority("CUSTOMER") || actorService.checkAuthority("TRAINER"), "Only an admin, a customer or a trainer can save comments");
 
 		Assert.notNull(comment);
 		

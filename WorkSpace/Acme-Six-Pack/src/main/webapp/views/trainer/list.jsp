@@ -42,6 +42,12 @@
 				code="trainer.specialities" />
 		</a>
 	</display:column>
+	
+	<display:column>
+		<a href="comment/list.do?commentedEntityId=${row_Trainer.id}"> <spring:message
+				code="trainer.comments" />
+		</a>
+	</display:column>
 
 </display:table>
 

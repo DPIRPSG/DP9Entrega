@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.ServiceService;
 import services.TrainerService;
 
@@ -28,6 +29,9 @@ public class TrainerController extends AbstractController {
 	
 	@Autowired
 	private ServiceService serviceService;
+	
+	@Autowired
+	private ActorService actorService;
 
 	// Constructors ----------------------------------------------------------
 
@@ -65,7 +69,7 @@ public class TrainerController extends AbstractController {
 	}
 	
 	@RequestMapping(value = "/specialities", method = RequestMethod.GET)
-	public ModelAndView specialised(@RequestParam(required=false) int trainerId) {
+	public ModelAndView specialised(@RequestParam(required=true) int trainerId) {
 		ModelAndView result;
 		Trainer actTrainer;
 		Collection<ServiceEntity> services;
@@ -82,7 +86,20 @@ public class TrainerController extends AbstractController {
 		
 		result.addObject("services", services);
 		result.addObject("customers", customers);
-		result.addObject("addService", false);
+		try{
+			int id;
+			
+			id = actorService.findByPrincipal().getId();
+			
+			if(id == trainerId){
+				result.addObject("addService", false);				
+			}else{
+				result.addObject("addService", null);				
+			}
+		} catch (Exception e) {
+			result.addObject("addService", null);
+		}
+
 
 		return result;
 	}

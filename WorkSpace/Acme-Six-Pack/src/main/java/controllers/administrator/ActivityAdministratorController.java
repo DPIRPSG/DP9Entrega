@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package controllers.administrator;
 
 import java.util.Collection;
