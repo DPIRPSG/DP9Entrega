@@ -79,6 +79,9 @@ public class ActivityAdministratorController extends AbstractController{
 			result = createEditModelAndView(activity);
 		}else{
 			try{
+				activity.setTitle(activity.getService().getName());
+				activity.setPictures(activity.getService().getPictures());
+				
 				result = createEditModelAndView(activity);
 			}catch(Throwable oops){
 				result = createEditModelAndView(activity, "activity.commit.error");
@@ -110,7 +113,7 @@ public class ActivityAdministratorController extends AbstractController{
 				activityService.saveToEdit(activity);
 				result = new ModelAndView("redirect:list.do");
 			}catch(Throwable oops){
-				result = createEditModelAndView(activity, "activity.commit.error");
+				result = createEditModelAndView(activity, "booking.commit.error");
 			}
 		}
 		return result;
