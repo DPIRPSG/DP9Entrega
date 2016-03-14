@@ -25,6 +25,9 @@ public class InvoiceService {
 
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private FeePaymentService feePaymentService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -63,7 +66,12 @@ public class InvoiceService {
 		invoice.setTotalCost(totalCost);
 		invoice.setCreationMoment(new Date());
 		
-		invoiceRepository.save(invoice);
+		invoice = invoiceRepository.save(invoice);
+		
+		for(FeePayment feePayment : invoice.getFeePayments()) {
+			feePayment.setInvoice(invoice);
+			feePaymentService.save(feePayment);
+		}
 	}
 	
 	public Invoice findOne(int invoiceId) {

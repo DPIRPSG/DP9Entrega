@@ -82,7 +82,7 @@ public class FeePaymentCustomerController extends AbstractController {
 		} else {
 			try {
 				fee = feePaymentFormService.reconstruct(feePaymentForm);
-				feePaymentService.save(fee);
+				feePaymentService.saveToEdit(fee);
 				result = new ModelAndView("redirect:list.do");
 			} catch (Throwable oops) {
 				result = createEditModelAndView(feePaymentForm, "feePayment.commit.error");

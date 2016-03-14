@@ -18,13 +18,14 @@
 		<form:hidden path="version"/>
 		
 		<form:hidden path="creationMoment"/>
+		<form:hidden path="feePayments"/>
 		
 		<!-- Editable Attributes -->
 		
-		<acme:textbox code="invoice.invoiceesName" path="invoice.invoiceesName" readonly="true"/>
-		<acme:textbox code="invoice.VAT" path="invoice.VAT" readonly="true"/>
-		<acme:textbox code="invoice.totalCost" path="invoice.totalCost" readonly="true"/>
-		<acme:textbox code="invoice.description" path="invoice.description" readonly="true"/>
+		<acme:textbox code="invoice.invoiceesName" path="invoiceesName" readonly="true"/>
+		<acme:textbox code="invoice.VAT" path="VAT" readonly="true"/>
+		<acme:textbox code="invoice.totalCost" path="totalCost" readonly="true"/>
+		<acme:textarea code="invoice.description" path="description" readonly="true"/>
 		
 		<!-- Action buttons -->
 		<acme:submit name="save" code="invoice.draft.confirm"/>
