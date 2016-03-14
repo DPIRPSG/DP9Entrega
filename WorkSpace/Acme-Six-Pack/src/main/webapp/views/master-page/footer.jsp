@@ -14,7 +14,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
+<div class="noPrint">
 
 <jsp:useBean id="date" class="java.util.Date" />
 
@@ -80,4 +80,6 @@
 	}
 
 </script>
+
+</div>
 

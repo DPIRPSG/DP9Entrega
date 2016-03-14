@@ -57,6 +57,14 @@ public class Trainer extends Actor {
 		this.activities = activities;
 	}
 	
+	public void addActivity(Activity activity) {
+		this.activities.add(activity);
+	}
+
+	public void removeActivity(Activity activity) {
+		this.activities.remove(activity);
+	}
+	
 	@Valid
 	@NotNull
 	@ManyToMany(mappedBy = "trainers")

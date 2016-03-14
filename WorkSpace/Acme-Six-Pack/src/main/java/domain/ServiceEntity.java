@@ -88,6 +88,14 @@ public class ServiceEntity extends CommentedEntity{
 		this.activities = activities;
 	}
 	
+	public void addActivity(Activity activity) {
+		this.activities.add(activity);
+	}
+
+	public void removeActivity(Activity activity) {
+		this.activities.remove(activity);
+	}
+	
 	@NotNull
 	@Valid
 	@ManyToMany

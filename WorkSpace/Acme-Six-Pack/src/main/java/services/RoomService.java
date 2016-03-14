@@ -122,6 +122,14 @@ public class RoomService {
 		
 	}
 	
+	public Collection<Room> findAll(){
+		Collection<Room> result;
+		
+		result = roomRepository.findAll();
+		
+		return result;
+	}
+	
 	public Room findOne(int roomId) {
 		Assert.isTrue(actorService.checkAuthority("ADMIN"),
 				"Only an admin can save rooms");

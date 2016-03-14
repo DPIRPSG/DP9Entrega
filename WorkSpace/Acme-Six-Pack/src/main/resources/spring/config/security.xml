@@ -53,14 +53,15 @@
 		<security:intercept-url pattern="/room/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/bulletin/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/activity/administrator/**" access="hasRole('ADMIN')" />
-		
-		<security:intercept-url pattern="/service/customer/**" access="hasRole('CUSTOMER')"/>
-		<security:intercept-url pattern="/feePayment/customer/**" access="hasRole('CUSTOMER')"/>
+
 		<security:intercept-url pattern="/creditCard/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/customer/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/socialIdentity/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/gym/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/activity/customer/**" access="hasAnyRole('CUSTOMER')"/>
+		<security:intercept-url pattern="/service/customer/**" access="hasRole('CUSTOMER')"/>
+		<security:intercept-url pattern="/feePayment/customer/**" access="hasRole('CUSTOMER')"/>
+		<security:intercept-url pattern="/invoice/customer/**" access="hasRole('CUSTOMER')"/>
 		
 		
 		<security:intercept-url pattern="/service/trainer/**" access="hasRole('TRAINER')" />	
