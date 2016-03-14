@@ -1,9 +1,6 @@
 
 
 import java.util.Collection;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,11 +27,10 @@ import org.springframework.web.context.WebApplicationContext;
 import controllers.RegisterController;
 import controllers.WelcomeController;
 import domain.Gym;
-import domain.form.ActorForm;
-
 import security.Credentials;
 import security.LoginController;
 import services.GymService;
+import services.form.ActorFormService;
 import utilities.AbstractTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -52,12 +48,7 @@ public class GenericTest extends AbstractTest{
 	// Test ---------------------------------------
 
     @Mock
-    private HttpServletRequest request;
-
-    @Mock
-    private HttpServletResponse response;
-    
-    @Mock
+	//@InjectMocks
     @Autowired
     private GymService gymService;
     
@@ -68,13 +59,17 @@ public class GenericTest extends AbstractTest{
     @Autowired
     private WelcomeController welcomeController;
     
+    //@InjectMocks
     @Autowired
     private RegisterController registerController;
     
     @Autowired
     private WebApplicationContext wac;
     
-    @InjectMocks
+    @Autowired
+    private ActorFormService actorFormService;
+    
+    @Autowired
     private LoginController loginController;
 
     private MockMvc mockMvc;
@@ -205,41 +200,35 @@ public class GenericTest extends AbstractTest{
 	}
 	
 	@Test
+	// @Transactional(noRollbackFor=Exception.class, noRollbackForClassName="MockMvc")
 	public void mockTestPostRegister() throws Exception{	
 		RequestBuilder requestBuilder;
-		// MockHttpServletRequestBuilder mmv;
-		requestBuilder = MockMvcRequestBuilders.post("/customer/create.jsp", "")
+		requestBuilder = 
+				MockMvcRequestBuilders.post("/customer/create", "save")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("name", "admin")
 				.param("surname", "admin")
 				.param("phone", "admin")
-				.param("username", "admin")
+				.param("username", "jeeioi")
 				.param("password", "admin")
 				.param("repeatedPassword", "admin")
-				.param("acceptTerm", "admin")
-				.param("submit", "save")
 				.param("acceptTerm", "true")
-				.sessionAttr("actorForm", new ActorForm())
+				.param("save", "")
+				.sessionAttr("actorForm", actorFormService.createForm())
+				//.sessionAttr("actorForm", new ActorForm())
 
 				;
-		
-		// mmv = MockMvcRequestBuilders.request(HttpMethod.GET, "/", "port:8080");
-		// HttpHeaders headers;
-		
-		//headers.set
 
-		// servlet2 = requestBuilder;
-		
-		
-		// requestBuilder.
-		// mockMvc.perform(requestBuilder)
 		mockMvc.perform(requestBuilder)
 			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.view().name("security/login"))
+			//.andExpect(MockMvcResultMatchers.view().name("security/login"))
 			.andExpect(MockMvcResultMatchers.model().hasNoErrors())
-			.andExpect(MockMvcResultMatchers.redirectedUrl("/index"))
+			.andExpect(MockMvcResultMatchers.model().attribute("message", "customer.commit.ok"))
+			//.andExpect(MockMvcResultMatchers.view().name("security/login"))
+			//.andExpect(MockMvcResultMatchers.redirectedUrl("/index"))
 			;
+		
 	}
 	
 /*	@Test
