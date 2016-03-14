@@ -27,6 +27,12 @@
 <%@ attribute name="items" required="true" type="java.util.Collection" %>
 <%@ attribute name="itemLabel" required="true" %>
 
+<%@ attribute name="id" required="false" %>
+
+<jstl:if test="${id == null}">
+	<jstl:set var="id" value="${UUID.randomUUID().toString()}" />
+</jstl:if>
+
 
 <%-- Definition --%>
 
