@@ -155,4 +155,12 @@ public class ActorService {
 		
 		return result;
 	}
+
+	public Actor findOne(int actorId) {
+		Actor result;
+		
+		result = actorRepository.findOne(actorId);
+		
+		return result;
+	}
 }
