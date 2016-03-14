@@ -11,44 +11,36 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <!-- Form -->
-<form:form action="gym/administrator/edit.do" modelAttribute="gym">
+<form:form action="curriculum/trainer/edit.do" modelAttribute="curriculum">
 	<!-- Hidden Attributes -->
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	<form:hidden path="comments" />
-	<form:hidden path="feePayments" />
-	<form:hidden path="rooms"/>
-	<form:hidden path="bulletins"/>
-	
+	<form:hidden path="updateMoment" />
 	
 	<!-- Editable Attributes -->
 	
 
-	<acme:textbox code="gym.name" path="name" />
+	<acme:textbox code="curriculum.picture" path="picture" />
 
-	<acme:textbox code="gym.description" path="description" />
+	<acme:textbox code="curriculum.statement" path="statement" />
 
-	<acme:textbox code="gym.postalAddress" path="postalAddress" />
+	<acme:textbox code="curriculum.skills" path="skills" />
 	
-	<acme:textbox code="gym.phone" path="phone" />
+	<acme:textbox code="curriculum.likes" path="likes" />
 
-	<acme:textbox code="gym.fee" path="fee" />
-	
-	<acme:textbox code="gym.picture" path="picture" />
-	
-	<acme:selectMult items="${services}" itemLabel="name" code="gym.services" path="services"/>
+	<acme:textbox code="curriculum.dislikes" path="dislikes" />
 	
 	
 	<!-- Action buttons -->
 
-	<acme:submit name="save" code="gym.save"/>	
+	<acme:submit name="save" code="curriculum.save"/>
 
-	<jstl:if test="${gym.id != 0}">
+	<jstl:if test="${curriculum.id != 0}">
 		<input type="submit" name="delete"
-			value="<spring:message code="gym.delete" />"
-			onclick="return confirm('<spring:message code="gym.confirm.delete" />')" />&nbsp;
+			value="<spring:message code="curriculum.delete" />"
+			onclick="return confirm('<spring:message code="curriculum.confirm.delete" />')" />&nbsp;
 	</jstl:if>
 	
-	<acme:cancel code="gym.cancel" url="gym/administrator/list.do?"/>
+	<acme:cancel code="curriculum.cancel" url="curriculum/trainer/list.do"/>
 
 </form:form>

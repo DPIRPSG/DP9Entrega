@@ -138,6 +138,18 @@
 		</property>
 	</bean>
 	
+	<bean id="userAccount11" class="security.UserAccount">
+		<property name="username" value="trainer6" />
+		<property name="password" value="a3b02d67308e7a6560e9a39f3c69860b" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="TRAINER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
 	
 	<!-- Other domain beans come here -->
 	
@@ -546,6 +558,47 @@
 		<property name="activities">
 			<list>
 				<ref bean="activity2"/>
+			</list>
+		</property>
+		<property name="services">
+			<list>
+				<ref bean="service1"/>
+				<ref bean="service3"/>
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="trainer6" class="domain.Trainer">
+		<property name="name" value="Carlos"/>
+		<property name="surname" value="Mata"/>
+		<property name="phone" value="622852741"/>
+		<property name="userAccount" ref="userAccount11"/>
+		<property name="messageBoxes">
+			<list>
+				<ref bean="folder41"/>
+				<ref bean="folder42"/>
+				<ref bean="folder43"/>
+				<ref bean="folder44"/>
+			</list>
+		</property>
+		<property name="sent">
+			<list>
+			</list>
+		</property>
+		<property name="received">
+			<list>
+			</list>
+		</property>
+		<property name="madeComments">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="activities">
+			<list>
 			</list>
 		</property>
 		<property name="services">
@@ -1818,6 +1871,46 @@
 		<property name="name" value="SpamBox"/>
 		<property name="isSystem" value="true"/>
 		<property name="actor" ref="trainer5"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder41" class="domain.Folder">
+		<property name="name" value="InBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer6"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder42" class="domain.Folder">
+		<property name="name" value="OutBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer6"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder43" class="domain.Folder">
+		<property name="name" value="TrashBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer6"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder44" class="domain.Folder">
+		<property name="name" value="SpamBox"/>
+		<property name="isSystem" value="true"/>
+		<property name="actor" ref="trainer6"/>
 		<property name="messages">
 			<list>
 			</list>

@@ -13,25 +13,35 @@
 
 <security:authorize access="hasRole('TRAINER')">
 
-	<strong><spring:message code="curriculum.updateMoment" />:</strong> <fmt:formatDate value="${curriculum.updateMoment}" pattern="yyyy-MM-dd" /><br>
-	<jstl:if test="${curriculum.picture == null}">
-		<img src="${profilePicture}" style="width:204px;height:204px;"/><br>
+	<jstl:if test="${curriculum != null}">
+		<strong><spring:message code="curriculum.updateMoment" />:</strong> <fmt:formatDate value="${curriculum.updateMoment}" pattern="yyyy-MM-dd" /><br>
+		<jstl:if test="${curriculum.picture == null}">
+			<img src="${profilePicture}" style="width:204px;height:204px;"/><br>
+		</jstl:if>
+		<jstl:if test="${curriculum.picture != null}">
+			<img src="${curriculum.picture}" style="width:204px;height:204px;"/><br>
+		</jstl:if>
+		<strong><spring:message code="curriculum.statement" />:</strong> <jstl:out value="${curriculum.statement}"/><br>
+		<strong><spring:message code="curriculum.skills" />:</strong><br>
+	 	<jstl:forEach var="skill" items="${curriculum.skills}" >
+	        -<jstl:out value="${skill}"/><br>
+	    </jstl:forEach>
+	    <strong><spring:message code="curriculum.likes" />:</strong><br>
+	 	<jstl:forEach var="like" items="${curriculum.likes}" >
+	        -<jstl:out value="${like}"/><br>
+	    </jstl:forEach>
+	    <strong><spring:message code="curriculum.dislikes" />:</strong><br>
+	 	<jstl:forEach var="dislike" items="${curriculum.dislikes}" >
+	        -<jstl:out value="${dislike}"/><br>
+	    </jstl:forEach>
+	    <br>
+	    <acme:link code="curriculum.edit" href="curriculum/trainer/edit.do"/>
 	</jstl:if>
-	<jstl:if test="${curriculum.picture != null}">
-		<img src="${curriculum.picture}" style="width:204px;height:204px;"/><br>
+	<jstl:if test="${curriculum == null}">
+		<spring:message code="curriculum.null" />
+		<br>
+		<acme:link code="curriculum.create" href="curriculum/trainer/edit.do"/>
 	</jstl:if>
-	<strong><spring:message code="curriculum.statement" />:</strong> <jstl:out value="${curriculum.statement}"/><br>
-	<strong><spring:message code="curriculum.skills" />:</strong><br>
- 	<jstl:forEach var="skill" items="${curriculum.skills}" >
-        -<jstl:out value="${skill}"/><br>
-    </jstl:forEach>
-    <strong><spring:message code="curriculum.likes" />:</strong><br>
- 	<jstl:forEach var="like" items="${curriculum.likes}" >
-        -<jstl:out value="${like}"/><br>
-    </jstl:forEach>
-    <strong><spring:message code="curriculum.dislikes" />:</strong><br>
- 	<jstl:forEach var="dislike" items="${curriculum.dislikes}" >
-        -<jstl:out value="${dislike}"/><br>
-    </jstl:forEach>
+	
 	
 </security:authorize>
