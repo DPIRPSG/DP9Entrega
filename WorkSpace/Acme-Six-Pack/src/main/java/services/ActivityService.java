@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,8 @@ import org.springframework.util.Assert;
 
 import domain.Activity;
 import domain.Customer;
+import domain.FeePayment;
+import domain.Gym;
 import domain.Room;
 import domain.ServiceEntity;
 import domain.Trainer;
@@ -145,7 +148,45 @@ public class ActivityService {
 		}
 		
 	}
+	
+	public void book(Activity activity){
+		
+		Assert.notNull(activity);
+		Assert.isTrue(activity.getId() != 0);
+		Assert.isTrue(actorService.checkAuthority("CUSTOMER"), "Only a customer can book an activity");
+		Assert.isTrue(activity.getDeleted() == false, "This activity is already deleted by the administrator");
+		
+		Customer customer;
+		Collection<FeePayment> feePayments;
+		Collection<Gym> gyms = new HashSet<>();
+		Collection<Activity> activities;
+		boolean overlap = false;
+		
+		customer = customerService.findByPrincipal();
+		feePayments = customer.getFeePayments();
+		activities = customer.getActivities();
+		
+		for(FeePayment f:feePayments){
+			if(f.getActiveMoment().before(new Date()) && f.getInactiveMoment().after(new Date())){
+				gyms.add(f.getGym());
+			}
+		}
 
+		// Falta el overlapping
+		
+		Assert.isTrue(!customer.getActivities().contains(activity), "You have already book this activity");
+		Assert.isTrue(gyms.contains(activity.getRoom().getGym()), "This activity does not belongs to a paid gym");
+		Assert.isTrue((activity.getNumberOfSeatsAvailable() - activity.getCustomers().size()) >= 1, "There are not a single seats available");
+		
+		// Falta el overlapping
+		
+		activity.getCustomers().add(customer);
+		activities.add(activity);
+		customer.setActivities(activities);
+		customerService.save(customer);
+		this.save(activity);
+	}
+	
 	public void cancel(Activity activity){
 		
 		Assert.notNull(activity);
