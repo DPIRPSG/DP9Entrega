@@ -77,12 +77,24 @@ public class InvoiceFormService {
 		Assert.notNull(invoiceForm);
 		
 		Invoice result;
+		Collection<FeePayment> feePayments;
+		double totalCost;
+		
+		totalCost = 0.0;
 		
 		result = invoiceService.create();
+		
 		result.setInvoiceesName(invoiceForm.getInvoiceesName());
 		result.setVAT(invoiceForm.getVAT());
 		result.setDescription(invoiceForm.getDescription());
 		result.setFeePayments(invoiceForm.getFeePaymentsNotIssued());
+		
+		feePayments = result.getFeePayments();
+		for(FeePayment f: feePayments){
+			totalCost += f.getAmount();
+		}
+		
+		result.setTotalCost(totalCost);
 		
 		return result;
 	}

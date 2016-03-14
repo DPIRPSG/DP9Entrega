@@ -66,13 +66,15 @@ public class RegisterController extends AbstractController{
 			try {
 				Cookie cook1;
 				Cookie cook2;
-				actorFormService.saveForm(consu);
+				int idConsu;
+				
+				idConsu = actorFormService.saveForm(consu);
 
 				result = new ModelAndView("redirect:../security/login.do");
 				result.addObject("messageStatus", "customer.commit.ok");
 				
-				cook1 = new Cookie("createCreditCard", consu.getCreateCreditCard().toString());
-				cook2 = new Cookie("createSocialIdentity", consu.getCreateSocialIdentity().toString());
+				cook1 = new Cookie("createCreditCard", String.valueOf(idConsu) + consu.getCreateCreditCard().toString());
+				cook2 = new Cookie("createSocialIdentity", String.valueOf(idConsu) + consu.getCreateSocialIdentity().toString());
 				
 				cook1.setPath("/");
 				cook2.setPath("/");

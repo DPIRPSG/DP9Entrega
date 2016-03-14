@@ -79,7 +79,7 @@
 	
 		
 	<security:authorize access="hasRole('TRAINER')">
-		<jstl:if test="${addService}">
+		<jstl:if test="${addService == 'true'}">
 		
 			<display:column>
 				<a href="service/trainer/add.do?serviceId=${row_Service.id}"> <spring:message
@@ -87,7 +87,7 @@
 				</a>
 			</display:column>
 		</jstl:if>
-		<jstl:if test="${!addService}">
+		<jstl:if test="${addService == 'false'}">
 		
 			<display:column>
 				<a href="service/trainer/delete.do?serviceId=${row_Service.id}"> <spring:message
@@ -105,7 +105,7 @@
 
 <!-- Action links -->
 <security:authorize access="hasRole('TRAINER')">
-	<jstl:if test="${!addService}">
+	<jstl:if test="${addService == 'false'}">
 		<div>
 			<a href="service/trainer/list.do"> <spring:message
 				code="service.addMore" />

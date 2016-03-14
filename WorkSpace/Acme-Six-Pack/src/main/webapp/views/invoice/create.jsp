@@ -33,6 +33,7 @@
 		</form:select>
 		<form:errors path="feePaymentsNotIssued" cssClass="error" />
 		<br />
+		<br />
 		
 		<!-- Action buttons -->
 		<acme:submit name="save" code="invoice.create.save"/>

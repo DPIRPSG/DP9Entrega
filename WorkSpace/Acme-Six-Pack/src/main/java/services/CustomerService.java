@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Activity;
 import domain.Comment;
 import domain.CreditCard;
 import domain.Customer;
@@ -72,7 +73,7 @@ public class CustomerService {
 	 * Almacena en la base de datos el cambio
 	 */
 	// req: 10.1
-	public void save(Customer customer){
+	public Customer save(Customer customer){
 		Assert.notNull(customer);
 		
 		Customer modify;
@@ -96,6 +97,7 @@ public class CustomerService {
 			Collection<Message> received;
 			Collection<Comment> comments;
 			Collection<FeePayment>feePayments;
+			Collection<Activity> activities;
 			UserAccount auth;
 			
 			//Encoding password
@@ -116,8 +118,12 @@ public class CustomerService {
 			
 			comments = new ArrayList<Comment>();
 			feePayments = new ArrayList<FeePayment>();
+			activities = new ArrayList<Activity>();
+			
 			customer.setMadeComments(comments);
+			customer.setComments(comments);
 			customer.setFeePayments(feePayments);
+			customer.setActivities(activities);
 
 			
 		}
@@ -130,7 +136,7 @@ public class CustomerService {
 			folders = folderService.initializeSystemFolder(modify);
 			folderService.save(folders);
 		}
-		
+		return modify;
 	}
 	
 	/**
