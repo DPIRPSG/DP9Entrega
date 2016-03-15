@@ -144,7 +144,40 @@ public class ActivityService {
 		serviceService.save(service);
 		} else {
 			Assert.isTrue(activity.getNumberOfSeatsAvailable() >= activity.getCustomers().size());
-			this.save(activity);
+			
+			Activity activityPreSave;
+			Room roomPreSave;
+			Trainer trainerPreSave;
+			Room room;
+			Trainer trainer;
+			
+			activityPreSave = this.findOne(activity.getId());			
+			roomPreSave = activityPreSave.getRoom();
+			trainerPreSave = activityPreSave.getTrainer();
+			
+			if(!activityPreSave.getCustomers().isEmpty()) {
+				Assert.isTrue(activityPreSave.getRoom().getGym().getId() == activity.getRoom().getGym().getId(), "No se cambia el gimnasio una vez creado y con clientes apuntados");
+				Assert.isTrue(activityPreSave.getService().getId() == activity.getService().getId(), "No se cambia el servicio una vez creado y con clientes apuntados");
+			}
+			
+			activity = this.save(activity);
+			
+			room = activity.getRoom();
+			trainer = activity.getTrainer();
+			
+			roomPreSave.removeActivity(activityPreSave);
+			trainerPreSave.removeActivity(activityPreSave);
+			
+			room.addActivity(activity);
+			trainer.addActivity(activity);
+			
+			roomService.save(roomPreSave);
+			roomService.save(room);
+			
+			trainerService.save(trainerPreSave);
+			trainerService.save(trainer);
+			
+			
 		}
 		
 	}
