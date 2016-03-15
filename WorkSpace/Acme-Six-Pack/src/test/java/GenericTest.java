@@ -212,10 +212,10 @@ public class GenericTest extends AbstractTest{
 				.param("username", "jeeioi")
 				.param("password", "admin")
 				.param("repeatedPassword", "admin")
-				.param("acceptTerm", "true") //_acceptTerm=on
-				.param("_acceptTerm", "on") //_acceptTerm=on
-				.param("_createCreditCard", "on") //_acceptTerm=on
-				.param("_createSocialIdentity", "on") //_acceptTerm=on
+				.param("acceptTerm", "true") 
+				.param("_acceptTerm", "on")
+				.param("_createCreditCard", "on")
+				.param("_createSocialIdentity", "on")
 				.param("save", "")
 				.sessionAttr("actorForm", actorFormService.createForm())
 				//.sessionAttr("actorForm", new ActorForm())
@@ -228,8 +228,6 @@ public class GenericTest extends AbstractTest{
 			.andExpect(MockMvcResultMatchers.view().name("redirect:../security/login.do"))
 			.andExpect(MockMvcResultMatchers.model().hasNoErrors())
 			.andExpect(MockMvcResultMatchers.model().attribute("messageStatus", "customer.commit.ok"))
-			//.andExpect(MockMvcResultMatchers.view().name("security/login"))
-			//.andExpect(MockMvcResultMatchers.redirectedUrl("/index"))
 			;
 		
 	}
