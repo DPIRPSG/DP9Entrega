@@ -54,16 +54,16 @@
 		</jstl:forEach>
 	</display:column>
 
-	<jstl:if test="${hayGymId}">
-		<security:authorize access="hasRole('CUSTOMER')">
-			<display:column>
-				<a
-					href="booking/customer/create.do?gymId=${gymId}&serviceId=${row_Service.id}">
-					<spring:message code="booking.create" />
-				</a>
-			</display:column>
-		</security:authorize>
-	</jstl:if>
+<%-- 	<jstl:if test="${hayGymId}"> --%>
+<%-- 		<security:authorize access="hasRole('CUSTOMER')"> --%>
+<%-- 			<display:column> --%>
+<!-- 				<a -->
+<%-- 					href="booking/customer/create.do?gymId=${gymId}&serviceId=${row_Service.id}"> --%>
+<%-- 					<spring:message code="booking.create" /> --%>
+<!-- 				</a> -->
+<%-- 			</display:column> --%>
+<%-- 		</security:authorize> --%>
+<%-- 	</jstl:if> --%>
 
 	<display:column>
 		<a href="gym/list.do?serviceId=${row_Service.id}"> <spring:message
@@ -75,6 +75,14 @@
 		<a href="comment/list.do?commentedEntityId=${row_Service.id}"> <spring:message
 				code="service.comments" />
 		</a>
+	</display:column>
+	
+	<display:column>
+		<a 
+			href="activity/administrator/create.do?gymId=${gymId}&serviceId=${row_Service.id}">
+			<spring:message code="activity.create"/>
+		</a>
+	
 	</display:column>
 	
 		
@@ -120,8 +128,6 @@
 		</a>
 	</div>
 </security:authorize>
-
-
 
 <!-- Alert -->
 <jstl:if test="${messageStatus != Null && messageStatus != ''}">

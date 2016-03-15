@@ -2079,7 +2079,7 @@
 	<bean id="feePayment12" class="domain.FeePayment">
 		<property name="paymentMoment" value="2016/03/01 11:00"/>
 		<property name="creditCard" ref="creditCard1"/>
-		<property name="activeMoment" value="2016/04/01 12:00"/>
+		<property name="activeMoment" value="2016/03/14 12:00"/>
 		<property name="inactiveMoment" value="2016/05/01 12:00"/>
 		<property name="amount" value="30"/>
 		<property name="gym" ref="gym1"/>
