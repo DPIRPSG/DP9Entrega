@@ -64,8 +64,9 @@
 		<security:intercept-url pattern="/invoice/customer/**" access="hasRole('CUSTOMER')"/>
 		
 		
-		<security:intercept-url pattern="/service/trainer/**" access="hasRole('TRAINER')" />	
-		<security:intercept-url pattern="/trainer/trainer/**" access="hasRole('TRAINER')" />	
+		<security:intercept-url pattern="/service/trainer/**" access="hasRole('TRAINER')" />
+		<security:intercept-url pattern="/trainer/trainer/**" access="hasRole('TRAINER')" />
+		<security:intercept-url pattern="/curriculum/trainer/**" access="hasRole('TRAINER')" />
 		
 		
 		<security:intercept-url pattern="/folder/actor/**" access="hasAnyRole('CUSTOMER', 'ADMIN', 'TRAINER')"/>
