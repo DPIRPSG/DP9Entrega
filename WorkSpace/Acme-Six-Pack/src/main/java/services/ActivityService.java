@@ -160,7 +160,6 @@ public class ActivityService {
 		Collection<FeePayment> feePayments;
 		Collection<Gym> gyms = new HashSet<>();
 		Collection<Activity> activities;
-		boolean overlap = false;
 		
 		customer = customerService.findByPrincipal();
 		feePayments = customer.getFeePayments();
@@ -172,13 +171,11 @@ public class ActivityService {
 			}
 		}
 
-		// Falta el overlapping
+		Assert.isTrue(compruebaOverlappingCustomer(activity));
 		
 		Assert.isTrue(!customer.getActivities().contains(activity), "You have already book this activity");
 		Assert.isTrue(gyms.contains(activity.getRoom().getGym()), "This activity does not belongs to a paid gym");
 		Assert.isTrue((activity.getNumberOfSeatsAvailable() - activity.getCustomers().size()) >= 1, "There are not a single seats available");
-		
-		// Falta el overlapping
 		
 		activity.getCustomers().add(customer);
 		activities.add(activity);
@@ -327,6 +324,67 @@ public class ActivityService {
 		}
 		
 		return result;
+	}
+	
+	private boolean compruebaOverlappingCustomer(Activity activity){
+		
+		Assert.notNull(activity);
+		
+		boolean result;
+		Customer customer;
+		Date startingMoment;
+		double duration;
+		Date momentOfActivities;
+		Date finishingMoment;
+		int durationOfActivities;
+		int durationOfActivity;
+		
+		result = true;
+		customer = customerService.findByPrincipal();
+		startingMoment = activity.getStartingMoment();
+		duration = activity.getDuration();
+		
+		finishingMoment = new Date();
+		durationOfActivity = (int) duration;
+		
+		Calendar c1 = Calendar.getInstance();
+		c1.setTime(startingMoment);
+		if(duration - durationOfActivity == 0){
+			c1.add(Calendar.HOUR_OF_DAY, +durationOfActivity);
+		}else{
+			durationOfActivity = (int) (duration + 0.5);
+			c1.add(Calendar.HOUR_OF_DAY, +durationOfActivity);
+		}
+		
+		finishingMoment.setTime(c1.getTimeInMillis());
+		
+		for(Activity a:customer.getActivities()){
+			momentOfActivities = new Date();
+			durationOfActivities = (int) a.getDuration();
+			
+			Calendar c2 = Calendar.getInstance();
+			c2.setTime(a.getStartingMoment());
+			if(a.getDuration() - durationOfActivities == 0){
+				c2.add(Calendar.HOUR_OF_DAY, +durationOfActivities);
+			}else{
+				durationOfActivities = (int) (a.getDuration() + 0.5);
+				c2.add(Calendar.HOUR_OF_DAY, +durationOfActivities);
+			}
+			
+			momentOfActivities.setTime(c2.getTimeInMillis());
+			
+			if(startingMoment.compareTo(momentOfActivities) <= 0 && startingMoment.compareTo(a.getStartingMoment()) >= 0){
+				result = false;
+				break;
+			}else if(finishingMoment.compareTo(momentOfActivities) <= 0 && finishingMoment.compareTo(activity.getStartingMoment()) >= 0){
+				result = false;
+				break;
+				
+			}
+		}
+		
+		return result;
+		
 	}
 	
 }
