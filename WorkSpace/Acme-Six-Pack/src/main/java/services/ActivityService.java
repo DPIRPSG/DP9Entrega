@@ -420,4 +420,24 @@ public class ActivityService {
 		
 	}
 	
+	public Collection<Activity> activitiesByPopularity(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Collection<Activity> result;
+		
+		result = activityRepository.activitiesByPopularity();
+		
+		return result;
+	}
+	
+	public Collection<Double> averageNumberOfActivitiesPerGymByService(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Collection<Double> result;
+		
+		result = activityRepository.averageNumberOfActivitiesPerGymByService();
+		
+		return result;		
+	}
+	
 }

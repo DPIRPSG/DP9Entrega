@@ -16,4 +16,11 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 
 	@Query("select a from Activity a join a.room r join r.gym g where g.id = ?1")
 	Collection<Activity> findAllByGymId(int gymId);
+	
+	@Query("select a from Activity a left join a.customers c group by a order by count(c) desc")
+	Collection<Activity> activitiesByPopularity();
+	
+	@Query("select avg(s.activities.size) from Gym g left join g.services s group by s")
+	Collection<Double> averageNumberOfActivitiesPerGymByService();
+
 }
