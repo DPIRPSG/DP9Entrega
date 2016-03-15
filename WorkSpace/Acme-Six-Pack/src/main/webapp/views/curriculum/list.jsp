@@ -15,12 +15,6 @@
 
 	<jstl:if test="${curriculum != null}">
 		<strong><spring:message code="curriculum.updateMoment" />:</strong> <fmt:formatDate value="${curriculum.updateMoment}" pattern="yyyy-MM-dd" /><br>
-<%-- 		<jstl:if test="${(curriculum.picture == null) != (curriculum.picture == '')}"> --%>
-<%-- 			<img src="${profilePicture}" style="width:204px;height:204px;"/><br> --%>
-<%-- 		</jstl:if> --%>
-<%-- 		<jstl:if test="${(curriculum.picture != null) != (curriculum.picture != '')}"> --%>
-<%-- 			<img src="${curriculum.picture}" style="width:204px;height:204px;"/><br> --%>
-<%-- 		</jstl:if> --%>
 		<jstl:choose>
 		  <jstl:when test="${curriculum.picture == null || curriculum.picture == ''}">
 		    <img src="${profilePicture}" style="width:204px;height:204px;"/><br>
