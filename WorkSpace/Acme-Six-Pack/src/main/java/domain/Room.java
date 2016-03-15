@@ -92,4 +92,12 @@ public class Room extends DomainEntity {
 	public void setActivities(Collection<Activity> activities) {
 		this.activities = activities;
 	}
+	
+	public void addActivity(Activity activity) {
+		this.activities.add(activity);
+	}
+
+	public void removeActivity(Activity activity) {
+		this.activities.remove(activity);
+	}
 }
