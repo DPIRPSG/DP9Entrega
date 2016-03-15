@@ -1,5 +1,8 @@
 package controllers.trainer;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +44,41 @@ public class CurriculumTrainerController extends AbstractController {
 		Trainer trainer;
 		Curriculum curriculum;
 		String profilePicture;
+		Collection<String> skills, likes, dislikes;
+		
+		skills = new ArrayList<String>();
+		likes = new ArrayList<String>();;
+		dislikes = new ArrayList<String>();;
 				
 		trainer = trainerService.findByPrincipal();
 		curriculum = trainer.getCurriculum();
 		profilePicture = trainer.getPicture();
 		
+		if (curriculum != null) {
+			String[] skillsComoArray = curriculum.getSkills().split(";");
+			for (int i = 0; i < skillsComoArray.length; i++) {
+				skills.add(skillsComoArray[i]);
+			}
+
+			String[] likesComoArray = curriculum.getLikes().split(";");
+			for (int i = 0; i < likesComoArray.length; i++) {
+				likes.add(likesComoArray[i]);
+			}
+
+			String[] dislikesComoArray = curriculum.getDislikes().split(";");
+			for (int i = 0; i < dislikesComoArray.length; i++) {
+				dislikes.add(dislikesComoArray[i]);
+			}
+		}
+		
+		
 		result = new ModelAndView("curriculum/list");
 		result.addObject("requestURI", "curriculum/trainer/list.do");
 		result.addObject("curriculum", curriculum);
 		result.addObject("profilePicture", profilePicture);
+		result.addObject("skills", skills);
+		result.addObject("likes", likes);
+		result.addObject("dislikes", dislikes);
 
 		return result;
 	}

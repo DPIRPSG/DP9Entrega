@@ -15,23 +15,25 @@
 
 	<jstl:if test="${curriculum != null}">
 		<strong><spring:message code="curriculum.updateMoment" />:</strong> <fmt:formatDate value="${curriculum.updateMoment}" pattern="yyyy-MM-dd" /><br>
-		<jstl:if test="${curriculum.picture == null || curriculum.picture == ''}">
-			<img src="${profilePicture}" style="width:204px;height:204px;"/><br>
-		</jstl:if>
-		<jstl:if test="${curriculum.picture != null || curriculum.picture != ''}">
-			<img src="${curriculum.picture}" style="width:204px;height:204px;"/><br>
-		</jstl:if>
+		<jstl:choose>
+		  <jstl:when test="${curriculum.picture == null || curriculum.picture == ''}">
+		    <img src="${profilePicture}" style="width:204px;height:204px;"/><br>
+		  </jstl:when>
+		  <jstl:otherwise>
+		    <img src="${curriculum.picture}" style="width:204px;height:204px;"/><br>
+		  </jstl:otherwise>
+		</jstl:choose>
 		<strong><spring:message code="curriculum.statement" />:</strong> <jstl:out value="${curriculum.statement}"/><br>
 		<strong><spring:message code="curriculum.skills" />:</strong><br>
-	 	<jstl:forEach var="skill" items="${curriculum.skills}" >
+	 	<jstl:forEach var="skill" items="${skills}" >
 	        -<jstl:out value="${skill}"/><br>
 	    </jstl:forEach>
 	    <strong><spring:message code="curriculum.likes" />:</strong><br>
-	 	<jstl:forEach var="like" items="${curriculum.likes}" >
+	 	<jstl:forEach var="like" items="${likes}" >
 	        -<jstl:out value="${like}"/><br>
 	    </jstl:forEach>
 	    <strong><spring:message code="curriculum.dislikes" />:</strong><br>
-	 	<jstl:forEach var="dislike" items="${curriculum.dislikes}" >
+	 	<jstl:forEach var="dislike" items="${dislikes}" >
 	        -<jstl:out value="${dislike}"/><br>
 	    </jstl:forEach>
 	    <br>

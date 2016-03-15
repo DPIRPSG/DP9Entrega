@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.CurriculumRepository;
-import repositories.TrainerRepository;
 import domain.Curriculum;
 import domain.Trainer;
 
@@ -74,7 +73,7 @@ public class CurriculumService {
 		}
 		
 
-		curriculumRepository.save(curriculum);
+		curriculum = curriculumRepository.save(curriculum);
 		if(curriculumId == 0){
 			trainer.setCurriculum(curriculum);
 			trainerService.save(trainer);
