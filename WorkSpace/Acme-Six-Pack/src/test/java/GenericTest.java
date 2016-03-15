@@ -1,10 +1,14 @@
 
 
 import java.util.Collection;
+import java.util.regex.Pattern;
+
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -69,6 +73,8 @@ public class GenericTest extends AbstractTest{
     @Autowired
     private ActorFormService actorFormService;
     
+    
+    
     @Autowired
     private LoginController loginController;
 
@@ -97,7 +103,7 @@ public class GenericTest extends AbstractTest{
         
         MockMvcBuilders.webAppContextSetup(wac);
         
-
+        System.out.println("falta poner authentication a null !!");
     }
     
 	@Test
@@ -163,7 +169,7 @@ public class GenericTest extends AbstractTest{
 	public void mockTestPost() throws Exception{	
 		RequestBuilder requestBuilder;
 		// MockHttpServletRequestBuilder mmv;
-		requestBuilder = MockMvcRequestBuilders.post("/security/login.do", "")
+		requestBuilder = MockMvcRequestBuilders.post("/j_spring_security_check", "")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("username", "admin")
 				.param("password", "admin")
@@ -181,8 +187,9 @@ public class GenericTest extends AbstractTest{
 		// requestBuilder.
 		// mockMvc.perform(requestBuilder)
 		mockMvc.perform(requestBuilder)
-			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.view().name("security/login"))
+			.andDo(MockMvcResultHandlers.print())
+			// .andExpect(MockMvcResultMatchers.status().isMovedTemporarily())
+			.andExpect(MockMvcResultMatchers.view().name("redirect:../welcome/index.do"))
 			.andExpect(MockMvcResultMatchers.model().hasNoErrors())
 			// .andExpect(MockMvcResultMatchers.redirectedUrl("/welcome/index.do"))
 			;
@@ -215,11 +222,11 @@ public class GenericTest extends AbstractTest{
 				.param("acceptTerm", "true") 
 				.param("_acceptTerm", "on")
 				.param("_createCreditCard", "on")
+				.param("createCreditCard", "true")
 				.param("_createSocialIdentity", "on")
 				.param("save", "")
 				.sessionAttr("actorForm", actorFormService.createForm())
 				//.sessionAttr("actorForm", new ActorForm())
-
 				;
 
 		mockMvc.perform(requestBuilder)
@@ -228,8 +235,24 @@ public class GenericTest extends AbstractTest{
 			.andExpect(MockMvcResultMatchers.view().name("redirect:../security/login.do"))
 			.andExpect(MockMvcResultMatchers.model().hasNoErrors())
 			.andExpect(MockMvcResultMatchers.model().attribute("messageStatus", "customer.commit.ok"))
+			.andExpect(MockMvcResultMatchers.cookie().value("createCreditCard", Matchers.contains("true")))//.value("createCreditCard", "{id}true"))
+			.andExpect(MockMvcResultMatchers.cookie().value("createSocialIdentity", Matchers.contains("false")))//.value("createCreditCard", "{id}true"))
 			;
 		
+		authenticate("jeeioi");
+		
+		requestBuilder = 
+				MockMvcRequestBuilders.post("/welcome/index.do", "")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				;
+		
+		mockMvc.perform(requestBuilder)
+			.andDo(MockMvcResultHandlers.print())
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.view().name("redirect:../creditCard/customer/edit.do"))
+			.andExpect(MockMvcResultMatchers.model().hasNoErrors())
+			.andExpect(MockMvcResultMatchers.model().attribute("messageStatus", "customer.commit.ok"))
+		;
 	}
 	
 /*	@Test
