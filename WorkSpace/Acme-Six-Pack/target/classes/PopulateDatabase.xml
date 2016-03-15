@@ -209,114 +209,41 @@
 	<bean id="curriculum1" class="domain.Curriculum">
 		<property name="updateMoment" value="2016/03/01 12:00"/>
 		<property name="statement" value="No se que es"/>
-		<property name="skills">
-			<list>
-				<value>Fuerte</value>
-				<value>Nado rápido</value>
-				<value>Puedo dar clases de natación</value>
-			</list>
-		</property>
-		<property name="likes">
-			<list>
-				<value>Me gusta nadar</value>
-			</list>
-		</property>
-		<property name="dislikes">
-			<list>
-				<value>No me gusta no estar en la piscina</value>
-			</list>
-		</property>
+		<property name="skills" value="Fuerte;Nado rápido;Puedo dar clases de natación"/>
+		<property name="likes" value="Me gusta nadar"/>
+		<property name="dislikes" value="No me gusta no estar en la piscina"/>
 	</bean>
 	
 	<bean id="curriculum2" class="domain.Curriculum">
 		<property name="updateMoment" value="2016/02/01 12:00"/>
 		<property name="statement" value="No se que es"/>
-		<property name="skills">
-			<list>
-				<value>Fuerte</value>
-				<value>Rápido</value>
-				<value>Resistente</value>
-			</list>
-		</property>
-		<property name="likes">
-			<list>
-				<value>Me gusta el Fitness</value>
-				<value>Me gusta el Spinning</value>
-			</list>
-		</property>
-		<property name="dislikes">
-			<list>
-				<value>No me gusta la natación</value>
-			</list>
-		</property>
+		<property name="skills" value="Fuerte;Rápido;Resistente"/>
+		<property name="likes" value="Me gusta el Fitness;Me gusta el Spinning"/>
+		<property name="dislikes" value="No me gusta la natación"/>
 	</bean>
 	
 	<bean id="curriculum3" class="domain.Curriculum">
 		<property name="updateMoment" value="2015/01/01 12:00"/>
 		<property name="statement" value="No se que es"/>
-		<property name="skills">
-			<list>
-				<value>Fuerte</value>
-				<value>Rápido</value>
-				<value>Resistente</value>
-			</list>
-		</property>
-		<property name="likes">
-			<list>
-				<value>Se me da bien el Fitness</value>
-				<value>Se me da bien el Spinning</value>
-			</list>
-		</property>
-		<property name="dislikes">
-			<list>
-				<value>No se me da bien la natación</value>
-			</list>
-		</property>
+		<property name="skills" value="Fuerte;Rápido;Resistente"/>
+		<property name="likes" value="Se me da bien el Fitness;Se me da bien el Spinning"/>
+		<property name="dislikes" value="No se me da bien la natación"/>
 	</bean>
 	
 	<bean id="curriculum4" class="domain.Curriculum">
 		<property name="updateMoment" value="2016/03/05 12:00"/>
 		<property name="statement" value="No se que es"/>
-		<property name="skills">
-			<list>
-				<value>Fuerte</value>
-				<value>Rápido</value>
-				<value>Resistente</value>
-			</list>
-		</property>
-		<property name="likes">
-			<list>
-				<value>Se me da bien el Fitness</value>
-			</list>
-		</property>
-		<property name="dislikes">
-			<list>
-				<value>No se me da bien nada mas</value>
-			</list>
-		</property>
+		<property name="skills" value="Fuerte;Rápido;Resistente"/>
+		<property name="likes" value="Se me da bien el Fitness"/>
+		<property name="dislikes" value="No se me da bien nada mas"/>
 	</bean>
 	
 	<bean id="curriculum5" class="domain.Curriculum">
 		<property name="updateMoment" value="2016/03/05 12:00"/>
 		<property name="statement" value="No se que es"/>
-		<property name="skills">
-			<list>
-				<value>Fuerte</value>
-				<value>Rápido</value>
-				<value>Resistente</value>
-			</list>
-		</property>
-		<property name="likes">
-			<list>
-				<value>Se me da bien el Fitness</value>
-				<value>Se me da bien el Karate</value>
-			</list>
-		</property>
-		<property name="dislikes">
-			<list>
-				<value>No se me da bien la natación</value>
-			</list>
-		</property>
+		<property name="skills" value="Fuerte;Rápido;Resistente"/>
+		<property name="likes" value="Se me da bien el Fitness;Se me da bien el Karate"/>
+		<property name="dislikes" value="No se me da bien la natación"/>
 	</bean>
 	
 	<!-- Administradores: -->

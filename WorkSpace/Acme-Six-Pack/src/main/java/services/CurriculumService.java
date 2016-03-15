@@ -73,7 +73,7 @@ public class CurriculumService {
 		}
 		
 
-		curriculumRepository.save(curriculum);
+		curriculum = curriculumRepository.save(curriculum);
 		if(curriculumId == 0){
 			trainer.setCurriculum(curriculum);
 			trainerService.save(trainer);
