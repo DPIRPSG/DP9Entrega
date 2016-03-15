@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.CurriculumRepository;
+import repositories.TrainerRepository;
 import domain.Curriculum;
 import domain.Trainer;
 
@@ -52,22 +53,33 @@ public class CurriculumService {
 	public void save(Curriculum curriculum){
 		Assert.isTrue(actorService.checkAuthority("TRAINER"), "Only a Trainer can manage his Curriculum.");
 		Assert.notNull(curriculum);
-		checkCurriculum(curriculum);
+		if(curriculum.getId() != 0){ // Si está editando y no creando
+			checkCurriculum(curriculum);
+		}
+		
 		
 		Trainer trainer;
 		String profilePicture;
+		int curriculumId;
 		
 		curriculum.setUpdateMoment(new Date());
+		trainer = trainerService.findByPrincipal();
+		curriculumId = curriculum.getId();
 		
-		if(curriculum.getPicture() == null){
-			trainer = trainerService.findByPrincipal();
-			if(trainer.getPicture() != null){
+		if(curriculum.getPicture() == null || curriculum.getPicture() == ""){
+			if(trainer.getPicture() != null || trainer.getPicture() != ""){
 				profilePicture = trainer.getPicture();
 				curriculum.setPicture(profilePicture);
 			}
 		}
 		
-		curriculum = curriculumRepository.save(curriculum);
+
+		curriculumRepository.save(curriculum);
+		if(curriculumId == 0){
+			trainer.setCurriculum(curriculum);
+			trainerService.save(trainer);
+		}
+		
 	}
 	
 	public void delete(Curriculum curriculum){
@@ -75,6 +87,10 @@ public class CurriculumService {
 		Assert.isTrue(curriculum.getId() != 0, "You cant delete a Curriculum that isn't still created.");
 		checkCurriculum(curriculum);
 		
+		Trainer trainer;
+		
+		trainer = trainerService.findByPrincipal();
+		trainer.setCurriculum(null);
 		curriculumRepository.delete(curriculum);
 		
 	}

@@ -23,12 +23,19 @@
 	<acme:textbox code="curriculum.picture" path="picture" />
 
 	<acme:textbox code="curriculum.statement" path="statement" />
-
-	<acme:textbox code="curriculum.skills" path="skills" />
 	
-	<acme:textbox code="curriculum.likes" path="likes" />
+	<br />
+	<spring:message code="curriculum.skillsLikes.add"/>
+	<br />
+	<spring:message code="curriculum.skillsLikes.edit"/>
+	<br />
+	<spring:message code="curriculum.skillsLikes.delete"/>
 
-	<acme:textbox code="curriculum.dislikes" path="dislikes" />
+	<acme:textarea code="curriculum.skills" path="skills" />
+	
+	<acme:textarea code="curriculum.likes" path="likes" />
+
+	<acme:textarea code="curriculum.dislikes" path="dislikes" />
 	
 	
 	<!-- Action buttons -->

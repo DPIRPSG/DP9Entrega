@@ -15,10 +15,10 @@
 
 	<jstl:if test="${curriculum != null}">
 		<strong><spring:message code="curriculum.updateMoment" />:</strong> <fmt:formatDate value="${curriculum.updateMoment}" pattern="yyyy-MM-dd" /><br>
-		<jstl:if test="${curriculum.picture == null}">
+		<jstl:if test="${curriculum.picture == null || curriculum.picture == ''}">
 			<img src="${profilePicture}" style="width:204px;height:204px;"/><br>
 		</jstl:if>
-		<jstl:if test="${curriculum.picture != null}">
+		<jstl:if test="${curriculum.picture != null || curriculum.picture != ''}">
 			<img src="${curriculum.picture}" style="width:204px;height:204px;"/><br>
 		</jstl:if>
 		<strong><spring:message code="curriculum.statement" />:</strong> <jstl:out value="${curriculum.statement}"/><br>
@@ -40,7 +40,7 @@
 	<jstl:if test="${curriculum == null}">
 		<spring:message code="curriculum.null" />
 		<br>
-		<acme:link code="curriculum.create" href="curriculum/trainer/edit.do"/>
+		<acme:link code="curriculum.create" href="curriculum/trainer/create.do"/>
 	</jstl:if>
 	
 	
