@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.CurriculumRepository;
-import repositories.TrainerRepository;
 import domain.Curriculum;
 import domain.Trainer;
 
