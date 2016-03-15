@@ -219,6 +219,17 @@ public class TrainerService {
 		return result;
 	}
 	
+
+	public Trainer findByCurriculumId(int curriculumId){
+		Assert.notNull(curriculumId);
+		
+		Trainer result;
+		
+		result = trainerRepository.findByCurriculumId(curriculumId);
+		
+		return result;
+	}
+
 	public Collection<Trainer> findAllByServiceId(int serviceId){
 		
 		Collection<Trainer> result;

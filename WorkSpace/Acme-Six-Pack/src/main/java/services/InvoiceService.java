@@ -104,7 +104,7 @@ public class InvoiceService {
 		customerPrincipal = actorService.findByPrincipal();
 		customerReal = actorService.findOne(customerId);
 		
-		Assert.isTrue(customerPrincipal == customerReal, "You can't print an Invoice of other Customer.");
+		Assert.isTrue(customerPrincipal == customerReal, "You can't manage an Invoice of other Customer.");
 	}
 	
 }
