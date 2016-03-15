@@ -14,7 +14,7 @@ public interface TrainerRepository extends JpaRepository<Trainer, Integer> {
 	@Query("select t from Trainer t where t.userAccount.id = ?1")
 	Trainer findByUserAccountId(int id);
 
-	@Query("select t from Trainer t where (t.name like concat('%',?1,'%') or t.surname like concat('%',?1,'%') or t.curriculum.statement like concat('%',?1,'%') or ?1 member of t.curriculum.skills or ?1 member of t.curriculum.likes or ?1 member of t.curriculum.dislikes)")
+	@Query("select t from Trainer t where (t.name like concat('%',?1,'%') or t.surname like concat('%',?1,'%') or t.curriculum.statement like concat('%',?1,'%') or t.curriculum.skills like concat('%',?1,'%') or t.curriculum.likes like concat('%',?1,'%') or t.curriculum.dislikes like concat('%',?1,'%'))")
 	Collection<Trainer> findBySingleKeyword(String keyword);
 
 
