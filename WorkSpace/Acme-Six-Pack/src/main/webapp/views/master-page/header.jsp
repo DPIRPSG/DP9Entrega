@@ -69,6 +69,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="service/trainer/specialised.do"><spring:message code="master.page.manage.service" /></a></li>
+					<li><a href="curriculum/trainer/list.do"><spring:message code="master.page.manage.curriculum" /></a></li>
 				</ul>
 			</li>
 			<li><a class="fNiv" href="trainer/list.do"><spring:message code="master.page.trainer" /></a></li>

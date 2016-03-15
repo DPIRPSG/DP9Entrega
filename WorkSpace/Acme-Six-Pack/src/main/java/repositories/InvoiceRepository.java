@@ -11,7 +11,7 @@ import domain.Invoice;
 @Repository
 public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
 	
-	@Query("select distinct(f.invoice) from FeePayment f where f.customer.id = ?1 and f.invoice != null")
+	@Query("select distinct(f.invoice) from FeePayment f where f.customer.id = ?1")
 	Collection<Invoice> findAllByCustomerId(int customerId);
 	
 }

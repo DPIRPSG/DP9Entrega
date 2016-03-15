@@ -1,6 +1,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -78,7 +79,7 @@ public class ActivityService {
 		return result;
 	}
 	
-public Activity createWithoutGym(){
+	public Activity createWithoutGym(){
 		
 		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can create an activity");
 		
@@ -105,15 +106,19 @@ public Activity createWithoutGym(){
 	}
 	
 	public void saveToEdit(Activity activity){
-		
 		Assert.notNull(activity);
 		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can save an Activity");
-		
-		if(activity.getId() == 0) {	
 		Assert.isTrue(activity.getRoom().getGym().getServices().contains(activity.getService()), "The Gym must include the Service you want");
 		Assert.isTrue(activity.getTrainer().getServices().contains(activity.getService()), "The Trainer must be specialized in the Service you ask for");
-		Assert.isTrue(activity.getNumberOfSeatsAvailable() <= activity.getRoom().getNumberOfSeats(), "The number os seats of the activity can be less than the number of seats of the Room");
+		Assert.isTrue(activity.getNumberOfSeatsAvailable() <= activity.getRoom().getNumberOfSeats(), "The number of seats available cannot exceed the number of seats in the corresponding room");
+		Assert.isTrue(compruebaOverlapping(activity.getTrainer(), activity.getStartingMoment(), activity.getDuration()), "The trainer cannot be involved in overlapping activities");
+		int duration;
 		
+		duration = (int) activity.getDuration();
+		
+		Assert.isTrue(activity.getDuration() - duration == 0 || activity.getDuration() - duration == 0.5, "The duration is measured in hours and half-hours, that is, 1.0 or 2.5 are valid durations, but 1.3 or 2.45 are not.");
+		
+		if(activity.getId() == 0) {			
 		Collection<Customer> customers;
 		Room room;
 		Trainer trainer;
@@ -138,6 +143,7 @@ public Activity createWithoutGym(){
 		trainerService.save(trainer);
 		serviceService.save(service);
 		} else {
+			Assert.isTrue(activity.getNumberOfSeatsAvailable() >= activity.getCustomers().size());
 			this.save(activity);
 		}
 		
@@ -264,6 +270,56 @@ public Activity createWithoutGym(){
 		result = activityRepository.findAllByGymId(gymId);
 		
 		return result;		
+	}
+	
+	private boolean compruebaOverlapping(Trainer trainer, Date startingMoment, double duration) {
+		Assert.notNull(trainer);
+		
+		boolean result;
+		Date momentOfActivities;
+		Date finishMoment;
+		int durationOfActivities;
+		int durationOfActivity;
+		
+		result = true;
+		
+		finishMoment = new Date();
+		durationOfActivity = (int) duration;
+		
+		Calendar c1 = Calendar.getInstance();
+		c1.setTime(startingMoment);
+		if(duration - durationOfActivity == 0) {
+			c1.add(Calendar.HOUR_OF_DAY, +durationOfActivity);
+		} else {
+			durationOfActivity = (int) (duration + 0.5);
+			c1.add(Calendar.HOUR_OF_DAY, +durationOfActivity);
+		}
+		finishMoment.setTime(c1.getTimeInMillis());
+		
+		for(Activity activity : trainer.getActivities()) {
+			momentOfActivities = new Date();
+			durationOfActivities = (int) activity.getDuration();
+			
+			Calendar c2 = Calendar.getInstance();
+			c2.setTime(activity.getStartingMoment());
+			if(activity.getDuration() - durationOfActivities == 0) {
+				c2.add(Calendar.HOUR_OF_DAY, +durationOfActivities);
+			} else {
+				durationOfActivities = (int) (activity.getDuration() + 0.5);
+				c2.add(Calendar.HOUR_OF_DAY, +durationOfActivities);
+			}
+			momentOfActivities.setTime(c2.getTimeInMillis());
+			
+			if(startingMoment.compareTo(momentOfActivities) <= 0 && startingMoment.compareTo(activity.getStartingMoment()) >= 0) {
+				result = false;
+				break;
+			} else if (finishMoment.compareTo(momentOfActivities) <= 0 && finishMoment.compareTo(activity.getStartingMoment()) >= 0) {
+				result = false;
+				break;
+			}
+		}
+		
+		return result;
 	}
 	
 }
