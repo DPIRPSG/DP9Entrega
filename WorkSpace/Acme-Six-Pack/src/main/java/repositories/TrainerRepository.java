@@ -11,11 +11,15 @@ import domain.Trainer;
 @Repository
 public interface TrainerRepository extends JpaRepository<Trainer, Integer> {
 
-	@Query("select a from Trainer a where a.userAccount.id = ?1")
+	@Query("select t from Trainer t where t.userAccount.id = ?1")
 	Trainer findByUserAccountId(int id);
 
 	@Query("select t from Trainer t where (t.name like concat('%',?1,'%') or t.surname like concat('%',?1,'%') or t.curriculum.statement like concat('%',?1,'%') or ?1 member of t.curriculum.skills or ?1 member of t.curriculum.likes or ?1 member of t.curriculum.dislikes)")
 	Collection<Trainer> findBySingleKeyword(String keyword);
+
+
+	@Query("select t from Trainer t where t.curriculum.id = ?1")
+	Trainer findByCurriculumId(int curriculumId);
 
 	@Query("select t from Trainer t left join t.services s where s.id = ?1")
 	Collection<Trainer> findAllByServiceId(int serviceId);
