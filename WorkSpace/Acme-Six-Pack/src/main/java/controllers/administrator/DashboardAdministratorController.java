@@ -1,6 +1,7 @@
 package controllers.administrator;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActivityService;
 import services.ActorService;
 import services.CustomerService;
 import services.GymService;
 import services.ServiceService;
+import services.TrainerService;
 import controllers.AbstractController;
 import domain.Activity;
 import domain.Actor;
@@ -36,6 +39,12 @@ public class DashboardAdministratorController extends AbstractController {
 	
 	@Autowired
 	private ActorService actorService;
+	
+	@Autowired
+	private ActivityService activityService;
+	
+	@Autowired
+	private TrainerService trainerService;
 	
 	// Constructors --------------------------------------------------------
 	
@@ -72,7 +81,7 @@ public class DashboardAdministratorController extends AbstractController {
 		
 		// Level B 2.0
 		Collection<Activity> activitiesByPopularity;
-		Double averageNumberOfActivitiesPerGymByService;
+		Collection<Double> averageNumberOfActivitiesPerGymByService;
 		Double averageNumberOfServiceWithSpecialisedTrainer;
 		Collection<ServiceEntity> mostPopularServiceByNumberOfTrainer;
 		
@@ -87,7 +96,8 @@ public class DashboardAdministratorController extends AbstractController {
 		
 		// Level A 2.0
 		
-		
+		Map<ServiceEntity,Integer> servicesWithTrainesSpecialized;
+		Double ratioOfTrainerWithCurriculumUpToDate;
 		
 		
 		// Level C 1.0
@@ -110,6 +120,12 @@ public class DashboardAdministratorController extends AbstractController {
 		sendMoreSpam = actorService.findActorWhoSendMoreSpam();
 		averageNumberOfMessages = actorService.findAverageNumberOfMessagesInActorMessageBox();
 		
+		// Level B 2.0
+		activitiesByPopularity = activityService.activitiesByPopularity();
+		averageNumberOfActivitiesPerGymByService = activityService.averageNumberOfActivitiesPerGymByService();
+		averageNumberOfServiceWithSpecialisedTrainer = serviceService.averageNumberOfServiceWithSpecialisedTrainer();
+		mostPopularServiceByNumberOfTrainer = serviceService.mostPopularServiceByNumberOfTrainer();
+		
 		// Level A 1.0
 		moreCommentedGyms = gymService.findMostCommented();
 		moreCommentedServices = serviceService.findMostCommented();
@@ -119,7 +135,9 @@ public class DashboardAdministratorController extends AbstractController {
 		averageNumberOfCommentsPerService = serviceService.findAverageNumberOfCommentsPerService();
 		removedMoreComments = customerService.findCustomerWhoHaveBeenRemovedMoreComments();
 		
-		
+		// Level A 2.0
+		servicesWithTrainesSpecialized = serviceService.servicesWithTrainesSpecialized();
+		ratioOfTrainerWithCurriculumUpToDate = trainerService.ratioOfTrainerWithCurriculumUpToDate();
 		
 		result = new ModelAndView("administrator/list");
 		
@@ -143,6 +161,12 @@ public class DashboardAdministratorController extends AbstractController {
 		result.addObject("sendMoreSpam", sendMoreSpam);
 		result.addObject("averageNumberOfMessages", averageNumberOfMessages);
 		
+		// Level B 2.0
+		result.addObject("activitiesByPopularity", activitiesByPopularity);
+		result.addObject("averageNumberOfActivitiesPerGymByService", averageNumberOfActivitiesPerGymByService);
+		result.addObject("averageNumberOfServiceWithSpecialisedTrainer", averageNumberOfServiceWithSpecialisedTrainer);
+		result.addObject("mostPopularServiceByNumberOfTrainer", mostPopularServiceByNumberOfTrainer);
+		
 		// Level A 1.0
 		result.addObject("moreCommentedGyms", moreCommentedGyms);
 		result.addObject("moreCommentedServices", moreCommentedServices);
@@ -152,7 +176,9 @@ public class DashboardAdministratorController extends AbstractController {
 		result.addObject("averageNumberOfCommentsPerService", averageNumberOfCommentsPerService);
 		result.addObject("removedMoreComments", removedMoreComments);
 		
-		
+		// Level A 2.0
+		result.addObject("servicesWithTrainesSpecialized", servicesWithTrainesSpecialized);
+		result.addObject("ratioOfTrainerWithCurriculumUpToDate", ratioOfTrainerWithCurriculumUpToDate);
 		
 		result.addObject("requestURI", "administrator/list.do");
 		

@@ -191,7 +191,60 @@
 		</jstl:otherwise>
 	</jstl:choose>
 	
-	  	<!-- Dashboard 9 -->
+	
+	
+	<h3><spring:message code="administrator.activitiesByPopularity"/></h3>
+	<!-- Listing grid -->
+	<display:table pagesize="5" class="displaytag" keepStatus="true"
+ 		name="activitiesByPopularity" requestURI="${requestURI}" id="row">
+		<!-- Attributes -->
+		<spring:message code="activity.title" var="titleHeader" />
+		<display:column title="${titleHeader}" 
+ 			sortable="false" >
+ 			<jstl:out value="${row.title}"/>
+ 		</display:column>
+ 	</display:table>
+	
+	<h3><spring:message code="administrator.averageNumberOfActivitiesPerGymByService"/></h3>
+	<!-- Result -->
+	<jstl:forEach var="x" items="${averageNumberOfActivitiesPerGymByService}">
+	<jstl:choose>
+  		<jstl:when test="${x == 0}">
+ 			<spring:message code="administrator.ratio.null"/>
+		</jstl:when>
+  		<jstl:otherwise>
+			<jstl:out value="${x}" />
+			</br>
+		</jstl:otherwise>
+	</jstl:choose>
+	</jstl:forEach>
+	
+	<h3><spring:message code="administrator.averageNumberOfServiceWithSpecialisedTrainer"/></h3>
+	<!-- Result -->
+	<jstl:choose>
+  		<jstl:when test="${averageNumberOfServiceWithSpecialisedTrainer == 0}">
+ 			<spring:message code="administrator.ratio.null"/>
+		</jstl:when>
+  		<jstl:otherwise>
+			<jstl:out value="${averageNumberOfServiceWithSpecialisedTrainer}" />
+		</jstl:otherwise>
+	</jstl:choose>
+	
+	<h3><spring:message code="administrator.mostPopularServiceByNumberOfTrainer"/></h3>
+	<!-- Listing grid -->
+	<display:table pagesize="5" class="displaytag" keepStatus="true"
+ 		name="mostPopularServiceByNumberOfTrainer" requestURI="${requestURI}" id="row">
+		<!-- Attributes -->
+		<spring:message code="service.name" var="nameHeader" />
+		<display:column title="${nameHeader}" 
+ 			sortable="false" >
+ 			<jstl:out value="${row.name}"/>
+ 		</display:column>
+ 	</display:table>
+	
+	
+	
+  	<!-- Dashboard 9 -->
 	<h3><spring:message code="administrator.moreCommentedGyms"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
@@ -277,5 +330,32 @@
  			<jstl:out value="${row.name}"/>
  		</display:column>
  	</display:table>
+ 	
+ 	<h3><spring:message code="administrator.servicesWithTrainesSpecialized"/></h3>
+	<!-- Result -->
+	<jstl:forEach var="x" items="${servicesWithTrainesSpecialized}">
+	<jstl:choose>
+  		<jstl:when test="${x == null}">
+ 			<spring:message code="administrator.ratio.null"/>
+		</jstl:when>
+  		<jstl:otherwise>
+			<jstl:out value="${x.key.name}" />
+			<jstl:out value="${x.value}" />
+			</br>
+		</jstl:otherwise>
+	</jstl:choose>
+	</jstl:forEach>
+	
+	<h3><spring:message code="administrator.ratioOfTrainerWithCurriculumUpToDate"/></h3>
+	<!-- Result -->
+	<jstl:choose>
+  		<jstl:when test="${ratioOfTrainerWithCurriculumUpToDate == null}">
+ 			<spring:message code="administrator.ratio.null"/>
+		</jstl:when>
+  		<jstl:otherwise>
+			<jstl:out value="${ratioOfTrainerWithCurriculumUpToDate}" />
+			</br>
+		</jstl:otherwise>
+	</jstl:choose>
 
 </security:authorize>
