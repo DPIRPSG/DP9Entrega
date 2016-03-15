@@ -261,7 +261,7 @@ public class TrainerService {
 			if(t.getCurriculum() != null){
 				Long trainerDate = t.getCurriculum().getUpdateMoment().getTime();
 				Long limit = limitDate.getTimeInMillis();
-				if(trainerDate < limit){
+				if(trainerDate > limit){
 					numerator = numerator + 1.0;
 				}
 			}
