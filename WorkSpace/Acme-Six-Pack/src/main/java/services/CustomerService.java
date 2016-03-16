@@ -248,4 +248,24 @@ public class CustomerService {
 		
 		return result;
 	}
+	
+	public Collection<Customer> moreInvoicesIssuedCustomer(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Collection<Customer> result;
+		
+		result = customerRepository.moreInvoicesIssuedCustomer();
+		
+		return result;
+	}
+	
+	public Collection<Customer> noRequestedInvoicesCustomer(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Collection<Customer> result;
+		
+		result = customerRepository.noRequestedInvoicesCustomer();
+		
+		return result;		
+	}
 }

@@ -38,4 +38,16 @@ public interface GymRepository extends JpaRepository<Gym, Integer> {
 	/* Query 12 */
 	@Query("select avg(g.comments.size) from Gym g")
 	Double findAverageNumberOfCommentsPerGym();
+	
+	@Query("select avg(g.rooms.size) from Gym g")
+	Double findAverageRoomsPerGym();
+	
+	@Query("select stddev(g.rooms.size) from Gym g")
+	Double standardDeviationRoomsPerGym();
+	
+	@Query("select g from Gym g group by g having g.rooms.size >= (select avg(g.rooms.size) from Gym g)")
+	Collection<Gym> gymsWithMoreRoomsThanAverage();
+	
+	@Query("select g from Gym g group by g having g.rooms.size < (select avg(g.rooms.size) from Gym g)")
+	Collection<Gym> gymsWithLessRoomsThanAverage();
 }
