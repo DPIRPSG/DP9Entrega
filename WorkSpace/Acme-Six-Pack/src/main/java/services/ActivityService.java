@@ -105,6 +105,10 @@ public class ActivityService {
 		return result;
 	}
 	
+    /**
+     *
+     * Sirve para comprobar todas las restricciones que debe cumplir una activity al editar algo. Al sólo poder editar el admin, se puede entender que sólo se usa cuando se es admin.
+     */
 	public void saveToEdit(Activity activity){
 		Assert.notNull(activity);
 		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can save an Activity");
@@ -359,6 +363,10 @@ public class ActivityService {
 		return result;
 	}
 	
+    /**
+     *
+     * @return Devuelve true si no hay overlapping y false si hay overlapping
+     */
 	private boolean compruebaOverlappingCustomer(Activity activity){
 		
 		Assert.notNull(activity);
