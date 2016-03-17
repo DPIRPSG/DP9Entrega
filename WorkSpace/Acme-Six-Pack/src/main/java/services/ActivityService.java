@@ -214,6 +214,8 @@ public class ActivityService {
 		Assert.isTrue(gyms.contains(activity.getRoom().getGym()), "This activity does not belongs to a paid gym");
 		Assert.isTrue((activity.getNumberOfSeatsAvailable() - activity.getCustomers().size()) >= 1, "There are not a single seats available");
 		
+		Assert.isTrue(activity.getStartingMoment().before(new Date()), "You cannot book an activity already done");
+		
 		activity.getCustomers().add(customer);
 		activities.add(activity);
 		customer.setActivities(activities);
