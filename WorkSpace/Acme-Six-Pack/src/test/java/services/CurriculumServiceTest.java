@@ -319,4 +319,24 @@ public class CurriculumServiceTest extends AbstractTest {
 		
 		authenticate(null);
 	}
+	
+	@Test
+	public void testDeleteCurriculum() {
+		Trainer trainer;
+		Curriculum curriculum;
+		
+		authenticate("trainer1");
+		
+		trainer = trainerService.findByPrincipal();
+		curriculum = trainer.getCurriculum();
+		
+		Assert.isTrue(curriculum != null);
+		Assert.isTrue(trainer.getCurriculum() != null);
+		
+		curriculumService.delete(curriculum);
+		
+		Assert.isTrue(trainer.getCurriculum() == null);
+		
+		authenticate(null);
+	}
 }

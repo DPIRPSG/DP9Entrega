@@ -105,7 +105,7 @@ public class CurriculumService {
 		return result;
 	}
 	
-	public void checkCurriculum(Curriculum curriculum) {
+	private void checkCurriculum(Curriculum curriculum) {
 		Trainer trainerPrincipal;
 		Trainer trainerOwner;
 		int curriculumId;
