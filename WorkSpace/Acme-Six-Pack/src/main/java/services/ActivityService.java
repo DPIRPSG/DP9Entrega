@@ -186,7 +186,7 @@ public class ActivityService {
 		
 	}
 	
-	public void book(Activity activity){
+	public Activity book(Activity activity){
 		
 		Assert.notNull(activity);
 		Assert.isTrue(activity.getId() != 0);
@@ -194,6 +194,7 @@ public class ActivityService {
 		Assert.isTrue(activity.getDeleted() == false, "This activity is already deleted by the administrator");
 		
 		Customer customer;
+		Activity result;
 		Collection<FeePayment> feePayments;
 		Collection<Gym> gyms = new HashSet<>();
 		Collection<Activity> activities;
@@ -220,7 +221,9 @@ public class ActivityService {
 		activities.add(activity);
 		customer.setActivities(activities);
 		customerService.save(customer);
-		this.save(activity);
+		result = this.save(activity);
+		
+		return result;
 	}
 	
 	public void cancel(Activity activity){
@@ -369,7 +372,8 @@ public class ActivityService {
      *
      * @return Devuelve true si no hay overlapping y false si hay overlapping
      */
-	private boolean compruebaOverlappingCustomer(Activity activity){
+
+	public boolean compruebaOverlappingCustomer(Activity activity){
 		
 		Assert.notNull(activity);
 		
