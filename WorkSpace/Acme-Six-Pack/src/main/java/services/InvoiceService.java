@@ -50,9 +50,10 @@ public class InvoiceService {
 		return result;
 	}
 	
-	public void save(Invoice invoice){
+	public Invoice save(Invoice invoice){
 		Assert.isTrue(actorService.checkAuthority("CUSTOMER"), "Only a customer can manage an invoice.");
 		Assert.notNull(invoice);
+		Assert.notEmpty(invoice.getFeePayments());
 		
 		Collection<FeePayment> feePayments;
 		double totalCost;
@@ -73,6 +74,8 @@ public class InvoiceService {
 			feePayment.setInvoice(invoice);
 			feePaymentService.save(feePayment);
 		}
+		
+		return invoice;
 	}
 	
 	public Invoice findOne(int invoiceId) {
