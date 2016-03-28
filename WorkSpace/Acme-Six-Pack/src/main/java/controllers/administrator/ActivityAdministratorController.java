@@ -59,11 +59,15 @@ public class ActivityAdministratorController extends AbstractController{
 	// Edition ----------------------------------------------------------
 	
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(){
+	public ModelAndView create(@RequestParam(required=false) Integer activityId){
 		ModelAndView result;
 		Activity activity;
 		
-		activity = activityService.createWithoutGym();
+		if(activityId == null) {
+			activity = activityService.createWithoutGym();
+		} else {
+			activity = activityService.findOne(activityId);
+		}
 		
 		result = createEditModelAndViewCreate(activity);
 		
@@ -112,6 +116,7 @@ public class ActivityAdministratorController extends AbstractController{
 				activityService.saveToEdit(activity);
 				result = new ModelAndView("redirect:list.do");
 			}catch(Throwable oops){
+				System.out.println(oops);
 				result = createEditModelAndView(activity, "booking.commit.error");
 			}
 		}
@@ -154,12 +159,22 @@ public class ActivityAdministratorController extends AbstractController{
 		ModelAndView result;
 		Collection<Room> rooms;
 		Collection<Trainer> trainers;
+		boolean activityVacia;
 		
 		rooms = new ArrayList<Room>();
 		
 		for(Gym gym : activity.getService().getGyms()) {
 			rooms.addAll(gym.getRooms());
 		}
+		
+		if(activity.getCustomers().isEmpty()) {
+			activityVacia = true;
+		} else {
+			activityVacia = false;
+			rooms = activity.getRoom().getGym().getRooms();
+		}
+		
+		
 		trainers = activity.getService().getTrainers();
 
 		result = new ModelAndView("activity/edit");
@@ -167,6 +182,7 @@ public class ActivityAdministratorController extends AbstractController{
 		result.addObject("message", message);
 		result.addObject("rooms", rooms);
 		result.addObject("trainers", trainers);
+		result.addObject("activityVacia", activityVacia);
 
 		return result;
 	}

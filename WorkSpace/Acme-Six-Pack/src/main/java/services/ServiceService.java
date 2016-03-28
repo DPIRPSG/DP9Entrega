@@ -2,6 +2,8 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -272,6 +274,42 @@ public class ServiceService {
 		Double result;
 		
 		result = serviceRepository.findAverageNumberOfCommentsPerService();
+		
+		return result;
+	}
+	
+	
+	public Double averageNumberOfServiceWithSpecialisedTrainer(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Double result;
+		
+		result = serviceRepository.averageNumberOfServiceWithSpecialisedTrainer();
+		
+		return result;		
+	}
+	
+	public Collection<ServiceEntity> mostPopularServiceByNumberOfTrainer(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Collection<ServiceEntity> result;
+		
+		result = serviceRepository.mostPopularServiceByNumberOfTrainer();
+		
+		return result;			
+	}
+	
+	public Map<ServiceEntity,Integer> servicesWithTrainesSpecialized(){
+		
+		Map<ServiceEntity,Integer> result;
+		Collection<ServiceEntity> listOfServices;
+		
+		result = new HashMap<>();
+		listOfServices = findAll();
+		
+		for(ServiceEntity s:listOfServices){
+			result.put(s, s.getTrainers().size());
+		}
 		
 		return result;
 	}

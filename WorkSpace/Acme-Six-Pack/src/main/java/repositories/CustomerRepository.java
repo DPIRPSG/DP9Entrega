@@ -33,6 +33,12 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	Collection<Customer> findCustomerWhoHasPaidLessFees();
 	
 	/* Query 14 */
-	@Query("select c from Customer c left join c.madeComments k where k.deleted IS TRUE group by c having count(k) >= all(select count(k) from Customer c left join c.madeComments k where k.deleted IS TRUE group by c)")
+	@Query("select c from Customer c left join c.madeComments m where m.deleted IS TRUE group by c having count(m) >= all(select count(m) from Customer c left join c.madeComments m where m.deleted is TRUE group by c)")
 	Collection<Customer> findCustomerWhoHaveBeenRemovedMoreComments();
+	
+	@Query("select c1 from Customer c1 left join c1.feePayments f1 left join f1.invoice i1 where i1 IS NOT NULL group by c1 having count(distinct i1) >= all(select count(distinct i2) from Customer c2 left join c2.feePayments f2 left join f2.invoice i2 where i2 IS NOT NULL group by c2)")
+	Collection<Customer> moreInvoicesIssuedCustomer();
+	
+	@Query("select c from Customer c left join c.feePayments f left join f.invoice i where i IS NULL group by c")
+	Collection<Customer> noRequestedInvoicesCustomer();
 }

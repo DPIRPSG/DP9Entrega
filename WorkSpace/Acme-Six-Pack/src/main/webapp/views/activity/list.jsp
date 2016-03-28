@@ -19,9 +19,16 @@
 		<spring:message code="activity.edit" var="editHeader"/>
 		<display:column title="${editHeader}" sortable="true">
 		<jstl:if test="${row_Activity.deleted == false}">
-			<a href="activity/administrator/edit.do?activityId=${row_Activity.id}"> <spring:message
+			<jstl:if test="${row_Activity.customers.size() != 0}">
+				<a href="activity/administrator/edit.do?activityId=${row_Activity.id}"> <spring:message
 					code="activity.edit" />
-			</a>
+				</a>
+			</jstl:if>
+			<jstl:if test="${row_Activity.customers.size() == 0}">
+				<a href="activity/administrator/create.do?activityId=${row_Activity.id}"> <spring:message
+					code="activity.edit" />
+				</a>
+			</jstl:if>		
 		</jstl:if>
 		</display:column>
 		<spring:message code="activity.delete" var="deleteHeader"/>

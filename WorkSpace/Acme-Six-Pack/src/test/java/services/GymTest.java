@@ -1,4 +1,5 @@
-import org.junit.Test;
+package services;
+
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -13,14 +14,16 @@ import utilities.AbstractTest;
 	"classpath:spring/config/packages.xml"})
 @Transactional
 @TransactionConfiguration(defaultRollback = false)
-public class GeneralTest extends AbstractTest{
+public class GymTest extends AbstractTest{
 
+	// Pendientes a probar ! ! ! ! ! ! - - - - - - - - - - - 
+	
+		// gymService.findAllWithFeePaymentActive()
+	
 	// Service under test -------------------------
 
 	
 	// Test ---------------------------------------
-	@Test
-	public void testPopulate(){
-		System.out.println("Test Populate");
-	}
+	
+
 }

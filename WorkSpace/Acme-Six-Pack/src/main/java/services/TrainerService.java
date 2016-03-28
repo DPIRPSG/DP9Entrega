@@ -1,6 +1,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -238,6 +239,37 @@ public class TrainerService {
 		
 		return result;
 		
+	}
+	
+	public Double ratioOfTrainerWithCurriculumUpToDate(){
+		
+		Double result;
+		Double numerator;
+		Double denominator;
+		Calendar limitDate;
+		Collection<Trainer> listOfTrainers;
+		
+		result = 0.0;
+		numerator = 0.0;
+		denominator = 0.0;
+		limitDate = Calendar.getInstance();
+		limitDate.set(limitDate.get(Calendar.YEAR)-1, limitDate.get(Calendar.MONTH), limitDate.get(Calendar.DAY_OF_MONTH));
+		listOfTrainers = findAll();
+		denominator = (double) listOfTrainers.size();
+		
+		for(Trainer t:listOfTrainers){
+			if(t.getCurriculum() != null){
+				Long trainerDate = t.getCurriculum().getUpdateMoment().getTime();
+				Long limit = limitDate.getTimeInMillis();
+				if(trainerDate > limit){
+					numerator = numerator + 1.0;
+				}
+			}
+		}
+		
+		result = numerator / denominator;
+		
+		return result;
 	}
 
 }

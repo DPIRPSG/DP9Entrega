@@ -111,7 +111,7 @@ public class ActivityService {
 		Assert.isTrue(activity.getRoom().getGym().getServices().contains(activity.getService()), "The Gym must include the Service you want");
 		Assert.isTrue(activity.getTrainer().getServices().contains(activity.getService()), "The Trainer must be specialized in the Service you ask for");
 		Assert.isTrue(activity.getNumberOfSeatsAvailable() <= activity.getRoom().getNumberOfSeats(), "The number of seats available cannot exceed the number of seats in the corresponding room");
-		Assert.isTrue(compruebaOverlapping(activity.getTrainer(), activity.getStartingMoment(), activity.getDuration()), "The trainer cannot be involved in overlapping activities");
+		Assert.isTrue(compruebaOverlapping(activity.getTrainer(), activity), "The trainer cannot be involved in overlapping activities");
 		int duration;
 		
 		duration = (int) activity.getDuration();
@@ -144,12 +144,45 @@ public class ActivityService {
 		serviceService.save(service);
 		} else {
 			Assert.isTrue(activity.getNumberOfSeatsAvailable() >= activity.getCustomers().size());
-			this.save(activity);
+			
+			Activity activityPreSave;
+			Room roomPreSave;
+			Trainer trainerPreSave;
+			Room room;
+			Trainer trainer;
+			
+			activityPreSave = this.findOne(activity.getId());			
+			roomPreSave = activityPreSave.getRoom();
+			trainerPreSave = activityPreSave.getTrainer();
+			
+			if(!activityPreSave.getCustomers().isEmpty()) {
+				Assert.isTrue(activityPreSave.getRoom().getGym().getId() == activity.getRoom().getGym().getId(), "No se cambia el gimnasio una vez creado y con clientes apuntados");
+				Assert.isTrue(activityPreSave.getService().getId() == activity.getService().getId(), "No se cambia el servicio una vez creado y con clientes apuntados");
+			}
+			
+			activity = this.save(activity);
+			
+			room = activity.getRoom();
+			trainer = activity.getTrainer();
+			
+			roomPreSave.removeActivity(activityPreSave);
+			trainerPreSave.removeActivity(activityPreSave);
+			
+			room.addActivity(activity);
+			trainer.addActivity(activity);
+			
+			roomService.save(roomPreSave);
+			roomService.save(room);
+			
+			trainerService.save(trainerPreSave);
+			trainerService.save(trainer);
+			
+			
 		}
 		
 	}
 	
-	public void book(Activity activity){
+	public Activity book(Activity activity){
 		
 		Assert.notNull(activity);
 		Assert.isTrue(activity.getId() != 0);
@@ -157,10 +190,10 @@ public class ActivityService {
 		Assert.isTrue(activity.getDeleted() == false, "This activity is already deleted by the administrator");
 		
 		Customer customer;
+		Activity result;
 		Collection<FeePayment> feePayments;
 		Collection<Gym> gyms = new HashSet<>();
 		Collection<Activity> activities;
-		boolean overlap = false;
 		
 		customer = customerService.findByPrincipal();
 		feePayments = customer.getFeePayments();
@@ -172,19 +205,19 @@ public class ActivityService {
 			}
 		}
 
-		// Falta el overlapping
+		Assert.isTrue(compruebaOverlappingCustomer(activity));
 		
 		Assert.isTrue(!customer.getActivities().contains(activity), "You have already book this activity");
 		Assert.isTrue(gyms.contains(activity.getRoom().getGym()), "This activity does not belongs to a paid gym");
 		Assert.isTrue((activity.getNumberOfSeatsAvailable() - activity.getCustomers().size()) >= 1, "There are not a single seats available");
 		
-		// Falta el overlapping
-		
 		activity.getCustomers().add(customer);
 		activities.add(activity);
 		customer.setActivities(activities);
 		customerService.save(customer);
-		this.save(activity);
+		result = this.save(activity);
+		
+		return result;
 	}
 	
 	public void cancel(Activity activity){
@@ -272,14 +305,19 @@ public class ActivityService {
 		return result;		
 	}
 	
-	private boolean compruebaOverlapping(Trainer trainer, Date startingMoment, double duration) {
+	private boolean compruebaOverlapping(Trainer trainer, Activity activity) {
 		Assert.notNull(trainer);
 		
 		boolean result;
 		Date momentOfActivities;
 		Date finishMoment;
+		Date startingMoment;
 		int durationOfActivities;
 		int durationOfActivity;
+		double duration;
+		
+		startingMoment = activity.getStartingMoment();
+		duration = activity.getDuration();
 		
 		result = true;
 		
@@ -296,30 +334,113 @@ public class ActivityService {
 		}
 		finishMoment.setTime(c1.getTimeInMillis());
 		
-		for(Activity activity : trainer.getActivities()) {
+		for(Activity activityOfTrainer : trainer.getActivities()) {
+			if(activityOfTrainer.getId() != activity.getId()) {
 			momentOfActivities = new Date();
-			durationOfActivities = (int) activity.getDuration();
+			durationOfActivities = (int) activityOfTrainer.getDuration();
 			
 			Calendar c2 = Calendar.getInstance();
-			c2.setTime(activity.getStartingMoment());
-			if(activity.getDuration() - durationOfActivities == 0) {
+			c2.setTime(activityOfTrainer.getStartingMoment());
+			if(activityOfTrainer.getDuration() - durationOfActivities == 0) {
 				c2.add(Calendar.HOUR_OF_DAY, +durationOfActivities);
 			} else {
-				durationOfActivities = (int) (activity.getDuration() + 0.5);
+				durationOfActivities = (int) (activityOfTrainer.getDuration() + 0.5);
 				c2.add(Calendar.HOUR_OF_DAY, +durationOfActivities);
 			}
 			momentOfActivities.setTime(c2.getTimeInMillis());
 			
-			if(startingMoment.compareTo(momentOfActivities) <= 0 && startingMoment.compareTo(activity.getStartingMoment()) >= 0) {
+			if(startingMoment.compareTo(momentOfActivities) <= 0 && startingMoment.compareTo(activityOfTrainer.getStartingMoment()) >= 0) {
 				result = false;
 				break;
-			} else if (finishMoment.compareTo(momentOfActivities) <= 0 && finishMoment.compareTo(activity.getStartingMoment()) >= 0) {
+			} else if (finishMoment.compareTo(momentOfActivities) <= 0 && finishMoment.compareTo(activityOfTrainer.getStartingMoment()) >= 0) {
 				result = false;
 				break;
+			}
 			}
 		}
 		
 		return result;
+	}
+	
+	public boolean compruebaOverlappingCustomer(Activity activity){
+		
+		Assert.notNull(activity);
+		
+		boolean result;
+		Customer customer;
+		Date startingMoment;
+		double duration;
+		Date momentOfActivities;
+		Date finishingMoment;
+		int durationOfActivities;
+		int durationOfActivity;
+		
+		result = true;
+		customer = customerService.findByPrincipal();
+		startingMoment = activity.getStartingMoment();
+		duration = activity.getDuration();
+		
+		finishingMoment = new Date();
+		durationOfActivity = (int) duration;
+		
+		Calendar c1 = Calendar.getInstance();
+		c1.setTime(startingMoment);
+		if(duration - durationOfActivity == 0){
+			c1.add(Calendar.HOUR_OF_DAY, +durationOfActivity);
+		}else{
+			durationOfActivity = (int) (duration + 0.5);
+			c1.add(Calendar.HOUR_OF_DAY, +durationOfActivity);
+		}
+		
+		finishingMoment.setTime(c1.getTimeInMillis());
+		
+		for(Activity a:customer.getActivities()){
+			momentOfActivities = new Date();
+			durationOfActivities = (int) a.getDuration();
+			
+			Calendar c2 = Calendar.getInstance();
+			c2.setTime(a.getStartingMoment());
+			if(a.getDuration() - durationOfActivities == 0){
+				c2.add(Calendar.HOUR_OF_DAY, +durationOfActivities);
+			}else{
+				durationOfActivities = (int) (a.getDuration() + 0.5);
+				c2.add(Calendar.HOUR_OF_DAY, +durationOfActivities);
+			}
+			
+			momentOfActivities.setTime(c2.getTimeInMillis());
+			
+			if(startingMoment.compareTo(momentOfActivities) <= 0 && startingMoment.compareTo(a.getStartingMoment()) >= 0){
+				result = false;
+				break;
+			}else if(finishingMoment.compareTo(momentOfActivities) <= 0 && finishingMoment.compareTo(activity.getStartingMoment()) >= 0){
+				result = false;
+				break;
+				
+			}
+		}
+		
+		return result;
+		
+	}
+	
+	public Collection<Activity> activitiesByPopularity(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Collection<Activity> result;
+		
+		result = activityRepository.activitiesByPopularity();
+		
+		return result;
+	}
+	
+	public Collection<Double> averageNumberOfActivitiesPerGymByService(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Collection<Double> result;
+		
+		result = activityRepository.averageNumberOfActivitiesPerGymByService();
+		
+		return result;		
 	}
 	
 }
