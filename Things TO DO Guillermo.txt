@@ -17,7 +17,7 @@ Use cases for testing:
 
 ===
 
-- Test 1.1 (Positive)
+- Test 1.1 (Positive) -> TERMINADO
   Description: A user who is not authenticated must be able to navigate (list) through the gyms.
   Precondition: -
   Return: TRUE
@@ -25,7 +25,7 @@ Use cases for testing:
 
 ===
 
-- Test 2.1 (Positive)
+- Test 2.1 (Positive) -> TERMINADO
   Description: A user who is not authenticated must be able to navigate (list) throught the rooms of a gym selected.
   Precondition: The gym selected must be a gym of the system.
   Return: TRUE
@@ -33,7 +33,7 @@ Use cases for testing:
 
 ===
 
-- Test 2.2 (Negative)
+- Test 2.2 (Negative) -> TERMINADO
   Description: A user who is not authenticated must be able to navigate (list) throught the bulletin boards of the gym selected.
   Precondition: The gym selected must not be a gym of the system.
   Return: FALSE
@@ -41,7 +41,7 @@ Use cases for testing:
 
 ===
 
-- Test 3.1 (Positive)
+- Test 3.1 (Positive) -> TERMINADO
   Description: A user who is not authenticated must be able to navigate (list) throught the bulletin boards of the gym selected.
   Precondition: The gym selected must be a gym of the system.
   Return: TRUE
@@ -49,7 +49,7 @@ Use cases for testing:
 
 ===
 
-- Test 3.2 (Negative)
+- Test 3.2 (Negative) -> TERMINADO
   Description: A user who is not authenticated must be able to navigate (list) throught the bulletin boards of the gym selected.
   Precondition: The gym selected must not be a gym of the system.
   Return: FALSE
@@ -57,23 +57,15 @@ Use cases for testing:
 
 ===
 
-- Test 4.1 (Positive)
+- Test 4.1 (Positive) -> TERMINADO
   Description: A user who is not authenticated must be able to search for the bulletins that contain a given key word in their titles or descriptions.
   Precondition: The gym selected must be a gym of the system. The given key word is found in a title.
   Return: TRUE
-  Postcondition: All bulletin, that contains the given key word in its title or description, of the gym previosly selected are shown.
+  Postcondition: All bulletin, that contains the given key word in its title or description, of the gym previously selected are shown.
 
 ===
 
-- Test 4.2 (Positive)
-  Description: A user who is not authenticated must be able to search for the bulletins that contain a given key word in their titles or descriptions.
-  Precondition: The given key word is found in a title.
-  Return: TRUE
-  Postcondition: All bulletin, that contains the given key word in its title or description, of all gyms are shown.
-
-===
-
-- Test 4.3 (Positive)
+- Test 4.2 (Positive) -> TERMINADO
   Description: A user who is not authenticated must be able to search for the bulletins that contain a given key word in their titles or descriptions.
   Precondition: The gym selected must be a gym of the system. The given key word is found in a description.
   Return: TRUE
@@ -81,15 +73,7 @@ Use cases for testing:
 
 ===
 
-- Test 4.4 (Positive)
-  Description: A user who is not authenticated must be able to search for the bulletins that contain a given key word in their titles or descriptions.
-  Precondition: The given key word is found in a description.
-  Return: TRUE
-  Postcondition: All bulletin, that contains the given key word in its title or description, of all gyms are shown.
-
-===
-
-- Test 4.5 (Positive)
+- Test 4.3 (Positive) -> TERMINADO
   Description: A user who is not authenticated must be able to search for the bulletins that contain a given key word in their titles or descriptions.
   Precondition: The given key word is not found anywhere.
   Return: TRUE

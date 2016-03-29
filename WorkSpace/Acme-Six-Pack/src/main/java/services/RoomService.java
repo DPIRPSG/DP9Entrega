@@ -151,4 +151,10 @@ public class RoomService {
 		return result;
 	}
 	
+	public void flush(){
+		
+		roomRepository.flush();
+		
+	}
+	
 }
