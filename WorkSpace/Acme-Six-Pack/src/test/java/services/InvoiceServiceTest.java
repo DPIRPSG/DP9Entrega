@@ -205,6 +205,7 @@ public class InvoiceServiceTest extends AbstractTest {
 		invoice.setFeePayments(feePayments);
 		invoice.setVAT("Prueba");
 		invoice = invoiceService.save(invoice);
+		invoiceService.flush();
 		
 		//Assert.isTrue(invoice.getDescription().equals("Prueba"));
 		Assert.isTrue(invoice.getInvoiceesName().equals("Prueba"));
@@ -249,6 +250,7 @@ public class InvoiceServiceTest extends AbstractTest {
 		invoice.setFeePayments(feePayments);
 		//invoice.setVAT("Prueba");
 		invoice = invoiceService.save(invoice);
+		invoiceService.flush();
 		
 		Assert.isTrue(invoice.getDescription().equals("Prueba"));
 		Assert.isTrue(invoice.getInvoiceesName().equals("Prueba"));
@@ -337,6 +339,7 @@ public class InvoiceServiceTest extends AbstractTest {
 		invoice.setFeePayments(feePayments);
 		invoice.setVAT("Prueba");
 		invoice = invoiceService.save(invoice);
+		invoiceService.flush();
 		
 		Assert.isTrue(invoice.getDescription().equals("Prueba"));
 		Assert.isTrue(invoice.getInvoiceesName().equals("Prueba"));
