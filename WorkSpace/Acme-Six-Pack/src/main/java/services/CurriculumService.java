@@ -49,7 +49,7 @@ public class CurriculumService {
 		return result;
 	}
 	
-	public void save(Curriculum curriculum){
+	public Curriculum save(Curriculum curriculum){
 		Assert.isTrue(actorService.checkAuthority("TRAINER"), "Only a Trainer can manage his Curriculum.");
 		Assert.notNull(curriculum);
 		if(curriculum.getId() != 0){ // Si está editando y no creando
@@ -79,6 +79,7 @@ public class CurriculumService {
 			trainerService.save(trainer);
 		}
 		
+		return curriculum;
 	}
 	
 	public void delete(Curriculum curriculum){
@@ -104,7 +105,7 @@ public class CurriculumService {
 		return result;
 	}
 	
-	public void checkCurriculum(Curriculum curriculum) {
+	private void checkCurriculum(Curriculum curriculum) {
 		Trainer trainerPrincipal;
 		Trainer trainerOwner;
 		int curriculumId;
