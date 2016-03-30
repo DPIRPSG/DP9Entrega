@@ -81,7 +81,7 @@ Use cases for testing:
 
 ===
 
-- Test 5.1 (Positive)
+- Test 5.1 (Positive) -> TERMINADO
   Description: A user who is not authenticated must be able to search for a trainer using a single keyword that must appear in his or name, surname, or curriculum.
   Precondition: The given key word is found in a name.
   Return: TRUE
@@ -89,7 +89,7 @@ Use cases for testing:
 
 ===
 
-- Test 5.2 (Positive)
+- Test 5.2 (Positive) -> TERMINADO
   Description: A user who is not authenticated must be able to search for a trainer using a single keyword that must appear in his or name, surname, or curriculum.
   Precondition: The given key word is found in a surname
   Return: TRUE
@@ -97,7 +97,7 @@ Use cases for testing:
 
 ===
 
-- Test 5.3 (Positive)
+- Test 5.3 (Positive) -> TERMINADO
   Description: A user who is not authenticated must be able to search for a trainer using a single keyword that must appear in his or name, surname, or curriculum.
   Precondition: The given key word is found in a curriculum.
   Return: TRUE
@@ -105,7 +105,7 @@ Use cases for testing:
 
 ===
 
-- Test 5.4 (Positive)
+- Test 5.4 (Negative) -> TERMINADO
   Description: A user who is not authenticated must be able to search for a trainer using a single keyword that must appear in his or name, surname, or curriculum.
   Precondition: The given key word is not found anywhere.
   Return: TRUE
