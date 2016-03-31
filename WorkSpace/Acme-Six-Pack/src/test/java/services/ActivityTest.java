@@ -1,4 +1,5 @@
 package services;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -6,6 +7,7 @@ import java.util.Iterator;
 import javax.activity.InvalidActivityException;
 
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
@@ -20,9 +22,9 @@ import repositories.CustomerRepository;
 import domain.Activity;
 import domain.Customer;
 import domain.Gym;
-import domain.Room;
 
 import utilities.AbstractTest;
+import utilities.InvalidPostTestException;
 import utilities.InvalidPreTestException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,12 +35,13 @@ import utilities.InvalidPreTestException;
 @TransactionConfiguration(defaultRollback = false)
 public class ActivityTest extends AbstractTest{
 
-	// Pendientes a probar ! ! ! ! ! ! - - - - - - - - - - - 
+	// Pending test 
 	
 		// activityService.findAllByCustomer()
 		// compruebaOverlappingCustomer
 		// findAllByGymId
 		// Al crear activity que no tenga mas asientos que la room
+		// Añadir en los PreTest y los búcles comprobación de no en pasado y de no reservada ya
 	
 	// Service under test -------------------------
 
@@ -49,13 +52,10 @@ public class ActivityTest extends AbstractTest{
 	private GymService gymService;
 	
 	@Autowired
-	private CustomerRepository customerRepository;
-	
-	@Autowired
-	private RoomService roomService;
-	
-	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private CustomerRepository customerRepository;
 	
 	// Test ---------------------------------------
 	
@@ -78,7 +78,62 @@ public class ActivityTest extends AbstractTest{
 		Collection<Customer> customers;
 		Collection<Gym> gyms;
 		
-		// Carga de objetos
+		// Load objects to test
+		authenticate("customer1");
+		custo = customerService.findByPrincipal();
+		activity = null;
+		
+		gyms = gymService.findAllWithFeePaymentActive();
+		for(Gym gym:gyms){
+			Collection<Activity> activities;
+			activities = activityService.findAll();
+			for(Activity a:activities){
+				boolean isAcceptable;
+				
+				isAcceptable = !a.getDeleted(); // Activity not deleted
+				isAcceptable = isAcceptable && a.getStartingMoment().after(new Date()); //	Activity in the future
+				isAcceptable = isAcceptable && a.getRoom().getGym().getId() == gym.getId(); // Activity belonging to gym
+				isAcceptable = isAcceptable && a.getNumberOfSeatsAvailable() - a.getCustomers().size() > 0; // seats available
+				isAcceptable = isAcceptable && this.isActivePayGym(a); // Active pay
+				isAcceptable = isAcceptable && !activityService.findAllByCustomer().contains(a); // Activity not booked
+				isAcceptable = isAcceptable && activityService.compruebaOverlappingCustomer(a); // No Overlapping
+								
+				if(isAcceptable){
+					activity = a;
+					break;
+				}
+			}	
+		}
+		
+		// Checks basic requirements
+		try{
+			Assert.notNull(activity, "No se ha encontrado una actividad con la que realizar la comprobación");
+		}catch (Exception e) {
+			throw new InvalidPreTestException(e.toString());
+		}
+		
+		// Execution of test
+		customers = activity.getCustomers();
+		customers.add(custo);
+		
+		activity.setCustomers(customers);
+		activity = activityService.book(activity);
+		
+		// Checks results 
+		custo = customerService.findByPrincipal();
+		Assert.isTrue(activity.getCustomers().contains(custo), "El usuario no ha sido añadido a la actividad");
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	@Transactional(noRollbackFor=IllegalArgumentException.class)
+	@Rollback(value=true)
+	public void testBookActivityErrorOverlapping(){
+		Activity activity;
+		Customer custo;
+		Collection<Customer> customers;
+		Collection<Gym> gyms;
+		
+		// Load objects to test
 		authenticate("customer1");
 		custo = customerService.findByPrincipal();
 		activity = null;
@@ -90,8 +145,13 @@ public class ActivityTest extends AbstractTest{
 			for(Activity a:activities){
 				boolean isAcceptable;
 				
-				isAcceptable = ! activityService.compruebaOverlappingCustomer(a);
-				isAcceptable = isAcceptable && a.getNumberOfSeatsAvailable() - a.getCustomers().size() > 0;
+				isAcceptable = !a.getDeleted(); // Activity not deleted
+				isAcceptable = isAcceptable && a.getStartingMoment().after(new Date()); //	Activity in the future
+				isAcceptable = isAcceptable && a.getRoom().getGym().getId() == gym.getId(); // Activity belonging to gym
+				isAcceptable = isAcceptable && a.getNumberOfSeatsAvailable() - a.getCustomers().size() > 0; // seats available
+				isAcceptable = isAcceptable && this.isActivePayGym(a); // Active pay
+				isAcceptable = isAcceptable && !activityService.findAllByCustomer().contains(a); // Activity not booked
+				isAcceptable = isAcceptable && !activityService.compruebaOverlappingCustomer(a); // No Overlapping
 				
 				if(isAcceptable){
 					activity = a;
@@ -100,62 +160,163 @@ public class ActivityTest extends AbstractTest{
 			}	
 		}
 		
-		// Comprobaciones básicas de requisitos
+		// Checks basic requirements
+		try{
+			Assert.notNull(activity, "No se ha encontrado una actividad con la que realizar la comprobación");
+		}catch (Exception e) {
+			//assertThat(e);
+			throw new InvalidPreTestException(e.toString());
+		}
 		
-		Assert.notNull(activity, "No se ha encontrado una actividad con la que realizar la comprobación");
-		Assert.isTrue(activity.getStartingMoment().after(new Date()), "PreTest - La actividad tiene un startingMoment en el pasado");
-		Assert.isTrue(activity.getNumberOfSeatsAvailable() - activity.getCustomers().size() > 0 , "PreTest - La actividad no tiene asientos disponibles");
-		Assert.isTrue(activityService.findAllByCustomer().contains(activity), "PreTest - La actividad no está asociada a un gimnasio con pago activo");
-		
-		// Ejecución del test
+		// Execution of test
 		customers = activity.getCustomers();
 		customers.add(custo);
 		
 		activity.setCustomers(customers);
-		activity = activityService.save(activity);
+		activity = activityService.book(activity);
 		
-		// Comprobación resultados 
-		custo = customerService.findByPrincipal();
-		
-		Assert.isTrue(activity.getCustomers().contains(custo), "El usuario no ha sido añadido a la actividad");
-		
-	}
-	
-	@Test
-	public void testBookActivityErrorOverlapping(){
-		Assert.notNull(null, "PreTest - testBookActivityErrorOverlapping no está hecho ! ! !");
-	}
-	
-	@Test
-	public void testBookActivityErrorDeleted(){
-		Assert.notNull(null, "PreTest - testBookActivityErrorDeleted no está hecho ! ! !");
+		// Checks results 
+		try{
+			custo = customerService.findByPrincipal();
+			Assert.isTrue(activity.getCustomers().contains(custo), "El usuario no ha sido añadido a la actividad");
+		}catch (Exception e) {
+			throw new InvalidPostTestException(e.toString());
+		}
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
-	public void testBookActivityErrorSeats() throws InvalidPreTestException{
+	public void testBookActivityErrorAdmin(){
 		Activity activity;
 		Customer custo;
 		Collection<Customer> customers;
 		Collection<Gym> gyms;
 		
+		// Load objects to test
+		authenticate("customer1");
+		custo = customerService.findByPrincipal();
+		activity = null;
+		
+		
+		gyms = gymService.findAllWithFeePaymentActive();
+		for(Gym gym:gyms){
+			Collection<Activity> activities;
+			activities = activityService.findAllByGymId(gym.getId());
+			for(Activity a:activities){
+				boolean isAcceptable;
+				
+				isAcceptable = !a.getDeleted(); // Activity not deleted
+				isAcceptable = isAcceptable && a.getStartingMoment().after(new Date()); //	Activity in the future
+				isAcceptable = isAcceptable && a.getRoom().getGym().getId() == gym.getId(); // Activity belonging to gym
+				isAcceptable = isAcceptable && a.getNumberOfSeatsAvailable() - a.getCustomers().size() > 0; // seats available
+				isAcceptable = isAcceptable && this.isActivePayGym(a); // Active pay
+				isAcceptable = isAcceptable && !activityService.findAllByCustomer().contains(a); // Activity not booked
+				isAcceptable = isAcceptable && activityService.compruebaOverlappingCustomer(a); // No Overlapping
+				
+				if(isAcceptable){
+					activity = a;
+					break;
+				}
+			}	
+		}
+		
+		
+		// Checks basic requirements
+		try{
+			Assert.notNull(activity, "No se ha encontrado una actividad con la que realizar la comprobación");
+		}catch (Exception e) {
+			//assertThat(e);
+			throw new InvalidPreTestException(e.toString());
+		}
+		
+		// Execution of test
 		authenticate("admin");
 		
-		/**
-		 * Ignorar este párrafo comentado
-		 */
-		// quito el customer 65 de la actividad 59
-		// cambiando la actividad 59 a un asiento
-//		Room tempRoom;
-//		activity = activityService.findOne(59);
-//		
-//		customers = activity.getCustomers();
-//		customers.remove(customerRepository.findOne(65));
-//		activity.setCustomers(customers);
-//		activity.setNumberOfSeatsAvailable(1);	
-//		activityService.save(activity);
+		customers = activity.getCustomers();
+		customers.add(custo);
+		
+		activity.setCustomers(customers);
+		activity = activityService.book(activity);
+		
+		// Checks results 
+		try{
+			authenticate("customer1");
+			
+			custo = customerService.findByPrincipal();
+			Assert.isTrue(activity.getCustomers().contains(custo), "El usuario no ha sido añadido a la actividad");
+		}catch (Exception e) {
+			throw new InvalidPostTestException(e.toString());
+		}		Assert.notNull(null, "PreTest - testBookActivityErrorAdmin no está hecho ! ! !");
+	}
 	
+	@Test(expected=IllegalArgumentException.class)
+	@Transactional(noRollbackFor=IllegalArgumentException.class)
+	@Rollback(value=true)
+	public void testBookActivityErrorDeleted(){
+		Activity activity;
+		Customer custo;
+		Collection<Customer> customers;
+		Collection<Gym> gyms;
+		
+		// Load objects to test
+		authenticate("customer1");
+		custo = customerService.findByPrincipal();
+		activity = null;
+		
+		gyms = gymService.findAllWithFeePaymentActive();
+		for(Gym gym:gyms){
+			Collection<Activity> activities;
+			activities = activityService.findAll();
+			for(Activity a:activities){
+				boolean isAcceptable;
+				
+				isAcceptable = a.getDeleted(); // Activity not deleted
+				isAcceptable = isAcceptable && a.getStartingMoment().after(new Date()); //	Activity in the future
+				isAcceptable = isAcceptable && a.getRoom().getGym().getId() == gym.getId(); // Activity belonging to gym
+				isAcceptable = isAcceptable && a.getNumberOfSeatsAvailable() - a.getCustomers().size() > 0; // seats available
+				isAcceptable = isAcceptable && this.isActivePayGym(a); // Active pay
+				isAcceptable = isAcceptable && !activityService.findAllByCustomer().contains(a); // Activity not booked
+				isAcceptable = isAcceptable && activityService.compruebaOverlappingCustomer(a); // No Overlapping
+				
+				if(isAcceptable){
+					activity = a;
+					break;
+				}
+			}	
+		}
+		
+		// Checks basic requirements
+		try{
+			Assert.notNull(activity, "No se ha encontrado una actividad con la que realizar la comprobación");
+		}catch (Exception e) {
+			throw new InvalidPreTestException(e.toString());
+		}
+		
+		// Execution of test
+		customers = activity.getCustomers();
+		customers.add(custo);
+		
+		activity.setCustomers(customers);
+		activity = activityService.book(activity);
+		
+		// Checks results 
+		try{
+			custo = customerService.findByPrincipal();
+			Assert.isTrue(activity.getCustomers().contains(custo), "El usuario no ha sido añadido a la actividad");
+		}catch (Exception e) {
+			throw new InvalidPostTestException(e.toString());
+		}
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	@Transactional(noRollbackFor=IllegalArgumentException.class)
+	@Rollback(value=true)
+	public void testBookActivityErrorSeats(){
+		Activity activity;
+		Customer custo;
+		Collection<Customer> customers;
+		Collection<Gym> gyms;
 	
 		// Load objects to test
 		authenticate("customer1");
@@ -170,8 +331,16 @@ public class ActivityTest extends AbstractTest{
 			for(Activity a:activities){
 				boolean isAcceptable;
 				
-				isAcceptable = ! activityService.compruebaOverlappingCustomer(a);
+				isAcceptable = activityService.compruebaOverlappingCustomer(a);
 				isAcceptable = isAcceptable && a.getNumberOfSeatsAvailable() - a.getCustomers().size() < 1;
+				
+				isAcceptable = !a.getDeleted(); // Activity not deleted
+				isAcceptable = isAcceptable && a.getStartingMoment().after(new Date()); //	Activity in the future
+				isAcceptable = isAcceptable && a.getRoom().getGym().getId() == gym.getId(); // Activity belonging to gym
+				isAcceptable = isAcceptable && a.getNumberOfSeatsAvailable() - a.getCustomers().size() < 1; // seats available
+				isAcceptable = isAcceptable && this.isActivePayGym(a); // Active pay
+				isAcceptable = isAcceptable && !activityService.findAllByCustomer().contains(a); // Activity not booked
+				isAcceptable = isAcceptable && activityService.compruebaOverlappingCustomer(a); // No Overlapping
 				
 				if(isAcceptable){
 					activity = a;
@@ -185,7 +354,9 @@ public class ActivityTest extends AbstractTest{
 			Assert.notNull(activity, "No se ha encontrado una actividad con la que realizar la comprobación");
 			Assert.isTrue(activity.getStartingMoment().after(new Date()), "PreTest - La actividad tiene un startingMoment en el pasado");
 			Assert.isTrue(activity.getNumberOfSeatsAvailable() - activity.getCustomers().size() < 1 , "PreTest - La actividad tiene asientos disponibles y se quiere probar lo contrario");
-			Assert.isTrue(activityService.findAllByCustomer().contains(activity), "PreTest - La actividad no está asociada a un gimnasio con pago activo");
+			Assert.isTrue(this.isActivePayGym(activity), "PreTest - La actividad no está asociada a un gimnasio con pago activo");
+			Assert.isTrue(activityService.compruebaOverlappingCustomer(activity), "PreTest - La actividad coincide con otra actividad ya reservada");
+			Assert.isTrue(!activityService.findAllByCustomer().contains(activity), "PreTest - La actividad ha sido reservada por el customer");
 		}catch (Exception e) {
 			throw new InvalidPreTestException(e.toString());
 		}
@@ -199,68 +370,214 @@ public class ActivityTest extends AbstractTest{
 		activity = activityService.book(activity);
 
 		// Checks results 
-		custo = customerService.findByPrincipal();
+		try{
+			custo = customerService.findByPrincipal();
 		
-		Assert.isTrue(! activity.getCustomers().contains(custo), "El usuario ha sido añadido a la actividad y no debería haber sido así");		
+			Assert.isTrue(! activity.getCustomers().contains(custo), "El usuario ha sido añadido a la actividad y no debería haber sido así");
+		}catch (Exception e) {
+			throw new InvalidPostTestException(e.toString());
+		}
 	}
 	
-	@Test
+	
+	@Test(expected=IllegalArgumentException.class)
+	@Transactional(noRollbackFor=IllegalArgumentException.class)
+	@Rollback(value=true)
 	public void testBookActivityErrorInPast(){
 		Activity activity;
 		Customer custo;
 		Collection<Customer> customers;
+		Collection<Gym> gyms;
 		
-		// Carga de objetos
-		authenticate("customer4"); // <-- CAMBIAR !!! #76
+		// Load objects to test
+		authenticate("customer2");
 		custo = customerService.findByPrincipal();
+		activity = null;
 		
-		activity = activityService.findOne(56); // <-- CAMBIAR !!! #76
+		gyms = gymService.findAll();
+		for(Gym gym:gyms){
+			Collection<Activity> activities;
+			activities = activityService.findAll();
+			for(Activity a:activities){
+				boolean isAcceptable;
+				
+				isAcceptable = !a.getDeleted(); // Activity not deleted
+				isAcceptable = isAcceptable && a.getStartingMoment().before(new Date()); //	Activity in the past
+				isAcceptable = isAcceptable && a.getRoom().getGym().getId() == gym.getId(); // Activity belonging to gym
+				isAcceptable = isAcceptable && a.getNumberOfSeatsAvailable() - a.getCustomers().size() > 0; // seats available
+				// isAcceptable = isAcceptable && this.isActivePayGym(a); // Active pay
+				isAcceptable = isAcceptable && !activityService.findAllByCustomer().contains(a); // Activity not booked
+				// isAcceptable = isAcceptable && activityService.compruebaOverlappingCustomer(a); // No Overlapping
+				
+				if(isAcceptable){
+					activity = a;
+					break;
+				}
+			}	
+		}
+				
+		// Checks basic requirements
+		try{
+			Assert.notNull(activity, "No se ha encontrado una actividad con la que realizar la comprobación");
+		}catch (Exception e) {
+			throw new InvalidPreTestException(e.toString());
+		}
 		
-		// Comprobaciones básicas de requisitos
-		Assert.isTrue(activity.getStartingMoment().before(new Date()), "PreTest - La actividad tiene un startingMoment en el futuro y se quiere probar lo contrario");
-		Assert.isTrue(activity.getNumberOfSeatsAvailable() - activity.getCustomers().size() > 0 , "PreTest - La actividad no tiene asientos disponibles");
-		Assert.isTrue(activityService.findAllByCustomer().contains(activity), "PreTest - La actividad no está asociada a un gimnasio con pago activo");
-		
-		// Ejecución del test
+		// Execution of test
 		customers = activity.getCustomers();
 		customers.add(custo);
 		
 		activity.setCustomers(customers);
-		activity = activityService.save(activity);
+		activity = activityService.book(activity);
 		
-		// Comprobación resultados 
-		custo = customerService.findByPrincipal();
-		
-		Assert.isTrue(! activity.getCustomers().contains(custo), "El usuario ha sido añadido a la actividad y no debería haber sido así");			
+		// Checks results 
+		try{
+			custo = customerService.findByPrincipal();
+			Assert.isTrue(! activity.getCustomers().contains(custo), "El usuario ha sido añadido a la actividad y no debería haber sido así");			
+		}catch (Exception e) {
+			throw new InvalidPostTestException(e.toString());
+		}
 	}
 	
-	@Test
+	@Test(expected=IllegalArgumentException.class)
+	@Transactional(noRollbackFor=IllegalArgumentException.class)
+	@Rollback(value=true)
 	public void testBookActivityErrorGymNotActivePaid(){
 		Activity activity;
 		Customer custo;
 		Collection<Customer> customers;
+		Collection<Activity> activities;
 		
-		// Carga de objetos
-		authenticate("customer4");
+		// Load objects to test
+		authenticate("customer2");
 		custo = customerService.findByPrincipal();
+		activities = activityService.findAll();
+		activity = null;
+
 		
-		activity = activityService.findOne(56);
+		for (Activity a : activities) {
+			boolean isAcceptable;
+			
+			isAcceptable = !a.getDeleted(); // Activity not deleted
+			isAcceptable = isAcceptable && a.getStartingMoment().after(new Date()); //	Activity in the future
+			//isAcceptable = isAcceptable && a.getRoom().getGym().getId() == gym.getId(); // Activity belonging to gym
+			isAcceptable = isAcceptable && a.getNumberOfSeatsAvailable() - a.getCustomers().size() > 0; // seats available
+			isAcceptable = isAcceptable && ! this.isActivePayGym(a); // Active pay
+			isAcceptable = isAcceptable && !activityService.findAllByCustomer().contains(a); // Activity not booked
+			isAcceptable = isAcceptable && activityService.compruebaOverlappingCustomer(a); // No Overlapping
+			
+			if (isAcceptable){
+				activity = a;
+				break;
+			}
+		}
 		
-		// Comprobaciones básicas de requisitos
-		Assert.isTrue(activity.getStartingMoment().after(new Date()), "PreTest - La actividad tiene un startingMoment en el pasado");
-		Assert.isTrue(activity.getNumberOfSeatsAvailable() - activity.getCustomers().size() > 0 , "PreTest - La actividad no tiene asientos disponibles");
-		Assert.isTrue(!activityService.findAllByCustomer().contains(activity), "PreTest - La actividad está asociada a un gimnasio con pago activo");
+		// Checks basic requirements
+		try{
+			Assert.notNull(activity, "No se ha encontrado una actividad con la que realizar la comprobación");
+		}catch (Exception e) {
+			throw new InvalidPreTestException(e.toString());
+		}
 		
-		// Ejecución del test
+		// Execution of test
+	
 		customers = activity.getCustomers();
 		customers.add(custo);
 		
 		activity.setCustomers(customers);
-		activity = activityService.save(activity);
+		activity = activityService.book(activity);
+
+		// Checks results 
+		try{
+			custo = customerService.findByPrincipal();
+			
+			Assert.isTrue(! activity.getCustomers().contains(custo), "El usuario ha sido añadido a la actividad y no debería haber sido así");
+		}catch (Exception e) {
+			throw new InvalidPostTestException(e.toString());
+		}
 		
-		// Comprobación resultados 
-		custo = customerService.findByPrincipal();
-		
-		Assert.isTrue(! activity.getCustomers().contains(custo), "El usuario ha sido añadido a la actividad y no debería haber sido así");			
 	}	
+	@Test(expected=IllegalArgumentException.class)
+	@Transactional(noRollbackFor=IllegalArgumentException.class)
+	@Rollback(value=true)
+	public void testBookActivityErrorOtherCustomer(){
+		Activity activity;
+		Customer custo;
+		Collection<Customer> customers;
+		Collection<Gym> gyms;
+		
+		// Load objects to test
+		authenticate("customer1");
+		custo = customerService.findByPrincipal();
+		activity = null;
+		
+		gyms = gymService.findAllWithFeePaymentActive();
+		for(Gym gym:gyms){
+			Collection<Activity> activities;
+			activities = activityService.findAll();
+			for(Activity a:activities){
+				boolean isAcceptable;
+				
+				isAcceptable = !a.getDeleted(); // Activity not deleted
+				isAcceptable = isAcceptable && a.getStartingMoment().after(new Date()); //	Activity in the future
+				isAcceptable = isAcceptable && a.getRoom().getGym().getId() == gym.getId(); // Activity belonging to gym
+				isAcceptable = isAcceptable && a.getNumberOfSeatsAvailable() - a.getCustomers().size() > 0; // seats available
+				
+				authenticate("customer1");
+				isAcceptable = isAcceptable && this.isActivePayGym(a); // Active pay
+				isAcceptable = isAcceptable && !activityService.findAllByCustomer().contains(a); // Activity not booked
+				isAcceptable = isAcceptable && activityService.compruebaOverlappingCustomer(a); // No Overlapping
+				
+				authenticate("customer2");
+				isAcceptable = isAcceptable && this.isActivePayGym(a); // Active pay
+				isAcceptable = isAcceptable && !activityService.findAllByCustomer().contains(a); // Activity not booked
+				isAcceptable = isAcceptable && activityService.compruebaOverlappingCustomer(a); // No Overlapping
+								
+				if(isAcceptable){
+					activity = a;
+					break;
+				}
+			}	
+		}
+		
+		// Checks basic requirements
+		try{
+			Assert.notNull(activity, "No se ha encontrado una actividad con la que realizar la comprobación");
+		}catch (Exception e) {
+			throw new InvalidPreTestException(e.toString());
+		}
+		
+		// Execution of test
+		authenticate("customer2");
+		
+		customers = activity.getCustomers();
+		customers.add(custo);
+		
+		activity.setCustomers(customers);
+		activity = activityService.book(activity);
+		
+		// Checks results 
+
+	}
+	
+	
+	// Ancillary Methods -----------------------------
+	/**
+	 * 
+	 * @return True if the activity is payed by a FeePayment asociate to the gym
+	 */
+	private boolean isActivePayGym(Activity input){
+		Collection<Gym> gyms;
+		Collection<Activity> activitiesPayed;
+		
+		activitiesPayed = new ArrayList<Activity>();
+
+		gyms = gymService.findAllWithFeePaymentActive();
+
+		for(Gym g:gyms){
+			activitiesPayed.addAll(activityService.findAllByGymId(g.getId()));
+		}
+		
+		return activitiesPayed.contains(input);
+	}
 }
