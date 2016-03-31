@@ -311,6 +311,7 @@
 		</property>
 		<property name="comments">
 			<list>
+				<ref bean="comment10"/>
 			</list>
 		</property>
 		<property name="activities">
@@ -1394,6 +1395,7 @@
 		<property name="madeComments">
 			<list>
 				<ref bean="comment9"/>
+				<ref bean="comment10"/>
 			</list>
 		</property>
 		<property name="comments">
@@ -2207,6 +2209,15 @@
 		<property name="deleted" value="false"/>
 		<property name="actor" ref="customer4"/>
 		<property name="commentedEntity" ref="service3"/>
+	</bean>
+	
+	<bean id="comment10" class="domain.Comment">
+		<property name="text" value="Buen Traienr"/>
+		<property name="moment" value="2016/02/11 18:30"/>
+		<property name="starRating" value="3"/>
+		<property name="deleted" value="false"/>
+		<property name="actor" ref="customer4"/>
+		<property name="commentedEntity" ref="trainer1"/>
 	</bean>
 	
 	<!-- ExchangeRate -->

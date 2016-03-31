@@ -113,8 +113,9 @@ public class CurriculumServiceTest extends AbstractTest {
 		curriculum.setSkills(skills);
 		curriculum.setDislikes(dislikes);
 		curriculum = curriculumService.save(curriculum);
+		curriculumService.flush();
 		
-		Assert.isTrue(curriculum.getStatement().equals("Hola"));
+		//Assert.isTrue(curriculum.getStatement().equals("Hola"));
 		Assert.isTrue(curriculum.getSkills().equals("Prueba"));
 		Assert.isTrue(curriculum.getLikes().equals("Prueba"));
 		Assert.isTrue(curriculum.getDislikes().equals("Prueba"));
@@ -156,9 +157,10 @@ public class CurriculumServiceTest extends AbstractTest {
 		//curriculum.setSkills(skills);
 		curriculum.setDislikes(dislikes);
 		curriculum = curriculumService.save(curriculum);
+		curriculumService.flush();
 		
 		Assert.isTrue(curriculum.getStatement().equals("Hola"));
-		Assert.isTrue(curriculum.getSkills().equals("Prueba"));
+		//Assert.isTrue(curriculum.getSkills().equals("Prueba"));
 		Assert.isTrue(curriculum.getLikes().equals("Prueba"));
 		Assert.isTrue(curriculum.getDislikes().equals("Prueba"));
 		Assert.isTrue(curriculum.getPicture() == trainer.getPicture());
@@ -199,10 +201,11 @@ public class CurriculumServiceTest extends AbstractTest {
 		curriculum.setSkills(skills);
 		curriculum.setDislikes(dislikes);
 		curriculum = curriculumService.save(curriculum);
+		curriculumService.flush();
 		
 		Assert.isTrue(curriculum.getStatement().equals("Hola"));
 		Assert.isTrue(curriculum.getSkills().equals("Prueba"));
-		Assert.isTrue(curriculum.getLikes().equals("Prueba"));
+		//Assert.isTrue(curriculum.getLikes().equals("Prueba"));
 		Assert.isTrue(curriculum.getDislikes().equals("Prueba"));
 		Assert.isTrue(curriculum.getPicture() == trainer.getPicture());
 		
@@ -241,11 +244,12 @@ public class CurriculumServiceTest extends AbstractTest {
 		curriculum.setSkills(skills);
 		//curriculum.setDislikes(dislikes);
 		curriculum = curriculumService.save(curriculum);
+		curriculumService.flush();
 		
 		Assert.isTrue(curriculum.getStatement().equals("Hola"));
 		Assert.isTrue(curriculum.getSkills().equals("Prueba"));
 		Assert.isTrue(curriculum.getLikes().equals("Prueba"));
-		Assert.isTrue(curriculum.getDislikes().equals("Prueba"));
+		//Assert.isTrue(curriculum.getDislikes().equals("Prueba"));
 		Assert.isTrue(curriculum.getPicture() == trainer.getPicture());
 		
 		authenticate(null);

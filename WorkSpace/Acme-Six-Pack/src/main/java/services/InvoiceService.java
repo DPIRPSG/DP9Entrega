@@ -110,4 +110,8 @@ public class InvoiceService {
 		Assert.isTrue(customerPrincipal == customerReal, "You can't manage an Invoice of other Customer.");
 	}
 	
+	public void flush() {
+		invoiceRepository.flush();
+	}
+	
 }
