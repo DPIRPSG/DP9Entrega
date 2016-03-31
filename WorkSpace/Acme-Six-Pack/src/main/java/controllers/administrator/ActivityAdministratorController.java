@@ -59,7 +59,7 @@ public class ActivityAdministratorController extends AbstractController{
 	// Edition ----------------------------------------------------------
 	
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam(required=false) Integer activityId){
+	public ModelAndView create(@RequestParam(required=false) Integer activityId, @RequestParam(required=false) Integer serviceId){
 		ModelAndView result;
 		Activity activity;
 		
@@ -67,6 +67,13 @@ public class ActivityAdministratorController extends AbstractController{
 			activity = activityService.createWithoutGym();
 		} else {
 			activity = activityService.findOne(activityId);
+		}
+		if(serviceId != null) {
+			ServiceEntity service;
+			
+			service = serviceService.findOne(serviceId);
+			
+			activity.setService(service);
 		}
 		
 		result = createEditModelAndViewCreate(activity);
