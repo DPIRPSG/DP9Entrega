@@ -60,6 +60,6 @@
 	
 	<acme:submit name="save" code="activity.save"/>
 	
-	<acme:cancel code="room.cancel" url="activity/administrator/create.do"/>
+	<acme:cancel code="room.cancel" url="activity/administrator/list.do"/>
 
 </form:form>
