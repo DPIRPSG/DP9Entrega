@@ -27,13 +27,13 @@
 
 	<spring:message code="trainer.surname" var="surnameHeader" />
 	<display:column title="${surnameHeader}"
-		sortable="false">
+		sortable="true">
 		<jstl:out value="${row_Trainer.surname}"/>
 	</display:column>
 	
 	<spring:message code="trainer.picture" var="pictureHeader" />	
 	<display:column title="${pictureHeader}"
-		sortable="true" >
+		sortable="false" >
 		<img src="${row_Trainer.picture}" style="height:128px;"/>
 	</display:column>
 
