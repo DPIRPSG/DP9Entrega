@@ -113,7 +113,7 @@ Use cases for testing:
 
 ===
 
-- Test 6.1 (Positive)
+- Test 6.1 (Positive) -> TERMINADO
   Description: A user who is authenticated as a customer must be able to list the gyms in which he or she has an active fee payment and navigate to the details of the corresponding fee payments.
   Precondition: The user is a customer.
   Return: TRUE
@@ -121,7 +121,7 @@ Use cases for testing:
 
 ===
 
-- Test 6.2 (Negative)
+- Test 6.2 (Negative) -> TERMINADO
   Description: A user who is authenticated as a customer must be able to list the gyms in which he or she has an active fee payment and navigate to the details of the corresponding fee payments.
   Precondition: The user is not a customer.
   Return: FALSE
@@ -129,7 +129,7 @@ Use cases for testing:
 
 ===
 
-- Test 6.3 (Positive)
+- Test 6.3 (Positive) -> TERMINADO
   Description: A user who is authenticated as a customer must be able to list the gyms in which he or she has an active fee payment and navigate to the details of the corresponding fee payments.
   Precondition: The user is a customer. The selected gym is paid.
   Return: TRUE
@@ -137,15 +137,15 @@ Use cases for testing:
 
 ===
 
-- Test 6.3 (Negative)
+- Test 6.4 (Postive) -> TERMINADO
   Description: A user who is authenticated as a customer must be able to list the gyms in which he or she has an active fee payment and navigate to the details of the corresponding fee payments.
   Precondition: The user is a customer. The selected gym is not paid.
   Return: FALSE
-  Postcondition: -
+  Postcondition: All feePayments in the gym selected.
 
 ===
 
-- Test 7.1 (Positive)
+- Test 7.1 (Positive) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
   Precondition: The user is an admin
   Return: TRUE
@@ -153,15 +153,7 @@ Use cases for testing:
 
 ===
 
-- Test 7.2 (Negative)
-  Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
-  Precondition: The user is not an admin
-  Return: FALSE
-  Postcondition: -
-
-===
-
-- Test 7.3 (Positive)
+- Test 7.2 (Positive) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
   Precondition: The user is an admin. The data of the new gym must be valid.
   Return: TRUE
@@ -170,7 +162,7 @@ Use cases for testing:
 ===
 
 
-- Test 7.4 (Negative)
+- Test 7.3 (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
   Precondition: The user is not an admin. The data of the new gym must be valid.
   Return: FALSE
@@ -178,7 +170,7 @@ Use cases for testing:
 
 ===
 
-- Test 7.5.X (Negative)
+- Test 7.4.X (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
   Precondition: The user is an admin. The data of the new gym must not be valid.
   Return: FALSE
@@ -187,16 +179,7 @@ Use cases for testing:
 
 ===
 
-- Test 7.6.X (Negative)
-  Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
-  Precondition: The user is not an admin. The data of the new gym must not be valid.
-  Return: FALSE
-  Postcondition: -
-  Notes: This test must be done for each data of the new gym.
-
-===
-
-- Test 7.7 (Positive)
+- Test 7.5 (Positive) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
   Precondition: The user is an admin. The data use to modify the gym must be valid.
   Return: TRUE
@@ -204,7 +187,7 @@ Use cases for testing:
 
 ===
 
-- Test 7.8 (Negative)
+- Test 7.6 (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
   Precondition: The user is not an admin. The data use to modify the gym must be valid.
   Return: FALSE
@@ -212,7 +195,7 @@ Use cases for testing:
 
 ===
 
-- Test 7.9.X (Negative)
+- Test 7.7.X (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
   Precondition: The user is an admin. The data use to modify the gym must not be valid.
   Return: FALSE
@@ -221,16 +204,7 @@ Use cases for testing:
 
 ===
 
-- Test 7.10.X (Negative)
-  Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
-  Precondition: The user is not an admin. The data use to modify the gym must not be valid.
-  Return: FALSE
-  Postcondition: -
-  Notes: This test must be done for each data of the modify gym.
-
-===
-
-- Test 7.11 (Positive)
+- Test 7.8 (Positive) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
   Precondition: The user is an admin. The gym to delete must be a gym of the system.
   Return: TRUE
@@ -238,7 +212,7 @@ Use cases for testing:
 
 ===
 
-- Test 7.12 (Negative)
+- Test 7.11 (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
   Precondition: The user is not an admin. The gym to delete must be a gym of the system.
   Return: FALSE
@@ -246,23 +220,15 @@ Use cases for testing:
 
 ===
 
-- Test 7.13 (Negative)
+- Test 7.12 (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
-  Precondition: The user is an admin. The gym to deleted must not be a gym of the system.
+  Precondition: The user is an admin. The gym to deleted could not be deleted due to constraints.
   Return: FALSE
   Postcondition: -
 
 ===
 
-- Test 7.14 (Negative)
-  Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
-  Precondition: The user is not an admin. The gym to deleted must not be a gym of the system.
-  Return: FALSE
-  Postcondition: -
-
-===
-
-- Test 8.1 (Positive)
+- Test 8.1 (Positive) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
   Precondition: The user is an admin. The selected gym must be a gym of the system.
   Return: TRUE
@@ -270,7 +236,7 @@ Use cases for testing:
 
 ===
 
-- Test 8.2 (Negative)
+- Test 8.2 (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
   Precondition: The user is an admin. The selected gym must not be a gym of the system.
   Return: FALSE
@@ -278,32 +244,16 @@ Use cases for testing:
 
 ===
 
-- Test 8.3 (Negative)
-  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
-  Precondition: The user is not an admin. The selected gym must be a gym of the system.
-  Return: FALSE
-  Postcondition: -
-
-===
-
-- Test 8.4 (Negative)
-  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
-  Precondition: The user is not an admin. The selected gym must not be a gym of the system.
-  Return: FALSE
-  Postcondition: -
-
-===
-
-- Test 8.5 (Positive)
+- Test 8.3 (Positive) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
   Precondition: The user is an admin. The data of the new room must be valid. The selected gym must be a gym of the system.
   Return: TRUE
-  Postcondition: A new room is creted.
+  Postcondition: A new room is created.
 
 ===
 
 
-- Test 8.6 (Negative)
+- Test 8.4 (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
   Precondition: The user is not an admin. The data of the new room must be valid. The selected gym must be a gym of the system.
   Return: FALSE
@@ -311,7 +261,7 @@ Use cases for testing:
 
 ===
 
-- Test 8.7.X (Negative)
+- Test 8.5.X (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
   Precondition: The user is an admin. The data of the new room must not be valid. The selected gym must be a gym of the system.
   Return: FALSE
@@ -320,16 +270,7 @@ Use cases for testing:
 
 ===
 
-- Test 8.8.X (Negative)
-  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
-  Precondition: The user is an admin. The data of the new room must be valid. The selected gym must not be a gym of the system.
-  Return: FALSE
-  Postcondition: -
-  Notes: This test must be done for each data of the new room.
-
-===
-
-- Test 8.9 (Positive)
+- Test 8.6 (Positive)
   Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
   Precondition: The user is an admin. The data use to modify the room must be valid. The selected gym must be a gym of the system.
   Return: TRUE
