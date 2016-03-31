@@ -1,6 +1,10 @@
 package utilities;
 
-public class InvalidPreTestException extends Exception {
+import org.junit.internal.runners.statements.Fail;
+
+import com.mchange.util.AssertException;
+
+public class InvalidPreTestException extends AssertException {
 
 	public InvalidPreTestException(String string) {
 		super(string);
