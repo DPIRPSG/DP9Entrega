@@ -80,7 +80,7 @@ public class CommentService {
 	
 	public void save(Comment comment){
 		Assert.isTrue(actorService.checkAuthority("ADMIN") || actorService.checkAuthority("CUSTOMER") || actorService.checkAuthority("TRAINER"), "Only an admin, a customer or a trainer can save comments");
-
+		Assert.isTrue(comment.getDeleted() == false);
 		Assert.notNull(comment);
 		
 		/* Añadido por Guillermo */

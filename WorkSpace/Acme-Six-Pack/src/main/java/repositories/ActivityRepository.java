@@ -1,6 +1,7 @@
 package repositories;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,5 +23,8 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 	
 	@Query("select avg(s.activities.size) from Gym g left join g.services s group by s")
 	Collection<Double> averageNumberOfActivitiesPerGymByService();
+
+	@Query("select a from Activity a join a.room r join r.gym g where g.id = ?1 and a.deleted = false and a.startingMoment > ?2")
+	Collection<Activity> findAllActivesByGymId(int gymId, Date moment);
 
 }

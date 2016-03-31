@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActivityService;
+import services.GymService;
 
 import controllers.AbstractController;
 import domain.Activity;
+import domain.Gym;
 
 @Controller
 @RequestMapping(value = "/activity/customer")
@@ -23,6 +25,9 @@ public class ActivityCustomerController extends AbstractController{
 	@Autowired
 	private ActivityService activityService;
 	
+	@Autowired
+	private GymService gymService;
+	
 	// Constructors ----------------------------------------------------------
 	public ActivityCustomerController(){
 		super();
@@ -30,16 +35,35 @@ public class ActivityCustomerController extends AbstractController{
 	
 	// Listing ----------------------------------------------------------
 	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public ModelAndView list(){
+	public ModelAndView list(@RequestParam(required=false) Integer gymId){
 		
 		ModelAndView result;
 		Collection<Activity> activities;
+		boolean hayGymId, gymPagado;
+		Gym gym;
+		Collection<Gym> gyms;
 		
 		activities = activityService.findAllByCustomer();
+		hayGymId = false;
+		gymPagado = false;
+		
+		if(gymId != null) {
+			hayGymId = true;
+			activities = activityService.findAllActivesByGymId(gymId);
+			
+			gym = gymService.findOne(gymId);
+			gyms = gymService.findAllWithFeePaymentActive();
+			
+			if(gyms.contains(gym)) {
+				gymPagado = true;
+			}
+		}
 		
 		result = new ModelAndView("activity/list");
 		result.addObject("requestURI", "activity/customer/list.do");
 		result.addObject("activities", activities);
+		result.addObject("hayGymId", hayGymId);
+		result.addObject("gymPagado", gymPagado);
 		
 		return result;
 	}

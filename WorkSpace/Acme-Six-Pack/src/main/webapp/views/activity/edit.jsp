@@ -28,6 +28,14 @@
 	<acme:textbox code="activity.startingMoment" path="startingMoment"/>
 	<acme:textbox code="activity.duration" path="duration"/>
 	<acme:textarea code="activity.description" path="description"/>
+	
+	<br />
+	<spring:message code="activity.picture.addPicture"/>
+	<br />
+	<spring:message code="activity.picture.editPicture"/>
+	<br />
+	<spring:message code="activity.picture.deletePicture"/>
+	<br /> <br />
 	<acme:textarea code="activity.pictures" path="pictures"/>
 			
 	<form:label path="room">
