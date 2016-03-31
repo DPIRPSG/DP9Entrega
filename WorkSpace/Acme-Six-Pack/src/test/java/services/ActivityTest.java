@@ -22,7 +22,6 @@ import repositories.CustomerRepository;
 import domain.Activity;
 import domain.Customer;
 import domain.Gym;
-import domain.Room;
 
 import utilities.AbstractTest;
 import utilities.InvalidPostTestException;

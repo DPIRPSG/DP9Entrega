@@ -960,7 +960,7 @@
 	<bean id="activity1" class="domain.Activity">
 		<property name="title" value="Primera clase de natación" />
 		<property name="numberOfSeatsAvailable" value="15" />
-		<property name="startingMoment" value="2016/03/19 17:30" />
+		<property name="startingMoment" value="2016/07/19 17:30" />
 		<property name="duration" value="1" />
 		<property name="description" value="Será la primera clase de natación" />
 		<property name="pictures">
@@ -981,7 +981,7 @@
 	<bean id="activity2" class="domain.Activity">
 		<property name="title" value="Primera clase de Karate" />
 		<property name="numberOfSeatsAvailable" value="15" />
-		<property name="startingMoment" value="2016/03/25 17:30" />
+		<property name="startingMoment" value="2016/04/25 17:30" />
 		<property name="duration" value="1" />
 		<property name="description" value="Será la primera clase de Karate" />
 		<property name="pictures">
@@ -1001,7 +1001,7 @@
 	<bean id="activity3" class="domain.Activity">
 		<property name="title" value="Primera clase de Spinning" />
 		<property name="numberOfSeatsAvailable" value="10" />
-		<property name="startingMoment" value="2016/03/20 17:30" />
+		<property name="startingMoment" value="2016/07/20 17:30" />
 		<property name="duration" value="1" />
 		<property name="description" value="Será la primera clase de spinning" />
 		<property name="pictures">
@@ -1022,7 +1022,7 @@
 	<bean id="activity4" class="domain.Activity">
 		<property name="title" value="Primera clase de Fitness" />
 		<property name="numberOfSeatsAvailable" value="10" />
-		<property name="startingMoment" value="2016/03/21 17:30" />
+		<property name="startingMoment" value="2016/07/21 17:30" />
 		<property name="duration" value="1" />
 		<property name="description" value="Será la primera clase de Fitness" />
 		<property name="pictures">
@@ -1043,7 +1043,7 @@
 	<bean id="activity5" class="domain.Activity">
 		<property name="title" value="Segunda clase de natación" />
 		<property name="numberOfSeatsAvailable" value="15" />
-		<property name="startingMoment" value="2016/03/23 11:30" />
+		<property name="startingMoment" value="2016/07/23 11:30" />
 		<property name="duration" value="1" />
 		<property name="description" value="Será la primera clase de natación" />
 		<property name="pictures">
@@ -1064,7 +1064,7 @@
 	<bean id="activity6" class="domain.Activity">
 		<property name="title" value="Tercera clase de natación" />
 		<property name="numberOfSeatsAvailable" value="15" />
-		<property name="startingMoment" value="2016/03/22 17:30" />
+		<property name="startingMoment" value="2016/07/22 17:30" />
 		<property name="duration" value="1" />
 		<property name="description" value="Será la tercera clase de natación" />
 		<property name="pictures">
@@ -1084,7 +1084,7 @@
 	<bean id="activity7" class="domain.Activity">
 		<property name="title" value="Segunda clase de Fitness" />
 		<property name="numberOfSeatsAvailable" value="1" />
-		<property name="startingMoment" value="2016/03/28 17:30" />
+		<property name="startingMoment" value="2016/07/28 17:30" />
 		<property name="duration" value="1" />
 		<property name="description" value="Será la primera clase de Fitness" />
 		<property name="pictures">
@@ -1105,7 +1105,7 @@
 	<bean id="activity8" class="domain.Activity">
 		<property name="title" value="Anterior a Primera clase de Fitness" />
 		<property name="numberOfSeatsAvailable" value="15" />
-		<property name="startingMoment" value="2016/03/12 17:30" />
+		<property name="startingMoment" value="2016/07/12 17:30" />
 		<property name="duration" value="1" />
 		<property name="description" value="Será la primera clase de Fitness" />
 		<property name="pictures">
@@ -1990,8 +1990,8 @@
 	<bean id="feePayment1" class="domain.FeePayment">
 		<property name="paymentMoment" value="2016/02/12 18:00"/>
 		<property name="creditCard" ref="creditCard1"/>
-		<property name="activeMoment" value="2016/02/13 12:00"/>
-		<property name="inactiveMoment" value="2016/03/13 12:00"/>
+		<property name="activeMoment" value="2016/06/13 12:00"/>
+		<property name="inactiveMoment" value="2016/07/13 12:00"/>
 		<property name="amount" value="30"/>
 		<property name="gym" ref="gym1"/>
 		<property name="customer" ref="customer1"/>
@@ -2001,8 +2001,8 @@
 	<bean id="feePayment2" class="domain.FeePayment">
 		<property name="paymentMoment" value="2016/01/11 18:00"/>
 		<property name="creditCard" ref="creditCard1"/>
-		<property name="activeMoment" value="2016/01/12 12:00"/>
-		<property name="inactiveMoment" value="2016/02/12 12:00"/>
+		<property name="activeMoment" value="2016/05/12 12:00"/>
+		<property name="inactiveMoment" value="2016/06/12 12:00"/>
 		<property name="amount" value="30"/>
 		<property name="gym" ref="gym1"/>
 		<property name="customer" ref="customer1"/>
@@ -2023,8 +2023,8 @@
 	<bean id="feePayment4" class="domain.FeePayment">
 		<property name="paymentMoment" value="2016/02/14 18:00"/>
 		<property name="creditCard" ref="creditCard2"/>
-		<property name="activeMoment" value="2016/02/15 12:00"/>
-		<property name="inactiveMoment" value="2016/03/15 12:00"/>
+		<property name="activeMoment" value="2016/06/15 12:00"/>
+		<property name="inactiveMoment" value="2016/07/15 12:00"/>
 		<property name="amount" value="20"/>
 		<property name="gym" ref="gym2"/>
 		<property name="customer" ref="customer2"/>
@@ -2044,8 +2044,8 @@
 	<bean id="feePayment6" class="domain.FeePayment">
 		<property name="paymentMoment" value="2015/07/02 18:00"/>
 		<property name="creditCard" ref="creditCard3"/>
-		<property name="activeMoment" value="2015/07/03 12:00"/>
-		<property name="inactiveMoment" value="2015/08/03 12:00"/>
+		<property name="activeMoment" value="2016/07/03 12:00"/>
+		<property name="inactiveMoment" value="2016/08/03 12:00"/>
 		<property name="amount" value="15"/>
 		<property name="gym" ref="gym3"/>
 		<property name="customer" ref="customer3"/>
@@ -2055,8 +2055,8 @@
 	<bean id="feePayment7" class="domain.FeePayment">
 		<property name="paymentMoment" value="2015/08/03 18:00"/>
 		<property name="creditCard" ref="creditCard3"/>
-		<property name="activeMoment" value="2015/08/04 12:00"/>
-		<property name="inactiveMoment" value="2015/09/04 12:00"/>
+		<property name="activeMoment" value="2016/08/04 12:00"/>
+		<property name="inactiveMoment" value="2016/09/04 12:00"/>
 		<property name="amount" value="15"/>
 		<property name="gym" ref="gym3"/>
 		<property name="customer" ref="customer3"/>
@@ -2066,8 +2066,8 @@
 	<bean id="feePayment8" class="domain.FeePayment">
 		<property name="paymentMoment" value="2015/09/04 18:00"/>
 		<property name="creditCard" ref="creditCard3"/>
-		<property name="activeMoment" value="2015/09/05 12:00"/>
-		<property name="inactiveMoment" value="2015/10/05 12:00"/>
+		<property name="activeMoment" value="2016/09/05 12:00"/>
+		<property name="inactiveMoment" value="2016/10/05 12:00"/>
 		<property name="amount" value="15"/>
 		<property name="gym" ref="gym3"/>
 		<property name="customer" ref="customer3"/>
@@ -2077,8 +2077,8 @@
 	<bean id="feePayment9" class="domain.FeePayment">
 		<property name="paymentMoment" value="2015/10/05 18:00"/>
 		<property name="creditCard" ref="creditCard3"/>
-		<property name="activeMoment" value="2015/10/06 12:00"/>
-		<property name="inactiveMoment" value="2015/11/06 12:00"/>
+		<property name="activeMoment" value="2016/10/06 12:00"/>
+		<property name="inactiveMoment" value="2016/11/06 12:00"/>
 		<property name="amount" value="15"/>
 		<property name="gym" ref="gym3"/>
 		<property name="customer" ref="customer3"/>
