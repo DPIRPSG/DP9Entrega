@@ -36,6 +36,36 @@
 		sortable="false" >
 		<img src="${row_Trainer.picture}" style="height:128px;"/>
 	</display:column>
+	
+	<spring:message code="trainer.statement" var="statementHeader" />
+	<display:column title="${statementHeader}"
+		sortable="false">
+		<jstl:out value="${row_Trainer.curriculum.statement}"/>
+	</display:column>
+	
+	<spring:message code="trainer.skills" var="skillsHeader" />
+	<display:column title="${skillsHeader}"
+		sortable="false">
+		<jstl:forEach var="skill" items="${row_Trainer.curriculum.skills}" >
+	        -<jstl:out value="${skill}"/><br>
+	    </jstl:forEach>
+	</display:column>
+	
+	<spring:message code="trainer.likes" var="likesHeader" />
+	<display:column title="${likesHeader}"
+		sortable="false">
+		<jstl:forEach var="like" items="${row_Trainer.curriculum.likes}" >
+	        -<jstl:out value="${like}"/><br>
+	    </jstl:forEach>
+	</display:column>
+	
+	<spring:message code="trainer.dislikes" var="dislikesHeader" />
+	<display:column title="${dislikesHeader}"
+		sortable="false">
+		<jstl:forEach var="dislike" items="${row_Trainer.curriculum.dislikes}" >
+	        -<jstl:out value="${dislike}"/><br>
+	    </jstl:forEach>
+	</display:column>
 
 	<display:column>
 		<a href="trainer/specialities.do?trainerId=${row_Trainer.id}"> <spring:message
