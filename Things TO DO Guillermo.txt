@@ -309,7 +309,7 @@ Use cases for testing:
 
 ===
 
-- Test 8.11 (Negative)
+- Test 8.11 (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
   Precondition: The user is an admin. The room to deleted must be a room of the system. The room must be attached to an activity.
   Return: FALSE
@@ -317,7 +317,7 @@ Use cases for testing:
 
 ===
 
-- Test 9.1 (Positive)
+- Test 9.1 (Positive) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the bulletins of a gym, which includes listing and creating them. Bulletins cannot be modified or deleted. Before publishing a bulletin, the system must ask for confirmation.
   Precondition: The user is an admin. The selected gym must be a gym of the system.
   Return: TRUE
@@ -325,7 +325,7 @@ Use cases for testing:
 
 ===
 
-- Test 9.2 (Negative)
+- Test 9.2 (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the bulletins of a gym, which includes listing and creating them. Bulletins cannot be modified or deleted. Before publishing a bulletin, the system must ask for confirmation.
   Precondition: The user is an admin. The selected gym must not be a gym of the system.
   Return: FALSE
@@ -333,52 +333,16 @@ Use cases for testing:
 
 ===
 
-- Test 9.3 (Negative)
-  Description: A user who is authenticated as an administrator must be able to manage the bulletins of a gym, which includes listing and creating them. Bulletins cannot be modified or deleted. Before publishing a bulletin, the system must ask for confirmation.
-  Precondition: The user is not an admin. The selected gym must be a gym of the system.
-  Return: FALSE
-  Postcondition: -
-
-===
-
-- Test 9.4 (Negative)
-  Description: A user who is authenticated as an administrator must be able to manage the bulletins of a gym, which includes listing and creating them. Bulletins cannot be modified or deleted. Before publishing a bulletin, the system must ask for confirmation.
-  Precondition: The user is not an admin. The selected gym must not be a gym of the system.
-  Return: FALSE
-  Postcondition: -
-
-===
-
-- Test 9.5 (Positive)
+- Test 9.3 (Positive) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the bulletins of a gym, which includes listing and creating them. Bulletins cannot be modified or deleted. Before publishing a bulletin, the system must ask for confirmation.
   Precondition: The user is an admin. The data of the new bulletin must be valid. The selected gym must be a gym of the system.
   Return: TRUE
-  Postcondition: A new bulletin is creted.
+  Postcondition: A new bulletin is created.
 
 ===
 
-- Test 9.6 (Negative)
+- Test 9.4 (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the bulletins of a gym, which includes listing and creating them. Bulletins cannot be modified or deleted. Before publishing a bulletin, the system must ask for confirmation.
   Precondition: The user is not an admin. The data of the new room must be valid. The selected gym must be a gym of the system.
   Return: FALSE
   Postcondition: -
-
-===
-
-- Test 9.7.X (Negative)
-  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
-  Precondition: The user is an admin. The data of the new bulletin must not be valid. The selected gym must be a gym of the system.
-  Return: FALSE
-  Postcondition: -
-  Notes: This test must be done for each data of the new bulletin.
-
-===
-
-- Test 9.8.X (Negative)
-  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
-  Precondition: The user is an admin. The data of the new bulletin must be valid. The selected gym must not be a gym of the system.
-  Return: FALSE
-  Postcondition: -
-  Notes: This test must be done for each data of the new bulletin.
-
-===
