@@ -322,5 +322,307 @@ public class RoomServiceTest extends AbstractTest{
 		authenticate(null);
 		roomService.flush();
 	}
+	
+	/**
+	 * TEST POSITIVO
+	 * Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+	 * Precondition: The user is an admin. The data use to modify the room must be valid.
+	 * Return: TRUE
+	 * Postcondition: A room is modify.
+	 */
+	@Test
+	public void testModifyRoom1(){
+		
+		Collection<Room> all;
+		Room roomToModify = null;
+		
+		authenticate("admin");
+		
+		all = roomService.findAll();
+		
+		for(Room i:all){
+			if(i.getName().equals("Habitación general")){
+				roomToModify = i;
+			}
+		}
+		
+		roomToModify.setDescription("Descripción modificada");
+		roomService.saveToEdit(roomToModify);
+		
+		all = roomService.findAll();
+		
+		for(Room i:all){
+			if(i.getName().equals("Habitación general")){
+				roomToModify = i;
+			}
+		}
+		
+		Assert.isTrue(roomToModify.getDescription().equals("Descripción modificada"));
+		
+		authenticate(null);
+		roomService.flush();
+		
+	}
+	
+	/**
+	 * TEST POSITIVO
+	 * Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+	 * Precondition: The user is an admin. The data use to modify the room must be valid.
+	 * Return: TRUE
+	 * Postcondition: A room is modify.
+	 */
+	@Test
+	public void testModifyRoom2(){
+		
+		Collection<Room> all;
+		Room roomToModify = null;
+		
+		authenticate("admin");
+		
+		all = roomService.findAll();
+		
+		for(Room i:all){
+			if(i.getName().equals("Habitación general")){
+				roomToModify = i;
+			}
+		}
+		
+		roomToModify.setNumberOfSeats(40);
+		roomService.saveToEdit(roomToModify);
+		
+		all = roomService.findAll();
+		
+		for(Room i:all){
+			if(i.getName().equals("Habitación general")){
+				roomToModify = i;
+			}
+		}
+		
+		Assert.isTrue(roomToModify.getNumberOfSeats() == 40);
+		
+		authenticate(null);
+		roomService.flush();
+		
+	}
+	
+	/**
+	 * TEST POSITIVO
+	 * Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+	 * Precondition: The user is an admin. The data use to modify the room must be valid.
+	 * Return: TRUE
+	 * Postcondition: A room is modify.
+	 */
+	// Problem: You change the seats of a room to a number smaller that the activity with the largest number of seats.
+	@Test
+	public void testModifyRoom3(){
+		
+		Collection<Room> all;
+		Room roomToModify = null;
+		
+		authenticate("admin");
+		
+		all = roomService.findAll();
+		
+		for(Room i:all){
+			if(i.getName().equals("Piscina")){
+				roomToModify = i;
+			}
+		}
+		
+		roomToModify.setNumberOfSeats(2);
+		roomService.saveToEdit(roomToModify);
+		
+		all = roomService.findAll();
+		
+		for(Room i:all){
+			if(i.getName().equals("Habitación general")){
+				roomToModify = i;
+			}
+		}
+		
+		Assert.isTrue(roomToModify.getNumberOfSeats() == 40);
+		
+		authenticate(null);
+		roomService.flush();
+		
+	}
+	
+	/**
+	 * Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+	 * Precondition: The user is not an admin. The data use to modify the room must be valid. The selected gym must be a gym of the system.
+	 * Return: FALSE
+	 * Postcondition: -
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	@Rollback(value = true)
+	public void testModifyRoom4(){
+		
+		Collection<Room> all;
+		Room roomToModify = null;
+				
+		all = roomService.findAll();
+		
+		for(Room i:all){
+			if(i.getName().equals("Habitación general")){
+				roomToModify = i;
+			}
+		}
+		
+		roomToModify.setDescription("Descripción modificada");
+		roomService.saveToEdit(roomToModify);
+		
+		all = roomService.findAll();
+		
+		for(Room i:all){
+			if(i.getName().equals("Habitación general")){
+				roomToModify = i;
+			}
+		}
+		
+		Assert.isTrue(roomToModify.getDescription().equals("Descripción modificada"));
+		
+		roomService.flush();
+	}
+	
+	/**
+	 * Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+	 * Precondition: The user is an admin. The data use to modify the room must not be valid. The selected gym must be a gym of the system.
+	 * Return: FALSE
+	 * Postcondition: -
+	 * Notes: This test must be done for each data of the modify room.
+	 */
+	@Test(expected = ConstraintViolationException.class)
+	@Rollback(value = true)
+	public void testModifyRoom5(){
+		
+		Collection<Room> all;
+		Room roomToModify = null;
+		
+		authenticate("admin");
+		
+		all = roomService.findAll();
+		
+		for(Room i:all){
+			if(i.getName().equals("Habitación general")){
+				roomToModify = i;
+			}
+		}
+		
+		roomToModify.setNumberOfSeats(-40);
+		roomService.saveToEdit(roomToModify);
+		
+		all = roomService.findAll();
+		
+		for(Room i:all){
+			if(i.getName().equals("Habitación general")){
+				roomToModify = i;
+			}
+		}
+		
+		Assert.isTrue(roomToModify.getNumberOfSeats() == -40);
+		
+		authenticate(null);
+		roomService.flush();
+		
+	}
+	
+	/**
+	 * Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+	 * Precondition: The user is an admin. The room to delete must be a room of the system.
+	 * Return: TRUE
+	 * Postcondition: The room is deleted.
+	 */
+	@Test
+	public void testDeleteRoom1(){
+		
+		Collection<Room> all;
+		Room roomToDelete = null;
+		
+		authenticate("admin");
+		
+		all = roomService.findAll();
+		Assert.isTrue(all.size() == 5);
+		
+		for(Room i:all){
+			if(i.getName().equals("Habitación general")){
+				roomToDelete = i;
+			}
+		}
+		
+		roomService.delete(roomToDelete);
+		
+		all = roomService.findAll();
+		Assert.isTrue(all.size() == 4);
+		
+		authenticate(null);
+		roomService.flush();
+		
+	}
+	
+	/**
+	 * Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+	 * Precondition: The user is not an admin. The room to delete must be a room of the system.
+	 * Return: FALSE
+	 * Postcondition: -
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	@Rollback(value = true)
+	public void testDeleteRoom2(){
+		
+		Collection<Room> all;
+		Room roomToDelete = null;
+				
+		all = roomService.findAll();
+		Assert.isTrue(all.size() == 5);
+		
+		for(Room i:all){
+			if(i.getName().equals("Habitación general")){
+				roomToDelete = i;
+			}
+		}
+		
+		roomService.delete(roomToDelete);
+		
+		all = roomService.findAll();
+		Assert.isTrue(all.size() == 4);
+		
+		roomService.flush();
+		
+	}
+	
+	/**
+	 * Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+	 * Precondition: The user is an admin. The room to deleted must be a room of the system. The room must be attached to an activity.
+	 * Return: FALSE
+	 * Postcondition: -
+	 */
+	// Problem: You can delete an room with activity attached in the future.
+	// To try this, create an activity with room Habitación general placed in the future and try to delete it.
+	@Test
+	@Rollback(value = true)
+	public void testDeleteRoom3(){
+		
+		Collection<Room> all;
+		Room roomToDelete = null;
+		
+		authenticate("admin");
+		
+		all = roomService.findAll();
+		Assert.isTrue(all.size() == 5);
+		
+		for(Room i:all){
+			if(i.getName().equals("Habitación general")){
+				roomToDelete = i;
+			}
+		}
+		
+		roomService.delete(roomToDelete);
+		
+		all = roomService.findAll();
+		Assert.isTrue(all.size() == 5);
+		
+		authenticate(null);
+		roomService.flush();
+	}
 
 }

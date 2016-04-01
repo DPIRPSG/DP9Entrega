@@ -270,31 +270,21 @@ Use cases for testing:
 
 ===
 
-- Test 8.6 (Positive)
+- Test 8.6 (Positive) -> Decirle a Migue que hay que corregir el testModifyRoom3()
   Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
-  Precondition: The user is an admin. The data use to modify the room must be valid. The selected gym must be a gym of the system.
+  Precondition: The user is an admin. The data use to modify the room must be valid.
   Return: TRUE
   Postcondition: A room is modify.
 
 ===
 
-- Test 8.10 (Negative)
+- Test 8.7 (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
   Precondition: The user is not an admin. The data use to modify the room must be valid. The selected gym must be a gym of the system.
   Return: FALSE
   Postcondition: -
 
-===
-
-- Test 8.11 (Negative)
-  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
-  Precondition: The user is an admin. The data use to modify the room must be valid. The selected gym must not be a gym of the system.
-  Return: FALSE
-  Postcondition: -
-
-===
-
-- Test 8.12.X (Negative)
+- Test 8.8.X (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
   Precondition: The user is an admin. The data use to modify the room must not be valid. The selected gym must be a gym of the system.
   Return: FALSE
@@ -303,16 +293,7 @@ Use cases for testing:
 
 ===
 
-- Test 8.13.X (Negative)
-  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
-  Precondition: The user is not an admin. The data use to modify the room must not be valid. The selected gym must be a gym of the system.
-  Return: FALSE
-  Postcondition: -
-  Notes: This test must be done for each data of the modify room.
-
-===
-
-- Test 8.14 (Positive)
+- Test 8.9 (Positive) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
   Precondition: The user is an admin. The room to delete must be a room of the system.
   Return: TRUE
@@ -320,7 +301,7 @@ Use cases for testing:
 
 ===
 
-- Test 8.15 (Negative)
+- Test 8.10 (Negative) -> TERMINADO
   Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
   Precondition: The user is not an admin. The room to delete must be a room of the system.
   Return: FALSE
@@ -328,17 +309,9 @@ Use cases for testing:
 
 ===
 
-- Test 8.16 (Negative)
+- Test 8.11 (Negative)
   Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
-  Precondition: The user is an admin. The room to deleted must not be a room of the system.
-  Return: FALSE
-  Postcondition: -
-
-===
-
-- Test 8.17 (Negative)
-  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
-  Precondition: The user is not an admin. The room to deleted must not be a room of the system.
+  Precondition: The user is an admin. The room to deleted must be a room of the system. The room must be attached to an activity.
   Return: FALSE
   Postcondition: -
 
