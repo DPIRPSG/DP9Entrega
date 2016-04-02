@@ -105,6 +105,10 @@ public class ActivityService {
 		return result;
 	}
 	
+    /**
+     *
+     * Sirve para comprobar todas las restricciones que debe cumplir una activity al editar algo. Al sólo poder editar el admin, se puede entender que sólo se usa cuando se es admin.
+     */
 	public void saveToEdit(Activity activity){
 		Assert.notNull(activity);
 		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can save an Activity");
@@ -210,6 +214,8 @@ public class ActivityService {
 		Assert.isTrue(!customer.getActivities().contains(activity), "You have already book this activity");
 		Assert.isTrue(gyms.contains(activity.getRoom().getGym()), "This activity does not belongs to a paid gym");
 		Assert.isTrue((activity.getNumberOfSeatsAvailable() - activity.getCustomers().size()) >= 1, "There are not a single seats available");
+		
+		Assert.isTrue(activity.getStartingMoment().after(new Date()), "You cannot book an activity already done");
 		
 		activity.getCustomers().add(customer);
 		activities.add(activity);
@@ -362,6 +368,11 @@ public class ActivityService {
 		return result;
 	}
 	
+
+    /**
+     *
+     * @return Devuelve true si no hay overlapping y false si hay overlapping
+     */
 	public boolean compruebaOverlappingCustomer(Activity activity){
 		
 		Assert.notNull(activity);
@@ -441,6 +452,17 @@ public class ActivityService {
 		result = activityRepository.averageNumberOfActivitiesPerGymByService();
 		
 		return result;		
+	}
+
+	public Collection<Activity> findAllActivesByGymId(int gymId) {
+		Collection<Activity> result;
+		Date moment;
+		
+		moment = new Date();
+		
+		result = activityRepository.findAllActivesByGymId(gymId, moment);
+		
+		return result;	
 	}
 	
 }
