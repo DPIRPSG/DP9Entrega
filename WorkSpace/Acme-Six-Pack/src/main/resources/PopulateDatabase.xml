@@ -976,6 +976,7 @@
 		<property name="customers">
 			<list>
 				<ref bean="customer1"/>			
+				<ref bean="customer4"/>			
 			</list>
 		</property>
 	</bean>
@@ -1141,6 +1142,7 @@
 		<property name="trainer" ref="trainer1"/>
 		<property name="customers">
 			<list>
+				<ref bean="customer1"/>
 			</list>
 		</property>
 	</bean>
@@ -1273,6 +1275,7 @@
 		<property name="activities">
 			<list>
 				<ref bean="activity1"/>				
+				<ref bean="activity9"/>				
 			</list>
 		</property>
 	</bean>
@@ -1427,6 +1430,7 @@
 		</property>
 		<property name="activities">
 			<list>
+				<ref bean="activity1"/>
 				<ref bean="activity4"/>
 				<ref bean="activity7"/>
 				<ref bean="activity8"/>
