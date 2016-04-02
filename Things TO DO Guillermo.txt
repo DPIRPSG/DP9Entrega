@@ -346,3 +346,108 @@ Use cases for testing:
   Precondition: The user is not an admin. The data of the new room must be valid. The selected gym must be a gym of the system.
   Return: FALSE
   Postcondition: -
+
+===
+
+- Test 10.1 (Positive) -> TERMINADO
+  Description: A user who is authenticated as a customer must be able to pay a gym fee.
+  Precondition: The user is a customer. The data is valid.
+  Return: TRUE
+  Postcondition: The gym selected is paid.
+
+===
+
+- Test 10.2 (Negative) -> TERMINADO
+  Description: A user who is authenticated as a customer must be able to pay a gym fee.
+  Precondition: The user is not a customer. The data is valid.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 10.3.X (Negative) -> TERMINADO
+  Description: A user who is authenticated as a customer must be able to pay a gym fee.
+  Precondition: The user is a customer. Te data is not valid.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 11.1 (Positive)
+  Description: A user who is authenticated as a customer must be able to list the catalogue of gyms and navigate to the services that they offer.
+  Precondition: The gym selected must be a gym of the system.
+  Return: TRUE
+  Postcondition: All services from a gym are shown.
+
+===
+
+- Test 11.2 (Positive)
+  Description: A user who is authenticated as a customer must be able to list the catalogue of services and navigate to the gyms that offer them.
+  Precondition: -
+  Return: TRUE
+  Postcondition: All services from a gym are shown.
+
+===
+
+- Test 11.3 (Positive)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The data is valid.
+  Return: TRUE
+  Postcondition: The service is created.
+
+===
+
+- Test 11.4 (Negative)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is not an admin. The data is valid.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 11.5.X (Negative)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The data is not valid.
+  Return: FALSE
+  Postcondition: -
+  Notes: This must be done with every attribute.
+
+===
+
+- Test 11.6 (Positive)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The data is valid.
+  Return: TRUE
+  Postcondition: The service is modify.
+
+===
+
+- Test 11.7 (Negative)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is not an admin. The data is valid.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 11.8 (Positive)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The service can be deleted.
+  Return: TRUE
+  Postcondition: The service is deleted.
+
+===
+
+- Test 11.9 (Negative)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is not an admin. The service can be deleted.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 11.10 (Negative)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The service can be deleted.
+  Return: FALSE
+  Postcondition: -
