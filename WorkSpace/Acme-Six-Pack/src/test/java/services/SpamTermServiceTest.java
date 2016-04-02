@@ -289,7 +289,7 @@ public class SpamTermServiceTest extends AbstractTest {
 	public void testNewSpamTermNoAdmin() {
 		// Declare variables
 		Actor customer;
-		Collection<SpamTerm> spamTerms;
+//		Collection<SpamTerm> spamTerms;
 		SpamTerm spamTermToAdd;
 		
 		// Load objects to test
@@ -300,7 +300,7 @@ public class SpamTermServiceTest extends AbstractTest {
 		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
 		
 		// Execution of test
-		spamTerms = spamTermService.findAll();
+//		spamTerms = spamTermService.findAll();
 		
 		spamTermToAdd = spamTermService.create();
 		spamTermToAdd.setTerm("newSpamTerm");
@@ -331,7 +331,7 @@ public class SpamTermServiceTest extends AbstractTest {
 	public void testNewSpamTermBlankName() {
 		// Declare variables
 		Actor admin;
-		Collection<SpamTerm> spamTerms;
+//		Collection<SpamTerm> spamTerms;
 		SpamTerm spamTermToAdd;
 		
 		// Load objects to test
@@ -342,7 +342,7 @@ public class SpamTermServiceTest extends AbstractTest {
 		Assert.notNull(admin, "El usuario no se ha logueado correctamente.");
 		
 		// Execution of test
-		spamTerms = spamTermService.findAll();
+//		spamTerms = spamTermService.findAll();
 		
 		spamTermToAdd = spamTermService.create();
 		spamTermToAdd.setTerm("");

@@ -7,6 +7,7 @@ import java.util.Date;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -17,6 +18,7 @@ import utilities.AbstractTest;
 import domain.Actor;
 import domain.Folder;
 import domain.Message;
+import domain.SpamTerm;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -115,32 +117,144 @@ public class MessageServiceTest extends AbstractTest {
 
 	}
 	
-//	// Negative test case 1
-//	@Test(expected = DuplicateKeyException.class)
-//	public void testLoQueSea() {
-//		authenticate("customer1");
+	/**
+	 * Negative test case: Send a message to anyone
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Enviar un mensaje sin seleccionar ningún receptor
+	 * 		- Comprobación
+	 * 		+ Comprobar que salta una excepción del tipo: 
+	 * 		+ Ver su carpeta de OutBox
+	 * 		+ Comprobar que el mensaje se encuentra en la misma
+	 * 		+ Cerrar su sesión en el sistema
+	 */
+	
+//	@Test(expected=IllegalArgumentException.class)
+//	@Rollback(value = true)
+	@Test
+	public void testExchangeMessageToAnyone() {
+		// Declare variables
+		Actor customer;
+		Message message;
+		Message sentMessage;
+		Date sentMoment;
+//		Collection<Actor> allActors;
+//		Collection<Actor> recipients;
+		
+		// Load objects to test
+		authenticate("customer1");
+		customer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+		message = messageService.create();
+		message.setSubject("Aquí lo tienes");
+		message.setBody("Aquí tienes tu nuevo mensaje");
+		sentMoment = new Date();
+		message.setSentMoment(sentMoment);
+		
+		message.setSender(customer);
+		
+//		allActors = actorService.findAll();
 //		
-//		Message message;
-//		
-//		message = messageService.create();
-//		message = messageService.save(message);
-//		message = messageService.save(message);
-//		
-//		unauthenticate();
-//	}
-//	
-//	// Negative test case 2
-//	@Test(expected = DuplicateKeyException.class)
-//	public void testLoQueSea() {
-//		authenticate("customer1");
-//		
-//		Message message;
-//		
-//		message = messageService.create();
-//		message = messageService.save(message);
-//		message = messageService.save(message);
-//		
-//		unauthenticate();
-//	}
+//		recipients = new ArrayList<Actor>();
+//		for(int i = 0; i<2; i++){
+//			recipients.add(allActors.iterator().next());
+//		}
+//		message.setRecipients(recipients);
+		
+		sentMessage = messageService.firstSave(message);
+		
+		// Checks results
+		for(Folder f: customer.getMessageBoxes()){
+			if(f.getName().equals("OutBox")){
+				Assert.isTrue(!f.getMessages().contains(sentMessage), "El mensaje ha sido añadido a la carpeta OutBox del emisor a pesar de que ha fallado");
+			}
+		}
+		
+		unauthenticate();
+		
+//		for(Actor a: recipients){
+//			authenticate(a.getUserAccount().getUsername());
+//			for(Folder f: a.getMessageBoxes()){
+//				if(f.getName().equals("InBox")){
+//					Assert.isTrue(f.getMessages().contains(sentMessage), "El mensaje no ha sido añadido a la carpeta InBox del receptor");
+//				}
+//			}
+//			unauthenticate();
+//		}
+
+	}
+	
+	/**
+	 * Negative test case: Send a message from anonymous user
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Enviar un mensaje como anónimo
+	 * 		- Comprobación
+	 * 		+ Comprobar que salta una excepción del tipo: 
+	 * 		+ Cerrar su sesión en el sistema
+	 */
+	
+	@Test(expected=NullPointerException.class)
+	@Rollback(value = true)
+//	@Test
+	public void testExchangeMessageAnonymous() {
+		// Declare variables
+		Actor customer;
+		Message message;
+		Message sentMessage;
+		Date sentMoment;
+		Collection<Actor> allActors;
+		Collection<Actor> recipients;
+		
+		// Load objects to test
+		authenticate("customer1");
+		customer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+		message = messageService.create();
+		message.setSubject("Aquí lo tienes");
+		message.setBody("Aquí tienes tu nuevo mensaje");
+		sentMoment = new Date();
+		message.setSentMoment(sentMoment);
+		
+		message.setSender(null);
+		
+		allActors = actorService.findAll();
+		
+		recipients = new ArrayList<Actor>();
+		for(int i = 0; i<2; i++){
+			recipients.add(allActors.iterator().next());
+		}
+		message.setRecipients(recipients);
+		
+		sentMessage = messageService.firstSave(message);
+		
+		// Checks results
+		for(Folder f: customer.getMessageBoxes()){
+			if(f.getName().equals("OutBox")){
+				Assert.isTrue(f.getMessages().contains(sentMessage), "El mensaje no ha sido añadido a la carpeta OutBox del emisor");
+			}
+		}
+		
+		unauthenticate();
+		
+		for(Actor a: recipients){
+			authenticate(a.getUserAccount().getUsername());
+			for(Folder f: a.getMessageBoxes()){
+				if(f.getName().equals("InBox")){
+					Assert.isTrue(f.getMessages().contains(sentMessage), "El mensaje no ha sido añadido a la carpeta InBox del receptor");
+				}
+			}
+			unauthenticate();
+		}
+
+	}
 	
 }
