@@ -44,7 +44,7 @@
 	<!-- Attributes -->
 	
 	<security:authorize access="hasRole('CUSTOMER')">
-	<jstl:if test="${hayGymId == null}">
+	<jstl:if test="${!hayGymId}">
 	<spring:message code="activity.cancel" var="cancelHeader"/>
 		<display:column title="${cancelHeader}"
 		sortable = "true">
@@ -56,13 +56,14 @@
 		</display:column>
 	</jstl:if>
 	</security:authorize>
-	
-	<spring:message code="activity.deleted" var="deletedHeader" />
-	<display:column title="${deletedHeader}"
-		sortable="true">
-		<jstl:out value="${row_Activity.deleted}"/>
-	</display:column>
-	
+
+	<security:authorize access="hasRole('ADMIN')">
+		<spring:message code="activity.deleted" var="deletedHeader" />
+		<display:column title="${deletedHeader}" sortable="true">
+			<jstl:out value="${row_Activity.deleted}" />
+		</display:column>
+	</security:authorize>
+
 	<spring:message code="activity.title" var="titleHeader" />
 	<display:column title="${titleHeader}"
 		sortable="true">
@@ -126,15 +127,13 @@
 	</display:column>
 	
 	<security:authorize access="hasRole('CUSTOMER')">
-	<jstl:if test="${hayGymId == true}">
+	<jstl:if test="${gymPagado}">
 	<spring:message code="activity.book" var="activityHeader"/>
 		<display:column title="${activityHeader}"
 		sortable = "true">
-		<jstl:if test="${row_Activity.deleted == false}">
 		<a href="activity/customer/book.do?activityId=${row_Activity.id}"> <spring:message
 				code="activity.book"/>
 		</a>
-		</jstl:if>
 		</display:column>
 	</jstl:if>
 	</security:authorize>

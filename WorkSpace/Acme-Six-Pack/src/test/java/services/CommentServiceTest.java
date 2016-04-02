@@ -305,7 +305,7 @@ public class CommentServiceTest extends AbstractTest {
 	/**
 	 * Test que comprueba que al crear un comentario con el atributo deleted a True falla
 	 */
-	@Test(expected =javax.validation.ConstraintViolationException.class)
+	@Test(expected =IllegalArgumentException.class)
 	@Rollback(value=true)
 	public void testCreateCommentGymError7() {				
 		Comment comment;
@@ -750,7 +750,7 @@ public class CommentServiceTest extends AbstractTest {
 	 * Test que comprueba que al crear un comentario con el atributo deleted a
 	 * True falla
 	 */
-	@Test(expected = javax.validation.ConstraintViolationException.class)
+	@Test(expected = IllegalArgumentException.class)
 	@Rollback(value = true)
 	public void testCreateCommentServiceError7() {
 		Comment comment;
@@ -1201,7 +1201,7 @@ public class CommentServiceTest extends AbstractTest {
 	 * Test que comprueba que al crear un comentario con el atributo deleted a
 	 * True falla
 	 */
-	@Test(expected = javax.validation.ConstraintViolationException.class)
+	@Test(expected = IllegalArgumentException.class)
 	@Rollback(value = true)
 	public void testCreateCommentTrainerError7() {
 		Comment comment;

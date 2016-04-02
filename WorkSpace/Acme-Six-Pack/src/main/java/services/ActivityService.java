@@ -453,5 +453,16 @@ public class ActivityService {
 		
 		return result;		
 	}
+
+	public Collection<Activity> findAllActivesByGymId(int gymId) {
+		Collection<Activity> result;
+		Date moment;
+		
+		moment = new Date();
+		
+		result = activityRepository.findAllActivesByGymId(gymId, moment);
+		
+		return result;	
+	}
 	
 }
