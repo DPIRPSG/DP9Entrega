@@ -574,22 +574,36 @@ public class ActivityTest extends AbstractTest{
 	 */
 	@Test
 	public void testListActivitiesBookedCustoOk(){
-		Assert.notNull(null, "Método testListActivitiesBookedCustoOk no realizado");
-		Activity activity;
+		Collection<Activity> activities;
 		
 		// Load objects to test
 		
-		activity = null;
-		
 		// Checks basic requirements
-		try{
-			Assert.notNull(activity, "No se ha encontrado una actividad con la que realizar la comprobación");
-		}catch (Exception e) {
-			throw new InvalidPreTestException(e.toString());
-		}
-		
+	
 		// Execution of test
 
+		authenticate("customer1");
+		activities = activityService.findAllByCustomer();
+		
+		// Checks results 
+
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	@Transactional(noRollbackFor=IllegalArgumentException.class)
+	@Rollback(value=true)
+	public void testListActivitiesBookedCustoErrorAdmin(){
+		Collection<Activity> activities;
+		
+		// Load objects to test
+		
+		// Checks basic requirements
+	
+		// Execution of test
+
+		authenticate("admin");
+		activities = activityService.findAllByCustomer();
+		
 		// Checks results 
 
 	}
@@ -731,21 +745,35 @@ public class ActivityTest extends AbstractTest{
 	 */
 	@Test
 	public void testListActivitiesAdminOk(){
-		Assert.notNull(null, "Método testListActivitiesAdminOk no realizado");
-		Activity activity;
-		
+	
 		// Load objects to test
 		
-		activity = null;
-		
 		// Checks basic requirements
-		try{
-			Assert.notNull(activity, "No se ha encontrado una actividad con la que realizar la comprobación");
-		}catch (Exception e) {
-			throw new InvalidPreTestException(e.toString());
-		}
 		
 		// Execution of test
+		
+		authenticate("admin");
+		
+		activityService.findAll();
+
+		// Checks results 
+
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	@Transactional(noRollbackFor=IllegalArgumentException.class)
+	@Rollback(value=true)
+	public void testListActivitiesAdminErrorCusto(){
+	
+		// Load objects to test
+		
+		// Checks basic requirements
+		
+		// Execution of test
+		
+		authenticate("customer1");
+		
+		activityService.findAll();
 
 		// Checks results 
 
@@ -915,7 +943,7 @@ public class ActivityTest extends AbstractTest{
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
-	public void testCreateActivitiesAdminErrorDate(){
+	public void testCreateActivitiesAdminErrorDateInPast(){
 		Activity activity;
 		Gym gym;
 		ServiceEntity service;
@@ -1156,7 +1184,7 @@ public class ActivityTest extends AbstractTest{
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
-	public void testDeleteActivitiesAdminErrorCustomers(){
+	public void testDeleteActivitiesAdminErrorContainCustomers(){
 		Activity activity;
 
 		// Load objects to test
