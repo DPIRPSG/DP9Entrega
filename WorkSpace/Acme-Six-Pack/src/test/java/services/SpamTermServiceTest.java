@@ -2,11 +2,10 @@ package services;
 
 import java.util.Collection;
 
-import javax.validation.ConstraintViolationException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -237,12 +236,13 @@ public class SpamTermServiceTest extends AbstractTest {
 	 * 		+ Crear un nuevo término con el nombre de uno ya existente
 	 * 		+ Eliminar uno existente
 	 * 		- Comprobación
-	 * 		+ Comprobar que salta la excepción de tipo: 
+	 * 		+ Comprobar que salta la excepción de tipo: DataIntegrityViolationException
 	 * 		+ Cerrar su sesión
 	 */
 	
-//	@Test(expected=IllegalArgumentException.class) CORREGIR SERVICIO Y CAMBIAR ESTO
-	@Test
+	@Test(expected=DataIntegrityViolationException.class)
+	@Rollback(value = true)
+//	@Test
 	public void testNewSpamTermThatExists() {
 		// Declare variables
 		Actor admin;
@@ -269,6 +269,8 @@ public class SpamTermServiceTest extends AbstractTest {
 		spamTermService.save(spamTermToAdd);
 		
 		unauthenticate();
+		
+		spamTermService.flush();
 
 	}
 	
@@ -279,7 +281,7 @@ public class SpamTermServiceTest extends AbstractTest {
 	 * 		+ Traerse la lista de spam terms del sistema
 	 * 		+ Crear un nuevo término
 	 * 		- Comprobación
-	 * 		+ Comprobar que salta la excepción de tipo: 
+	 * 		+ Comprobar que salta la excepción de tipo: IllegalArgumentException
 	 * 		+ Cerrar su sesión
 	 */
 	
@@ -324,10 +326,10 @@ public class SpamTermServiceTest extends AbstractTest {
 	 * 		+ Cerrar su sesión
 	 */
 	
-//	org.springframework.transaction.TransactionSystemException: Could not commit JPA transaction; nested exception is javax.persistence.RollbackException: Transaction marked as rollbackOnly
-	@Test(expected=ConstraintViolationException.class)
-	@Rollback(value = true)
-//	@Test
+//	CORREGIR
+//	@Test(expected=ConstraintViolationException.class)
+//	@Rollback(value = true)
+	@Test
 	public void testNewSpamTermBlankName() {
 		// Declare variables
 		Actor admin;
@@ -346,6 +348,48 @@ public class SpamTermServiceTest extends AbstractTest {
 		
 		spamTermToAdd = spamTermService.create();
 		spamTermToAdd.setTerm("");
+		
+		spamTermService.save(spamTermToAdd);
+		
+		unauthenticate();
+		
+		spamTermService.flush();
+
+	}
+	
+	/**
+	 * Negative test case: Crear un término con el term (nombre) a null
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema como administrador
+	 * 		+ Traerse la lista de spam terms del sistema
+	 * 		+ Crear un nuevo término con el term (nombre) a null
+	 * 		- Comprobación
+	 * 		+ Comprobar que salta la excepción de tipo: 
+	 * 		+ Cerrar su sesión
+	 */
+	
+//	CORREGIR
+//	@Test(expected=ConstraintViolationException.class)
+//	@Rollback(value = true)
+	@Test
+	public void testNewSpamTermNullName() {
+		// Declare variables
+		Actor admin;
+//		Collection<SpamTerm> spamTerms;
+		SpamTerm spamTermToAdd;
+		
+		// Load objects to test
+		authenticate("admin");
+		admin = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(admin, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+//		spamTerms = spamTermService.findAll();
+		
+		spamTermToAdd = spamTermService.create();
+		spamTermToAdd.setTerm(null);
 		
 		spamTermService.save(spamTermToAdd);
 		

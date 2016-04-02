@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,15 +125,15 @@ public class MessageServiceTest extends AbstractTest {
 	 * 		+ Autenticarse en el sistema
 	 * 		+ Enviar un mensaje sin seleccionar ningún receptor
 	 * 		- Comprobación
-	 * 		+ Comprobar que salta una excepción del tipo: 
+	 * 		+ Comprobar que salta una excepción del tipo: ConstraintViolationException
 	 * 		+ Ver su carpeta de OutBox
 	 * 		+ Comprobar que el mensaje se encuentra en la misma
 	 * 		+ Cerrar su sesión en el sistema
 	 */
 	
-//	@Test(expected=IllegalArgumentException.class)
-//	@Rollback(value = true)
-	@Test
+	@Test(expected=ConstraintViolationException.class)
+	@Rollback(value = true)
+//	@Test
 	public void testExchangeMessageToAnyone() {
 		// Declare variables
 		Actor customer;
@@ -168,13 +170,15 @@ public class MessageServiceTest extends AbstractTest {
 		sentMessage = messageService.firstSave(message);
 		
 		// Checks results
-		for(Folder f: customer.getMessageBoxes()){
-			if(f.getName().equals("OutBox")){
-				Assert.isTrue(!f.getMessages().contains(sentMessage), "El mensaje ha sido añadido a la carpeta OutBox del emisor a pesar de que ha fallado");
-			}
-		}
+//		for(Folder f: customer.getMessageBoxes()){
+//			if(f.getName().equals("OutBox")){
+//				Assert.isTrue(!f.getMessages().contains(sentMessage), "El mensaje ha sido añadido a la carpeta OutBox del emisor a pesar de que ha fallado");
+//			}
+//		}
 		
 		unauthenticate();
+		
+//		System.out.println(sentMessage.getRecipients());
 		
 //		for(Actor a: recipients){
 //			authenticate(a.getUserAccount().getUsername());
@@ -185,6 +189,8 @@ public class MessageServiceTest extends AbstractTest {
 //			}
 //			unauthenticate();
 //		}
+		
+		messageService.flush();
 
 	}
 	
@@ -194,7 +200,7 @@ public class MessageServiceTest extends AbstractTest {
 	 * 		+ Autenticarse en el sistema
 	 * 		+ Enviar un mensaje como anónimo
 	 * 		- Comprobación
-	 * 		+ Comprobar que salta una excepción del tipo: 
+	 * 		+ Comprobar que salta una excepción del tipo: NullPointerException
 	 * 		+ Cerrar su sesión en el sistema
 	 */
 	
