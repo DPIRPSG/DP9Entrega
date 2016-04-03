@@ -54,7 +54,6 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="feePayment/administrator/list.do"><spring:message code="master.page.list.feePayments" /></a></li>
-					<li><a href="booking/administrator/list.do"><spring:message code="master.page.list.booking" /></a></li>
 					<li><a href="exchangeRate/administrator/list.do"><spring:message code="master.page.exchangeRate" /></a></li>	
 					<li><a href="trainer/list.do"><spring:message code="master.page.trainer" /></a></li>
 				</ul>
@@ -71,6 +70,7 @@
 				</ul>
 			</li>
 			<li><a class="fNiv" href="trainer/list.do"><spring:message code="master.page.trainer" /></a></li>
+			<li><a class="fNiv" href="gym/list.do"><spring:message code="master.page.gym" /></a></li>
 			
 		</security:authorize>
 				
