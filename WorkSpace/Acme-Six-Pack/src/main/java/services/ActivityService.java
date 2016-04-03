@@ -262,6 +262,8 @@ public class ActivityService {
 		 Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only a admin can deleted an activity");
 		 Assert.isTrue(activity.getDeleted() == false, "This activity is already deleted");
 		 
+		 Assert.isTrue(activity.getCustomers().isEmpty());
+		 
 		 activity.setDeleted(true);
 		 activityRepository.save(activity);
 	}
