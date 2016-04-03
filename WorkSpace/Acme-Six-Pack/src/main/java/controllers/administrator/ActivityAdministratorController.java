@@ -42,12 +42,16 @@ public class ActivityAdministratorController extends AbstractController{
 	
 	// Listing ----------------------------------------------------------
 	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public ModelAndView list(){
+	public ModelAndView list(@RequestParam (required = false) Integer gymId){
 		
 		ModelAndView result;
 		Collection<Activity> activities;
 		
 		activities = activityService.findAll();
+		
+		if(gymId != null) {
+			activities = activityService.findAllByGymId(gymId);
+		}
 		
 		result = new ModelAndView("activity/list");
 		result.addObject("requestURI", "activity/administrator/list.do");
