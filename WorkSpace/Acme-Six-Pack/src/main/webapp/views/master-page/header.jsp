@@ -71,6 +71,7 @@
 				</ul>
 			</li>
 			<li><a class="fNiv" href="trainer/list.do"><spring:message code="master.page.trainer" /></a></li>
+			<li><a class="fNiv" href="gym/list.do"><spring:message code="master.page.gym" /></a></li>
 			
 		</security:authorize>
 				
