@@ -119,6 +119,9 @@ public class ActivityService {
 		Assert.isTrue(activity.getTrainer().getServices().contains(activity.getService()), "The Trainer must be specialized in the Service you ask for");
 		Assert.isTrue(activity.getNumberOfSeatsAvailable() <= activity.getRoom().getNumberOfSeats(), "The number of seats available cannot exceed the number of seats in the corresponding room");
 		Assert.isTrue(compruebaOverlapping(activity.getTrainer(), activity), "The trainer cannot be involved in overlapping activities");
+		
+		Assert.isTrue(activity.getStartingMoment().after(new Date()));
+		
 		int duration;
 		
 		duration = (int) activity.getDuration();
@@ -236,6 +239,8 @@ public class ActivityService {
 		Assert.isTrue(actorService.checkAuthority("CUSTOMER"), "Only a customer can cancel an activity");
 		Assert.isTrue(activity.getDeleted() == false, "This activity is already deleted by the administrator");
 		
+		Assert.isTrue(activity.getStartingMoment().after(new Date()));
+		
 		Customer customer;
 		
 		customer = customerService.findByPrincipal();
@@ -260,6 +265,8 @@ public class ActivityService {
 		 Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only a admin can deleted an activity");
 		 Assert.isTrue(activity.getDeleted() == false, "This activity is already deleted");
 		 
+		 Assert.isTrue(activity.getCustomers().isEmpty());
+		 
 		 activity.setDeleted(true);
 		 activityRepository.save(activity);
 	}
@@ -268,6 +275,8 @@ public class ActivityService {
 	
 	public Collection<Activity> findAll(){
 		Collection<Activity> result;
+		
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Solo puede hacer esto un admin");
 		
 		result = activityRepository.findAll();
 		

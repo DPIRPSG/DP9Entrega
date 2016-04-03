@@ -435,7 +435,7 @@ public class RoomServiceTest extends AbstractTest{
 		all = roomService.findAll();
 		
 		for(Room i:all){
-			if(i.getName().equals("Habitación general")){
+			if(i.getName().equals("Piscina")){
 				roomToModify = i;
 			}
 		}
@@ -596,9 +596,7 @@ public class RoomServiceTest extends AbstractTest{
 	 * Return: FALSE
 	 * Postcondition: -
 	 */
-	// Problem: You can delete an room with activity attached in the future.
-	// To try this, create an activity with room Habitación general placed in the future and try to delete it.
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	@Rollback(value = true)
 	public void testDeleteRoom3(){
 		
@@ -611,7 +609,7 @@ public class RoomServiceTest extends AbstractTest{
 		Assert.isTrue(all.size() == 5);
 		
 		for(Room i:all){
-			if(i.getName().equals("Habitación general")){
+			if(i.getName().equals("Piscina")){
 				roomToDelete = i;
 			}
 		}
@@ -619,7 +617,7 @@ public class RoomServiceTest extends AbstractTest{
 		roomService.delete(roomToDelete);
 		
 		all = roomService.findAll();
-		Assert.isTrue(all.size() == 5);
+		Assert.isTrue(all.size() == 4);
 		
 		authenticate(null);
 		roomService.flush();
