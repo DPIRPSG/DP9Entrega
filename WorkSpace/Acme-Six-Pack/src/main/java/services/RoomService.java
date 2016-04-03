@@ -99,6 +99,10 @@ public class RoomService {
 			
 			roomPreSave = this.findOne(room.getId());
 			
+			for(Activity activity : roomPreSave.getActivities()) {
+				Assert.isTrue(room.getNumberOfSeats() >= activity.getNumberOfSeatsAvailable());
+			}
+			
 			Assert.isTrue(roomPreSave.getGym().getId() == room.getGym().getId());
 			
 			this.save(room);

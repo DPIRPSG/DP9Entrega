@@ -88,7 +88,7 @@
 	<spring:message code="gym.fee" var="feeHeader" />
 	<display:column title="${feeHeader}"
 		sortable="true">
-		<jstl:out value="${exchangeRateNumber * row_Gym.fee}"/>
+		<fmt:formatNumber value="${exchangeRateNumber * row_Gym.fee}" maxFractionDigits="2" minFractionDigits="2"/>
 	</display:column>
 
 	<spring:message code="gym.picture" var="pictureHeader" />

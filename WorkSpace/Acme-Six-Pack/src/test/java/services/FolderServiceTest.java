@@ -81,7 +81,7 @@ public class FolderServiceTest extends AbstractTest {
 		folder.setIsSystem(false);
 		folder.setActor(customer);
 		
-		newFolder = folderService.save(folder);
+		newFolder = folderService.saveToEdit(folder);
 		
 		// Checks results
 		folderService.checkActor(newFolder); // First check
@@ -134,7 +134,7 @@ public class FolderServiceTest extends AbstractTest {
 		folder.setIsSystem(false);
 		folder.setActor(otherCustomer);
 		
-		folderService.save(folder);
+		folderService.saveToEdit(folder);
 		
 		// Checks results
 //		folderService.checkActor(newFolder); // First check
@@ -187,7 +187,7 @@ public class FolderServiceTest extends AbstractTest {
 		folder.setIsSystem(true);
 		folder.setActor(customer);
 		
-		folderService.save(folder);
+		folderService.saveToEdit(folder);
 		
 		// Checks results
 //		folderService.checkActor(newFolder); // First check
@@ -241,7 +241,7 @@ public class FolderServiceTest extends AbstractTest {
 		
 		folder.setName("Carpeta renombrada");
 		
-		renamedFolder = folderService.save(folder);
+		renamedFolder = folderService.saveToEdit(folder);
 		
 		// Checks results
 		folderService.checkActor(renamedFolder); // First check
@@ -301,7 +301,7 @@ public class FolderServiceTest extends AbstractTest {
 		
 		folder.setName("Carpeta renombrada");
 		
-		folderService.save(folder);
+		folderService.saveToEdit(folder);
 		
 		// Checks results
 //		folderService.checkActor(renamedFolder); // First check
@@ -363,7 +363,7 @@ public class FolderServiceTest extends AbstractTest {
 		
 		folder.setName("");
 		
-		folderService.save(folder);
+		folderService.saveToEdit(folder);
 		
 		// Checks results
 //		folderService.checkActor(renamedFolder); // First check

@@ -1,4 +1,4 @@
-﻿package services;
+package services;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +28,9 @@ public class ActivityService {
 
 	@Autowired
 	private ActivityRepository activityRepository;
+	
+	@Autowired
+	private FeePaymentService feePaymentService;
 
 	// Supporting services ----------------------------------------------------
 
@@ -116,6 +119,9 @@ public class ActivityService {
 		Assert.isTrue(activity.getTrainer().getServices().contains(activity.getService()), "The Trainer must be specialized in the Service you ask for");
 		Assert.isTrue(activity.getNumberOfSeatsAvailable() <= activity.getRoom().getNumberOfSeats(), "The number of seats available cannot exceed the number of seats in the corresponding room");
 		Assert.isTrue(compruebaOverlapping(activity.getTrainer(), activity), "The trainer cannot be involved in overlapping activities");
+		
+		Assert.isTrue(activity.getStartingMoment().after(new Date()));
+		
 		int duration;
 		
 		duration = (int) activity.getDuration();
@@ -233,6 +239,8 @@ public class ActivityService {
 		Assert.isTrue(actorService.checkAuthority("CUSTOMER"), "Only a customer can cancel an activity");
 		Assert.isTrue(activity.getDeleted() == false, "This activity is already deleted by the administrator");
 		
+		Assert.isTrue(activity.getStartingMoment().after(new Date()));
+		
 		Customer customer;
 		
 		customer = customerService.findByPrincipal();
@@ -257,6 +265,8 @@ public class ActivityService {
 		 Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only a admin can deleted an activity");
 		 Assert.isTrue(activity.getDeleted() == false, "This activity is already deleted");
 		 
+		 Assert.isTrue(activity.getCustomers().isEmpty());
+		 
 		 activity.setDeleted(true);
 		 activityRepository.save(activity);
 	}
@@ -265,6 +275,8 @@ public class ActivityService {
 	
 	public Collection<Activity> findAll(){
 		Collection<Activity> result;
+		
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Solo puede hacer esto un admin");
 		
 		result = activityRepository.findAll();
 		
@@ -423,7 +435,7 @@ public class ActivityService {
 			if(startingMoment.compareTo(momentOfActivities) <= 0 && startingMoment.compareTo(a.getStartingMoment()) >= 0){
 				result = false;
 				break;
-			}else if(finishingMoment.compareTo(momentOfActivities) <= 0 && finishingMoment.compareTo(activity.getStartingMoment()) >= 0){
+			}else if(finishingMoment.compareTo(momentOfActivities) <= 0 && finishingMoment.compareTo(a.getStartingMoment()) >= 0){
 				result = false;
 				break;
 				
@@ -463,6 +475,42 @@ public class ActivityService {
 		result = activityRepository.findAllActivesByGymId(gymId, moment);
 		
 		return result;	
+	}
+	
+	public Collection<Activity> findAllPaidAndNotBookedByCustomerId() {
+		Collection<Activity> result;
+		Collection<FeePayment> fees;
+		Collection<ServiceEntity> services;
+		Collection<Activity> activities;
+		Date moment;
+
+		result = new ArrayList<Activity>();
+		services = new ArrayList<ServiceEntity>();
+		activities = new ArrayList<Activity>();
+		moment = new Date();
+		
+		fees = feePaymentService.findAllActiveByCustomer();
+		for(FeePayment fee : fees) {
+			for(Room room : fee.getGym().getRooms()) {
+				for(Activity activity : room.getActivities()) {
+					if(!result.contains(activity)) {
+						result.add(activity);
+					}
+				}
+			}
+		}
+		services = serviceService.findAllPaidAndNotBookedByCustomerId();
+		activities.addAll(result);
+		for(Activity activity : activities) {
+			if (!services.contains(activity.getService())
+					|| activity.getStartingMoment().before(moment)
+					|| !this.compruebaOverlappingCustomer(activity)
+					|| activity.getNumberOfSeatsAvailable() == activity.getCustomers().size()) {
+				result.remove(activity);
+			}
+		}
+		
+		return result;
 	}
 	
 }

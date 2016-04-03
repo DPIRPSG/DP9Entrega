@@ -90,7 +90,7 @@ public class RoomAdministratorController extends AbstractController {
 			result = createEditModelAndView(room);
 		} else {
 			try {
-				roomService.save(room);
+				roomService.saveToEdit(room);
 				result = new ModelAndView("redirect:list.do?" + "gymId=" + room.getGym().getId());
 			} catch (Throwable oops) {
 				result = createEditModelAndView(room, "room.commit.error");
