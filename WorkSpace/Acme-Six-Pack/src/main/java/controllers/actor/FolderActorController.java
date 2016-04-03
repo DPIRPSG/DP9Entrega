@@ -97,7 +97,7 @@ public class FolderActorController extends AbstractController{
 		} else {
 			try {
 				folder = this.refactorFolderEdit(folder);
-				folderService.save(folder);
+				folderService.saveToEdit(folder);
 				result = new ModelAndView("redirect:list.do");
 			} catch (Throwable oops) {
 				result = createEditModelAndView(folder, "folder.commit.error");				
