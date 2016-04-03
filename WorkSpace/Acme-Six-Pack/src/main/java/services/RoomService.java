@@ -95,12 +95,13 @@ public class RoomService {
 			
 			gymService.save(gym);
 		} else {
-			for(Activity activity : room.getActivities()) {
-				Assert.isTrue(room.getNumberOfSeats() >= activity.getNumberOfSeatsAvailable());
-			}
 			Room roomPreSave;
 			
 			roomPreSave = this.findOne(room.getId());
+			
+			for(Activity activity : roomPreSave.getActivities()) {
+				Assert.isTrue(room.getNumberOfSeats() >= activity.getNumberOfSeatsAvailable());
+			}
 			
 			Assert.isTrue(roomPreSave.getGym().getId() == room.getGym().getId());
 			
