@@ -406,14 +406,14 @@ public class RoomServiceTest extends AbstractTest{
 	}
 	
 	/**
-	 * TEST POSITIVO
+	 * TEST NEGATIVO
 	 * Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
-	 * Precondition: The user is an admin. The data use to modify the room must be valid.
-	 * Return: TRUE
-	 * Postcondition: A room is modify.
+	 * Precondition: The user is an admin. The data use to modify the room must not be valid.
+	 * Return: FALSE
+	 * Postcondition: -
 	 */
-	// Problem: You change the seats of a room to a number smaller that the activity with the largest number of seats.
-	@Test
+	@Test(expected = IllegalArgumentException.class)
+	@Rollback(value = true)
 	public void testModifyRoom3(){
 		
 		Collection<Room> all;
