@@ -1591,6 +1591,7 @@
 		<property name="actor" ref="customer1"/>
 		<property name="messages">
 			<list>
+				<ref bean="message1"/>
 			</list>
 		</property>
 	</bean>
