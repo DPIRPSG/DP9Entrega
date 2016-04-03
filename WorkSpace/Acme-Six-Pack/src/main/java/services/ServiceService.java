@@ -313,4 +313,8 @@ public class ServiceService {
 		
 		return result;
 	}
+	
+	public void flush(){
+		serviceRepository.flush();
+	}
 }

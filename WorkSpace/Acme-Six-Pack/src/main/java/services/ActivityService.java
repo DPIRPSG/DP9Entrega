@@ -1,4 +1,4 @@
-package services;
+﻿package services;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -368,11 +368,12 @@ public class ActivityService {
 		return result;
 	}
 	
-
     /**
      *
      * @return Devuelve true si no hay overlapping y false si hay overlapping
      */
+
+ refs/remotes/origin/Develop
 	public boolean compruebaOverlappingCustomer(Activity activity){
 		
 		Assert.notNull(activity);
