@@ -1,0 +1,453 @@
+Function requirement for testing:
+
+- A user who is not authenticated must be able to:
+  � Navigate through the gyms, their rooms, and their bulletin boards.
+  � Search for the bulletins that contain a given key word in their titles or descriptions.
+  � Search for a trainer using a single keyword that must appear in his or name, surname, or curriculum.
+
+- A user who is authenticated as a customer must be able to:
+  � List the gyms in which he or she has an active fee payment and navigate to the details of the corresponding fee payments.
+
+- A user who is authenticated as an administrator must be able to:
+  � Manage the gyms, which includes listing, creating, modifying, or deleting them.
+  � Manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+  � Manage the bulletins of a gym, which includes listing and creating them. Bulletins cannot be modified or deleted. Before publishing a bulletin, the system must ask for confirmation.
+
+Use cases for testing:
+
+===
+
+- Test 1.1 (Positive) -> TERMINADO
+  Description: A user who is not authenticated must be able to navigate (list) through the gyms.
+  Precondition: -
+  Return: TRUE
+  Postcondition: All gyms in system are shown.
+
+===
+
+- Test 2.1 (Positive) -> TERMINADO
+  Description: A user who is not authenticated must be able to navigate (list) throught the rooms of a gym selected.
+  Precondition: The gym selected must be a gym of the system.
+  Return: TRUE
+  Postcondition: All rooms of a gym previously selected are shown.
+
+===
+
+- Test 2.2 (Negative) -> TERMINADO
+  Description: A user who is not authenticated must be able to navigate (list) throught the bulletin boards of the gym selected.
+  Precondition: The gym selected must not be a gym of the system.
+  Return: FALSE
+  Postcondition: Nothing is shown.
+
+===
+
+- Test 3.1 (Positive) -> TERMINADO
+  Description: A user who is not authenticated must be able to navigate (list) throught the bulletin boards of the gym selected.
+  Precondition: The gym selected must be a gym of the system.
+  Return: TRUE
+  Postcondition: All bulletin of the gym previosly selected are shown.
+
+===
+
+- Test 3.2 (Negative) -> TERMINADO
+  Description: A user who is not authenticated must be able to navigate (list) throught the bulletin boards of the gym selected.
+  Precondition: The gym selected must not be a gym of the system.
+  Return: FALSE
+  Postcondition: Nothing is shown.
+
+===
+
+- Test 4.1 (Positive) -> TERMINADO
+  Description: A user who is not authenticated must be able to search for the bulletins that contain a given key word in their titles or descriptions.
+  Precondition: The gym selected must be a gym of the system. The given key word is found in a title.
+  Return: TRUE
+  Postcondition: All bulletin, that contains the given key word in its title or description, of the gym previously selected are shown.
+
+===
+
+- Test 4.2 (Positive) -> TERMINADO
+  Description: A user who is not authenticated must be able to search for the bulletins that contain a given key word in their titles or descriptions.
+  Precondition: The gym selected must be a gym of the system. The given key word is found in a description.
+  Return: TRUE
+  Postcondition: All bulletin, that contains the given key word in its title or description, of the gym previosly selected are shown.
+
+===
+
+- Test 4.3 (Positive) -> TERMINADO
+  Description: A user who is not authenticated must be able to search for the bulletins that contain a given key word in their titles or descriptions.
+  Precondition: The given key word is not found anywhere.
+  Return: TRUE
+  Postcondition: No bulletin are shown.
+
+===
+
+- Test 5.1 (Positive) -> TERMINADO
+  Description: A user who is not authenticated must be able to search for a trainer using a single keyword that must appear in his or name, surname, or curriculum.
+  Precondition: The given key word is found in a name.
+  Return: TRUE
+  Postcondition: All trainer that contains the given key word in its name, surname or curriculum are shown.
+
+===
+
+- Test 5.2 (Positive) -> TERMINADO
+  Description: A user who is not authenticated must be able to search for a trainer using a single keyword that must appear in his or name, surname, or curriculum.
+  Precondition: The given key word is found in a surname
+  Return: TRUE
+  Postcondition: All trainer that contains the given key word in its name, surname or curriculum are shown.
+
+===
+
+- Test 5.3 (Positive) -> TERMINADO
+  Description: A user who is not authenticated must be able to search for a trainer using a single keyword that must appear in his or name, surname, or curriculum.
+  Precondition: The given key word is found in a curriculum.
+  Return: TRUE
+  Postcondition: All trainer that contains the given key word in its name, surname or curriculum are shown.
+
+===
+
+- Test 5.4 (Negative) -> TERMINADO
+  Description: A user who is not authenticated must be able to search for a trainer using a single keyword that must appear in his or name, surname, or curriculum.
+  Precondition: The given key word is not found anywhere.
+  Return: TRUE
+  Postcondition: No trainers are shown.
+
+===
+
+- Test 6.1 (Positive) -> TERMINADO
+  Description: A user who is authenticated as a customer must be able to list the gyms in which he or she has an active fee payment and navigate to the details of the corresponding fee payments.
+  Precondition: The user is a customer.
+  Return: TRUE
+  Postcondition: All gyms in which the customer has a paid fee.
+
+===
+
+- Test 6.2 (Negative) -> TERMINADO
+  Description: A user who is authenticated as a customer must be able to list the gyms in which he or she has an active fee payment and navigate to the details of the corresponding fee payments.
+  Precondition: The user is not a customer.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 6.3 (Positive) -> TERMINADO
+  Description: A user who is authenticated as a customer must be able to list the gyms in which he or she has an active fee payment and navigate to the details of the corresponding fee payments.
+  Precondition: The user is a customer. The selected gym is paid.
+  Return: TRUE
+  Postcondition: All feePayments in the gym selected.
+
+===
+
+- Test 6.4 (Postive) -> TERMINADO
+  Description: A user who is authenticated as a customer must be able to list the gyms in which he or she has an active fee payment and navigate to the details of the corresponding fee payments.
+  Precondition: The user is a customer. The selected gym is not paid.
+  Return: FALSE
+  Postcondition: All feePayments in the gym selected.
+
+===
+
+- Test 7.1 (Positive) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
+  Precondition: The user is an admin
+  Return: TRUE
+  Postcondition: All gyms of the system are shown. 
+
+===
+
+- Test 7.2 (Positive) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
+  Precondition: The user is an admin. The data of the new gym must be valid.
+  Return: TRUE
+  Postcondition: A new gym is creted.
+
+===
+
+
+- Test 7.3 (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
+  Precondition: The user is not an admin. The data of the new gym must be valid.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 7.4.X (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
+  Precondition: The user is an admin. The data of the new gym must not be valid.
+  Return: FALSE
+  Postcondition: -
+  Notes: This test must be done for each data of the new gym.
+
+===
+
+- Test 7.5 (Positive) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
+  Precondition: The user is an admin. The data use to modify the gym must be valid.
+  Return: TRUE
+  Postcondition: A gym is modify.
+
+===
+
+- Test 7.6 (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
+  Precondition: The user is not an admin. The data use to modify the gym must be valid.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 7.7.X (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
+  Precondition: The user is an admin. The data use to modify the gym must not be valid.
+  Return: FALSE
+  Postcondition: -
+  Notes: This test must be done for each data of the modify gym.
+
+===
+
+- Test 7.8 (Positive) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
+  Precondition: The user is an admin. The gym to delete must be a gym of the system.
+  Return: TRUE
+  Postcondition: The gym is deleted.
+
+===
+
+- Test 7.11 (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
+  Precondition: The user is not an admin. The gym to delete must be a gym of the system.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 7.12 (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the gyms, which includes listing, creating, modifying, or deleting them.
+  Precondition: The user is an admin. The gym to deleted could not be deleted due to constraints.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 8.1 (Positive) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The selected gym must be a gym of the system.
+  Return: TRUE
+  Postcondition: All room of the selected gym are shown. 
+
+===
+
+- Test 8.2 (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The selected gym must not be a gym of the system.
+  Return: FALSE
+  Postcondition: - 
+
+===
+
+- Test 8.3 (Positive) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The data of the new room must be valid. The selected gym must be a gym of the system.
+  Return: TRUE
+  Postcondition: A new room is created.
+
+===
+
+
+- Test 8.4 (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is not an admin. The data of the new room must be valid. The selected gym must be a gym of the system.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 8.5.X (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The data of the new room must not be valid. The selected gym must be a gym of the system.
+  Return: FALSE
+  Postcondition: -
+  Notes: This test must be done for each data of the new room.
+
+===
+
+- Test 8.6 (Positive) -> Decirle a Migue que hay que corregir el testModifyRoom3()
+  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The data use to modify the room must be valid.
+  Return: TRUE
+  Postcondition: A room is modify.
+
+===
+
+- Test 8.7 (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is not an admin. The data use to modify the room must be valid. The selected gym must be a gym of the system.
+  Return: FALSE
+  Postcondition: -
+
+- Test 8.8.X (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The data use to modify the room must not be valid. The selected gym must be a gym of the system.
+  Return: FALSE
+  Postcondition: -
+  Notes: This test must be done for each data of the modify room.
+
+===
+
+- Test 8.9 (Positive) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The room to delete must be a room of the system.
+  Return: TRUE
+  Postcondition: The room is deleted.
+
+===
+
+- Test 8.10 (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is not an admin. The room to delete must be a room of the system.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 8.11 (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the rooms of a gym, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The room to deleted must be a room of the system. The room must be attached to an activity.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 9.1 (Positive) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the bulletins of a gym, which includes listing and creating them. Bulletins cannot be modified or deleted. Before publishing a bulletin, the system must ask for confirmation.
+  Precondition: The user is an admin. The selected gym must be a gym of the system.
+  Return: TRUE
+  Postcondition: All bulletin of the selected gym are shown. 
+
+===
+
+- Test 9.2 (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the bulletins of a gym, which includes listing and creating them. Bulletins cannot be modified or deleted. Before publishing a bulletin, the system must ask for confirmation.
+  Precondition: The user is an admin. The selected gym must not be a gym of the system.
+  Return: FALSE
+  Postcondition: - 
+
+===
+
+- Test 9.3 (Positive) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the bulletins of a gym, which includes listing and creating them. Bulletins cannot be modified or deleted. Before publishing a bulletin, the system must ask for confirmation.
+  Precondition: The user is an admin. The data of the new bulletin must be valid. The selected gym must be a gym of the system.
+  Return: TRUE
+  Postcondition: A new bulletin is created.
+
+===
+
+- Test 9.4 (Negative) -> TERMINADO
+  Description: A user who is authenticated as an administrator must be able to manage the bulletins of a gym, which includes listing and creating them. Bulletins cannot be modified or deleted. Before publishing a bulletin, the system must ask for confirmation.
+  Precondition: The user is not an admin. The data of the new room must be valid. The selected gym must be a gym of the system.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 10.1 (Positive) -> TERMINADO
+  Description: A user who is authenticated as a customer must be able to pay a gym fee.
+  Precondition: The user is a customer. The data is valid.
+  Return: TRUE
+  Postcondition: The gym selected is paid.
+
+===
+
+- Test 10.2 (Negative) -> TERMINADO
+  Description: A user who is authenticated as a customer must be able to pay a gym fee.
+  Precondition: The user is not a customer. The data is valid.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 10.3.X (Negative) -> TERMINADO
+  Description: A user who is authenticated as a customer must be able to pay a gym fee.
+  Precondition: The user is a customer. Te data is not valid.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 11.1 (Positive)
+  Description: A user who is authenticated as a customer must be able to list the catalogue of gyms and navigate to the services that they offer.
+  Precondition: The gym selected must be a gym of the system.
+  Return: TRUE
+  Postcondition: All services from a gym are shown.
+
+===
+
+- Test 11.2 (Positive)
+  Description: A user who is authenticated as a customer must be able to list the catalogue of services and navigate to the gyms that offer them.
+  Precondition: -
+  Return: TRUE
+  Postcondition: All services from a gym are shown.
+
+===
+
+- Test 11.3 (Positive)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The data is valid.
+  Return: TRUE
+  Postcondition: The service is created.
+
+===
+
+- Test 11.4 (Negative)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is not an admin. The data is valid.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 11.5.X (Negative)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The data is not valid.
+  Return: FALSE
+  Postcondition: -
+  Notes: This must be done with every attribute.
+
+===
+
+- Test 11.6 (Positive)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The data is valid.
+  Return: TRUE
+  Postcondition: The service is modify.
+
+===
+
+- Test 11.7 (Negative)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is not an admin. The data is valid.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 11.8 (Positive)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The service can be deleted.
+  Return: TRUE
+  Postcondition: The service is deleted.
+
+===
+
+- Test 11.9 (Negative)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is not an admin. The service can be deleted.
+  Return: FALSE
+  Postcondition: -
+
+===
+
+- Test 11.10 (Negative)
+  Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+  Precondition: The user is an admin. The service can be deleted.
+  Return: FALSE
+  Postcondition: -
