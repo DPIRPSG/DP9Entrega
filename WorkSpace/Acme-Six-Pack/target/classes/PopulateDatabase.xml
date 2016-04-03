@@ -1221,7 +1221,7 @@
 		</property>
 	</bean>
 	
-	<!-- Consumidores -->
+	<!-- Clientes -->
 	
 	<bean id="customer1" class="domain.Customer">
 		<property name="name" value="Manolo"/>
@@ -1240,6 +1240,7 @@
 				<ref bean="folder6" />
 				<ref bean="folder7" />
 				<ref bean="folder8" />
+				<ref bean="folder45" />
 			</list>
 		</property>
 		<property name="sent">
@@ -1967,6 +1968,16 @@
 		<property name="name" value="SpamBox"/>
 		<property name="isSystem" value="true"/>
 		<property name="actor" ref="trainer6"/>
+		<property name="messages">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="folder45" class="domain.Folder">
+		<property name="name" value="MyBox"/>
+		<property name="isSystem" value="false"/>
+		<property name="actor" ref="customer1"/>
 		<property name="messages">
 			<list>
 			</list>

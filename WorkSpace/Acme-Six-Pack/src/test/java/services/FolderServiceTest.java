@@ -324,7 +324,7 @@ public class FolderServiceTest extends AbstractTest {
 	}
 	
 	/**
-	 * Positive test case: Renombrar un folder a un texto vacío
+	 * Negative test case: Renombrar un folder a un texto vacío
 	 * 		- Acción
 	 * 		+ Autenticarse en el sistema
 	 * 		+ Renombrar una carpeta a ""
@@ -384,6 +384,189 @@ public class FolderServiceTest extends AbstractTest {
 		unauthenticate();
 		
 		folderService.flush();
+
+	}
+	
+	/**
+	 * Positive test case: Eliminar un folder
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Eliminar una carpeta suya
+	 * 		- Comprobación
+	 * 		+ Listar sus carpetas
+	 * 		* Comprobar que el actor logueado ya no posee dicha carpeta
+	 * 		+ Comprobar que no existe carpeta creada con el nombre que tenía la carpeta eliminada
+	 * 		+ Comprobar que el número de carpetas que posee es el mismo que antes - 1
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test 
+	public void testDeleteFolder() {
+		// Declare variables
+		Actor customer;
+		Folder folder;
+		Collection<Folder> actorFolders;
+		Collection<Folder> newActorFolders;
+		String folderName;
+		Integer numberOfFolders;
+		Integer newNumberOfFolders;
+		
+		// Load objects to test
+		authenticate("customer1");
+		customer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+		actorFolders = folderService.findAllByActor();
+		numberOfFolders = actorFolders.size();
+		
+		folder = null;
+		for(Folder f: actorFolders){
+			if(f.getName().equals("MyBox")){
+				folder = f;
+			}
+		}
+		folderName = folder.getName();
+		
+		folderService.delete(folder);
+		
+		// Checks results
+		newActorFolders = folderService.findAllByActor();
+		newNumberOfFolders = newActorFolders.size();
+		
+		Assert.isTrue(!newActorFolders.contains(folder), "El usuario sigue teniendo asignada la carpeta que acaba de eliminar."); // First check
+				
+		for(Folder f: newActorFolders){
+			if(f.getName() == folderName){
+				Assert.isTrue(false, "El actor sigue teniendo una carpeta con el nombre de la carpeta que acaba de borrar."); // Second check
+			}
+		}
+				
+		Assert.isTrue( (numberOfFolders - 1 == newNumberOfFolders) , "El actor no tiene el mismo número de carpetas que antes - 1 al borrar una de sus carpetas."); // Fourth check
+		
+		unauthenticate();
+
+	}
+	
+	/**
+	 * Negative test case: Eliminar un folder del sistema
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Eliminar una carpeta suya, pero que sea carpeta del sistema
+	 * 		- Comprobación
+	 * 		* Comprobar que salta una excepción del tipo: IllegalArgumentException
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test(expected=IllegalArgumentException.class)
+	@Rollback(value = true)
+//	@Test 
+	public void testDeleteSystemFolder() {
+		// Declare variables
+		Actor customer;
+		Folder folder;
+		Collection<Folder> actorFolders;
+//		Collection<Folder> newActorFolders;
+//		String folderName;
+//		Integer numberOfFolders;
+//		Integer newNumberOfFolders;
+		
+		// Load objects to test
+		authenticate("customer1");
+		customer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+		actorFolders = folderService.findAllByActor();
+//		numberOfFolders = actorFolders.size();
+		
+		folder = actorFolders.iterator().next(); // folder es una carpeta del sistema
+//		folderName = folder.getName();
+		while(folder.getIsSystem() == false){
+			folder = actorFolders.iterator().next();
+		}
+		
+		folderService.delete(folder);
+		
+		// Checks results
+//		newActorFolders = folderService.findAllByActor();
+//		newNumberOfFolders = newActorFolders.size();
+//		
+//		Assert.isTrue(newActorFolders.contains(folder), "El usuario sigue teniendo asignada la carpeta que acaba de eliminar."); // First check
+//				
+//		for(Folder f: newActorFolders){
+//			if(f.getName() == folderName){
+//				Assert.isTrue(false, "El actor sigue teniendo una carpeta con el nombre de la carpeta que acaba de borrar."); // Second check
+//			}
+//		}
+//				
+//		Assert.isTrue( (numberOfFolders - 1 == newNumberOfFolders) , "El actor no tiene el mismo número de carpetas que antes - 1 al borrar una de sus carpetas."); // Fourth check
+		
+		unauthenticate();
+
+	}
+	
+	/**
+	 * Negative test case: Eliminar un folder de otro usuario
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Eliminar una carpeta que no sea tuya
+	 * 		- Comprobación
+	 * 		* Comprobar que salta una excepción del tipo: IllegalArgumentException
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test(expected=IllegalArgumentException.class)
+	@Rollback(value = true)
+//	@Test
+	public void testDeleteSystemFolderOfOtherUser() {
+		// Declare variables
+		Actor customer;
+		Folder folder;
+//		Collection<Folder> actorFolders;
+//		Collection<Folder> newActorFolders;
+//		String folderName;
+//		Integer numberOfFolders;
+//		Integer newNumberOfFolders;
+		
+		// Load objects to test
+		authenticate("customer2");
+		customer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+//		actorFolders = folderService.findAllByActor();
+//		numberOfFolders = actorFolders.size();
+		
+		folder = folderService.findOne(122); // Carpeta "MyBox", no del sistema, del customer1
+//		folderName = folder.getName();
+//		while(folder.getIsSystem() == false){
+//			folder = actorFolders.iterator().next();
+//		}
+		
+		folderService.delete(folder);
+		
+		// Checks results
+//		newActorFolders = folderService.findAllByActor();
+//		newNumberOfFolders = newActorFolders.size();
+//		
+//		Assert.isTrue(newActorFolders.contains(folder), "El usuario sigue teniendo asignada la carpeta que acaba de eliminar."); // First check
+//				
+//		for(Folder f: newActorFolders){
+//			if(f.getName() == folderName){
+//				Assert.isTrue(false, "El actor sigue teniendo una carpeta con el nombre de la carpeta que acaba de borrar."); // Second check
+//			}
+//		}
+//				
+//		Assert.isTrue( (numberOfFolders - 1 == newNumberOfFolders) , "El actor no tiene el mismo número de carpetas que antes - 1 al borrar una de sus carpetas."); // Fourth check
+		
+		unauthenticate();
 
 	}
 	
