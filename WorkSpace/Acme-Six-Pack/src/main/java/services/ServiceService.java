@@ -216,9 +216,7 @@ public class ServiceService {
 		return result;
 	}
 	
-	public Collection<ServiceEntity> findAllPaidAndNotBookedByCustomerId(
-			int customerId
-			) {
+	public Collection<ServiceEntity> findAllPaidAndNotBookedByCustomerId() {
 		Collection<ServiceEntity> result;
 		Collection<ServiceEntity> services;
 		Collection<FeePayment> fees;
