@@ -91,7 +91,9 @@ public class ActivityTest extends AbstractTest{
 		gyms = gymService.findAllWithFeePaymentActive();
 		for(Gym gym:gyms){
 			Collection<Activity> activities;
+			authenticate("admin");
 			activities = activityService.findAll();
+			authenticate("customer1");
 			for(Activity a:activities){
 				boolean isAcceptable;
 				
