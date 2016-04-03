@@ -95,6 +95,9 @@ public class RoomService {
 			
 			gymService.save(gym);
 		} else {
+			for(Activity activity : room.getActivities()) {
+				Assert.isTrue(room.getNumberOfSeats() >= activity.getNumberOfSeatsAvailable());
+			}
 			Room roomPreSave;
 			
 			roomPreSave = this.findOne(room.getId());
