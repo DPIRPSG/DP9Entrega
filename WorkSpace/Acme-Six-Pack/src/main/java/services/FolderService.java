@@ -280,4 +280,8 @@ public class FolderService {
 		
 		return result;
 	}
+	
+	public void flush(){
+		folderRepository.flush();
+	}
 }

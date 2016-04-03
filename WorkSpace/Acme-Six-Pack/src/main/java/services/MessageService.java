@@ -195,4 +195,8 @@ public class MessageService {
 		Assert.isTrue(res, "message.consult.notOwner");
 	}
 	
+	public void flush(){
+		messageRepository.flush();
+	}
+	
 }
