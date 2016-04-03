@@ -373,7 +373,6 @@ public class ActivityService {
      * @return Devuelve true si no hay overlapping y false si hay overlapping
      */
 
- refs/remotes/origin/Develop
 	public boolean compruebaOverlappingCustomer(Activity activity){
 		
 		Assert.notNull(activity);
