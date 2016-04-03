@@ -28,6 +28,9 @@ public class ActivityService {
 
 	@Autowired
 	private ActivityRepository activityRepository;
+	
+	@Autowired
+	private FeePaymentService feePaymentService;
 
 	// Supporting services ----------------------------------------------------
 
@@ -432,7 +435,7 @@ public class ActivityService {
 			if(startingMoment.compareTo(momentOfActivities) <= 0 && startingMoment.compareTo(a.getStartingMoment()) >= 0){
 				result = false;
 				break;
-			}else if(finishingMoment.compareTo(momentOfActivities) <= 0 && finishingMoment.compareTo(activity.getStartingMoment()) >= 0){
+			}else if(finishingMoment.compareTo(momentOfActivities) <= 0 && finishingMoment.compareTo(a.getStartingMoment()) >= 0){
 				result = false;
 				break;
 				
@@ -472,6 +475,42 @@ public class ActivityService {
 		result = activityRepository.findAllActivesByGymId(gymId, moment);
 		
 		return result;	
+	}
+	
+	public Collection<Activity> findAllPaidAndNotBookedByCustomerId() {
+		Collection<Activity> result;
+		Collection<FeePayment> fees;
+		Collection<ServiceEntity> services;
+		Collection<Activity> activities;
+		Date moment;
+
+		result = new ArrayList<Activity>();
+		services = new ArrayList<ServiceEntity>();
+		activities = new ArrayList<Activity>();
+		moment = new Date();
+		
+		fees = feePaymentService.findAllActiveByCustomer();
+		for(FeePayment fee : fees) {
+			for(Room room : fee.getGym().getRooms()) {
+				for(Activity activity : room.getActivities()) {
+					if(!result.contains(activity)) {
+						result.add(activity);
+					}
+				}
+			}
+		}
+		services = serviceService.findAllPaidAndNotBookedByCustomerId();
+		activities.addAll(result);
+		for(Activity activity : activities) {
+			if (!services.contains(activity.getService())
+					|| activity.getStartingMoment().before(moment)
+					|| !this.compruebaOverlappingCustomer(activity)
+					|| activity.getNumberOfSeatsAvailable() == activity.getCustomers().size()) {
+				result.remove(activity);
+			}
+		}
+		
+		return result;
 	}
 	
 }

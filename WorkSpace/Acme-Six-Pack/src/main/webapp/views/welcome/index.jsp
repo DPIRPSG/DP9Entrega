@@ -35,7 +35,7 @@
 <!-- Listing grid -->
 
 <security:authorize access="hasRole('CUSTOMER')">
-	<jstl:if test="${service != null}">
+	<jstl:if test="${activity != null}">
 		<h3>
 			<spring:message code="customer.service.notBooked" />
 			:
@@ -44,16 +44,16 @@
 		<p>
 			<spring:message code="customer.service.name" />
 			:
-			<jstl:out value="${service.name}" />
+			<jstl:out value="${activity.title}" />
 		</p>
 		<p>
 			<spring:message code="customer.service.description" />
 			:
-			<jstl:out value="${service.description}" />
+			<jstl:out value="${activity.description}" />
 		</p>
 
 		<spring:message code="customer.service.pictures" />:
-		<jstl:forEach items="${service.pictures}" var="picture">
+		<jstl:forEach items="${activity.pictures}" var="picture">
 			<span><img src="${picture}"
 				style="width: 204px; height: 128px;" /></span>
 		</jstl:forEach>
@@ -61,12 +61,11 @@
 		<!-- 		Insertar link para reservar el Servicio -->
 		<br/>
 		
-		<a
-			href="booking/customer/create.do?serviceId=${service.id}">
-			<spring:message code="welcome.booking.create" />
+		<a href="activity/customer/book.do?activityId=${activity.id}"> <spring:message
+				code="welcome.booking.create"/>
 		</a>
 	</jstl:if>
-	<jstl:if test="${service == null}">
+	<jstl:if test="${activity == null}">
 		<spring:message code="welcome.allServicesBooked"/>
 	</jstl:if>
 </security:authorize>
