@@ -86,7 +86,7 @@ public class TrainerController extends AbstractController {
 		
 		result.addObject("services", services);
 		result.addObject("customers", customers);
-		try{
+		/*try{
 			int id;
 			
 			id = actorService.findByPrincipal().getId();
@@ -98,8 +98,7 @@ public class TrainerController extends AbstractController {
 			}
 		} catch (Exception e) {
 			result.addObject("addService", null);
-		}
-
+		}*/
 
 		return result;
 	}
