@@ -304,4 +304,8 @@ public class FeePaymentService {
 		return result;
 	}
 	
+	public void flush(){
+		feePaymentRepository.flush();
+	}
+	
 }

@@ -95,5 +95,11 @@ public class BulletinService {
 		
 		return result;
 	}
+	
+	public void flush(){
+		
+		bulletinRepository.flush();
+		
+	}
 
 }

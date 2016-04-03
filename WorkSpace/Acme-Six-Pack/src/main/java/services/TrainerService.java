@@ -271,5 +271,9 @@ public class TrainerService {
 		
 		return result;
 	}
+	
+	public void flush(){
+		trainerRepository.flush();
+	}
 
 }

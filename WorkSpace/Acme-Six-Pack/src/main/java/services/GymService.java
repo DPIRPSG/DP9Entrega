@@ -356,4 +356,10 @@ public class GymService {
 		
 		return result;
 	}
+	
+	public void flush(){
+		
+		gymRepository.flush();
+		
+	}
 }

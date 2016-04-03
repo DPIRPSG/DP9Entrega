@@ -87,7 +87,7 @@ public class RoomService {
 		if(room.getId() == 0) {
 			Gym gym;
 			
-			this.save(room);
+			room = this.save(room);
 			
 			gym = room.getGym();
 			
@@ -149,6 +149,12 @@ public class RoomService {
 		result = roomRepository.findAllByGymId(gymId);
 		
 		return result;
+	}
+	
+	public void flush(){
+		
+		roomRepository.flush();
+		
 	}
 	
 }
