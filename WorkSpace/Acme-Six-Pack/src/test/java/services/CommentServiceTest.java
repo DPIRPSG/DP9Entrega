@@ -13,10 +13,14 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.CommentRepository;
+
+import domain.Actor;
 import domain.Comment;
 import domain.Customer;
 import domain.Gym;
 import domain.ServiceEntity;
+import domain.Trainer;
 
 import utilities.AbstractTest;
 
@@ -41,6 +45,9 @@ public class CommentServiceTest extends AbstractTest {
 	
 	@Autowired
 	private ServiceService serviceService;
+	
+	@Autowired
+	private TrainerService trainerService;
 	
 	// Test ---------------------------------------
 
@@ -139,6 +146,7 @@ public class CommentServiceTest extends AbstractTest {
 		comment.setStarRating(-1);
 		comment.setText("prueba");
 		commentService.save(comment);
+		commentService.flush();
 		
 		authenticate(null);
 	}
@@ -168,6 +176,7 @@ public class CommentServiceTest extends AbstractTest {
 		comment.setStarRating(4);
 		comment.setText("prueba");
 		commentService.save(comment);
+		commentService.flush();
 		
 		authenticate(null);
 	}
@@ -227,6 +236,7 @@ public class CommentServiceTest extends AbstractTest {
 		comment.setStarRating(2);
 		//comment.setText("prueba");
 		commentService.save(comment);
+		commentService.flush();
 		
 		authenticate(null);
 	}
@@ -257,6 +267,7 @@ public class CommentServiceTest extends AbstractTest {
 		comment.setText("prueba");
 		comment.setCommentedEntity(null);
 		commentService.save(comment);
+		commentService.flush();
 		
 		authenticate(null);
 	}
@@ -294,7 +305,7 @@ public class CommentServiceTest extends AbstractTest {
 	/**
 	 * Test que comprueba que al crear un comentario con el atributo deleted a True falla
 	 */
-	@Test(expected =javax.validation.ConstraintViolationException.class)
+	@Test(expected =IllegalArgumentException.class)
 	@Rollback(value=true)
 	public void testCreateCommentGymError7() {				
 		Comment comment;
@@ -316,6 +327,43 @@ public class CommentServiceTest extends AbstractTest {
 		comment.setStarRating(1);
 		comment.setText("prueba");
 		comment.setDeleted(true);
+		commentService.save(comment);
+		commentService.flush();
+		
+		authenticate(null);
+	}
+	
+	/**
+	 * Test que comprueba que al crear un comentario cambiando el usuario que realiza el comentario falla
+	 */
+	@Test(expected =IllegalArgumentException.class)
+	@Rollback(value=true)
+	public void testCreateCommentGymError8() {				
+		Comment comment;
+		Collection<Gym> gyms;
+		Gym gym;
+		Customer customer;
+		
+		authenticate("customer2");
+		customer = customerService.findByPrincipal();
+		authenticate(null);
+		
+		authenticate("customer1");
+		
+		gyms = gymService.findAll();
+		gym = null;
+		
+		for(Gym gymAux : gyms) {
+			if(gymAux.getName().equals("Gym Sevilla")) {
+				gym = gymAux;
+			}
+		}
+		
+		comment = commentService.create(gym.getId());
+		comment.setStarRating(1);
+		comment.setText("prueba");
+		comment.setDeleted(false);
+		comment.setActor(customer);
 		commentService.save(comment);
 		
 		authenticate(null);
@@ -540,6 +588,7 @@ public class CommentServiceTest extends AbstractTest {
 		comment.setStarRating(-1);
 		comment.setText("prueba");
 		commentService.save(comment);
+		commentService.flush();
 
 		authenticate(null);
 	}
@@ -570,6 +619,7 @@ public class CommentServiceTest extends AbstractTest {
 		comment.setStarRating(4);
 		comment.setText("prueba");
 		commentService.save(comment);
+		commentService.flush();
 
 		authenticate(null);
 	}
@@ -630,6 +680,7 @@ public class CommentServiceTest extends AbstractTest {
 		comment.setStarRating(2);
 		// comment.setText("prueba");
 		commentService.save(comment);
+		commentService.flush();
 
 		authenticate(null);
 	}
@@ -660,6 +711,7 @@ public class CommentServiceTest extends AbstractTest {
 		comment.setText("prueba");
 		comment.setCommentedEntity(null);
 		commentService.save(comment);
+		commentService.flush();
 
 		authenticate(null);
 	}
@@ -698,7 +750,7 @@ public class CommentServiceTest extends AbstractTest {
 	 * Test que comprueba que al crear un comentario con el atributo deleted a
 	 * True falla
 	 */
-	@Test(expected = javax.validation.ConstraintViolationException.class)
+	@Test(expected = IllegalArgumentException.class)
 	@Rollback(value = true)
 	public void testCreateCommentServiceError7() {
 		Comment comment;
@@ -721,7 +773,44 @@ public class CommentServiceTest extends AbstractTest {
 		comment.setText("prueba");
 		comment.setDeleted(true);
 		commentService.save(comment);
+		commentService.flush();
 
+		authenticate(null);
+	}
+	
+	/**
+	 * Test que comprueba que al crear un comentario cambiando el usuario que realiza el comentario falla
+	 */
+	@Test(expected =IllegalArgumentException.class)
+	@Rollback(value=true)
+	public void testCreateCommentServiceError8() {				
+		Comment comment;
+		Collection<ServiceEntity> services;
+		ServiceEntity service;
+		Customer customer;
+		
+		authenticate("customer2");
+		customer = customerService.findByPrincipal();
+		authenticate(null);
+		
+		authenticate("customer1");
+		
+		services = serviceService.findAll();
+		service = null;
+		
+		for(ServiceEntity serviceAux : services) {
+			if(serviceAux.getName().equals("Fitness")) {
+				service = serviceAux;
+			}
+		}
+		
+		comment = commentService.create(service.getId());
+		comment.setStarRating(1);
+		comment.setText("prueba");
+		comment.setDeleted(false);
+		comment.setActor(customer);
+		commentService.save(comment);
+		
 		authenticate(null);
 	}
 
@@ -851,6 +940,459 @@ public class CommentServiceTest extends AbstractTest {
 		
 		Assert.isTrue(comments.size() == 1);
 	}
+	
+	//Test para comentar Trainer
+	
+	/**
+	 * Test que comprueba que un comentario sobre un Trainer se crea correctamente
+	 */
+	@Test
+	public void testCreateCommentTrainerOk() {
+		authenticate("customer1");
+
+		Customer customer;
+		Comment comment;
+		Collection<Comment> comments;
+		Collection<Trainer> trainers;
+		Trainer trainer;
+		int numOfCommentsBefore;
+		int numberOfCommentsAfter;
+
+		customer = customerService.findByPrincipal();
+		trainers = trainerService.findAll();
+		trainer = null;
+
+		for (Trainer trainerAux : trainers) {
+			if (trainerAux.getName().equals("Pablo")) {
+				trainer = trainerAux;
+			}
+		}
+
+		comments = commentService.findAllByCommentedEntityId(trainer.getId());
+		numOfCommentsBefore = comments.size();
+
+		comment = commentService.create(trainer.getId());
+		comment.setText("test");
+		comment.setStarRating(2);
+		commentService.save(comment);
+
+		comments = commentService.findAllByCommentedEntityId(trainer.getId());
+		numberOfCommentsAfter = comments.size();
+
+		Assert.isTrue(numOfCommentsBefore + 1 == numberOfCommentsAfter);
+		Assert.isTrue(comment.getActor().getId() == customer.getId());
+		Assert.isTrue(comment.getStarRating() == 2);
+		Assert.isTrue(comment.getText().equals("test"));
+		Assert.isTrue(comment.getCommentedEntity().getId() == trainer.getId());
+		Assert.isTrue(comment.getDeleted() == false);
+
+		authenticate(null);
+	}
+
+	/**
+	 * Test que comprueba que si se intenta crear un comentario sin estar
+	 * logueado falla
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	@Rollback(value = true)
+	public void testCreateCommentTrainerWithoutActor() {
+		Comment comment;
+		Collection<Trainer> trainers;
+		Trainer trainer;
+
+		trainers = trainerService.findAll();
+		trainer = null;
+
+		for (Trainer trainerAux : trainers) {
+			if (trainerAux.getName().equals("Pablo")) {
+				trainer = trainerAux;
+			}
+		}
+
+		comment = commentService.create(trainer.getId());
+		commentService.save(comment);
+	}
+
+	/**
+	 * Test que comprueba que al crear un comentario con una puntuación negativa
+	 * falla
+	 */
+	@Test(expected = javax.validation.ConstraintViolationException.class)
+	@Rollback(value = true)
+	public void testCreateCommentTrainerError1() {
+		Comment comment;
+		Collection<Trainer> trainers;
+		Trainer trainer;
+
+		authenticate("customer1");
+
+		trainers = trainerService.findAll();
+		trainer = null;
+
+		for (Trainer trainerAux : trainers) {
+			if (trainerAux.getName().equals("Pablo")) {
+				trainer = trainerAux;
+			}
+		}
+
+		comment = commentService.create(trainer.getId());
+		comment.setStarRating(-1);
+		comment.setText("prueba");
+		commentService.save(comment);
+		commentService.flush();
+
+		authenticate(null);
+	}
+
+	/**
+	 * Test que comprueba que al crear un comentario con una puntuación mayor
+	 * que 3 falla
+	 */
+	@Test(expected = javax.validation.ConstraintViolationException.class)
+	@Rollback(value = true)
+	public void testCreateCommentTrainerError2() {
+		Comment comment;
+		Collection<Trainer> trainers;
+		Trainer trainer;
+
+		authenticate("customer1");
+
+		trainers = trainerService.findAll();
+		trainer = null;
+
+		for (Trainer trainerAux : trainers) {
+			if (trainerAux.getName().equals("Pablo")) {
+				trainer = trainerAux;
+			}
+		}
+
+		comment = commentService.create(trainer.getId());
+		comment.setStarRating(4);
+		comment.setText("prueba");
+		commentService.save(comment);
+		commentService.flush();
+
+		authenticate(null);
+	}
+
+	/**
+	 * Test que comprueba que al crear un comentario sin puntuación no falla
+	 */
+	@Test
+	// (expected =javax.validation.ConstraintViolationException.class)
+	// @Rollback(value=true)
+	public void testCreateCommentTrainerWithoutStarRating() {
+		Comment comment;
+		Collection<Trainer> trainers;
+		Trainer trainer;
+
+		authenticate("customer1");
+
+		trainers = trainerService.findAll();
+		trainer = null;
+
+		for (Trainer trainerAux : trainers) {
+			if (trainerAux.getName().equals("Pablo")) {
+				trainer = trainerAux;
+			}
+		}
+		comment = commentService.create(trainer.getId());
+		// comment.setStarRating();
+		comment.setText("prueba");
+		commentService.save(comment);
+
+		Assert.isTrue(comment.getStarRating() == 0);
+
+		authenticate(null);
+	}
+
+	/**
+	 * Test que comprueba que al crear un comentario sin texto falla
+	 */
+	@Test(expected = javax.validation.ConstraintViolationException.class)
+	@Rollback(value = true)
+	public void testCreateCommentTrainerError3() {
+		Comment comment;
+		Collection<Trainer> trainers;
+		Trainer trainer;
+
+		authenticate("customer1");
+
+		trainers = trainerService.findAll();
+		trainer = null;
+
+		for (Trainer trainerAux : trainers) {
+			if (trainerAux.getName().equals("Pablo")) {
+				trainer = trainerAux;
+			}
+		}
+
+		comment = commentService.create(trainer.getId());
+		comment.setStarRating(2);
+		// comment.setText("prueba");
+		commentService.save(comment);
+		commentService.flush();
+
+		authenticate(null);
+	}
+
+	/**
+	 * Test que comprueba que al crear un comentario sin Trainer falla
+	 */
+	@Test(expected = DataIntegrityViolationException.class)
+	@Rollback(value = true)
+	public void testCreateCommentTrainerError5() {
+		Comment comment;
+		Collection<Trainer> trainers;
+		Trainer trainer;
+
+		authenticate("customer1");
+
+		trainers = trainerService.findAll();
+		trainer = null;
+
+		for (Trainer trainerAux : trainers) {
+			if (trainerAux.getName().equals("Pablo")) {
+				trainer = trainerAux;
+			}
+		}
+
+		comment = commentService.create(trainer.getId());
+		comment.setStarRating(1);
+		comment.setText("prueba");
+		comment.setCommentedEntity(null);
+		commentService.save(comment);
+		commentService.flush();
+
+		authenticate(null);
+	}
+
+	/**
+	 * Test que comprueba que al crear un comentario sin customer falla
+	 */
+	@Test(expected = NullPointerException.class)
+	@Rollback(value = true)
+	public void testCreateCommentTrainerError6() {
+		Comment comment;
+		Collection<Trainer> trainers;
+		Trainer trainer;
+
+		authenticate("customer1");
+
+		trainers = trainerService.findAll();
+		trainer = null;
+
+		for (Trainer trainerAux : trainers) {
+			if (trainerAux.getName().equals("Pablo")) {
+				trainer = trainerAux;
+			}
+		}
+
+		comment = commentService.create(trainer.getId());
+		comment.setStarRating(1);
+		comment.setText("prueba");
+		comment.setActor(null);
+		commentService.save(comment);
+
+		authenticate(null);
+	}
+
+	/**
+	 * Test que comprueba que al crear un comentario con el atributo deleted a
+	 * True falla
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	@Rollback(value = true)
+	public void testCreateCommentTrainerError7() {
+		Comment comment;
+		Collection<Trainer> trainers;
+		Trainer trainer;
+
+		authenticate("customer1");
+
+		trainers = trainerService.findAll();
+		trainer = null;
+
+		for (Trainer trainerAux : trainers) {
+			if (trainerAux.getName().equals("Pablo")) {
+				trainer = trainerAux;
+			}
+		}
+
+		comment = commentService.create(trainer.getId());
+		comment.setStarRating(1);
+		comment.setText("prueba");
+		comment.setDeleted(true);
+		commentService.save(comment);
+		commentService.flush();
+
+		authenticate(null);
+	}
+	
+	/**
+	 * Test que comprueba que al crear un comentario cambiando el usuario que realiza el comentario falla
+	 */
+	@Test(expected =IllegalArgumentException.class)
+	@Rollback(value=true)
+	public void testCreateCommentTrainerError8() {				
+		Comment comment;
+		Collection<Trainer> trainers;
+		Trainer trainer;
+		Customer customer;
+		
+		authenticate("customer2");
+		customer = customerService.findByPrincipal();
+		authenticate(null);
+		
+		authenticate("customer1");
+		
+		trainers = trainerService.findAll();
+		trainer = null;
+		
+		for(Trainer trainerAux : trainers) {
+			if(trainerAux.getName().equals("Pablo")) {
+				trainer = trainerAux;
+			}
+		}
+		
+		comment = commentService.create(trainer.getId());
+		comment.setStarRating(1);
+		comment.setText("prueba");
+		comment.setDeleted(false);
+		comment.setActor(customer);
+		commentService.save(comment);
+		
+		authenticate(null);
+	}
+
+	/**
+	 * Test que comprueba que se puede borrar un comentario en condiciones
+	 * normales
+	 */
+	@Test
+	public void testDeleteCommentTrainerOk() {
+		Comment comment;
+		Trainer trainer;
+
+		trainer = trainerService.findAll().iterator().next();
+		comment = trainer.getComments().iterator().next();
+
+		authenticate("admin");
+
+		Assert.isTrue(trainer.getComments().contains(comment));
+		Assert.isTrue(comment.getDeleted() == false);
+
+		commentService.delete(comment);
+
+		trainer = trainerService.findOne(trainer.getId());
+
+		Assert.isTrue(trainer.getComments().contains(comment));
+		Assert.isTrue(comment.getDeleted() == true);
+
+		authenticate(null);
+	}
+
+	/**
+	 * Test que comprueba que al intentar borrar un comentario sin ser admin
+	 * falla
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	@Rollback(value = true)
+	public void testDeleteCommentTrainerError1() {
+		Comment comment;
+		Trainer trainer;
+
+		trainer = trainerService.findAll().iterator().next();
+		comment = trainer.getComments().iterator().next();
+
+		//authenticate("admin");
+
+		Assert.isTrue(trainer.getComments().contains(comment));
+		Assert.isTrue(comment.getDeleted() == false);
+
+		commentService.delete(comment);
+
+		trainer = trainerService.findOne(trainer.getId());
+
+		Assert.isTrue(trainer.getComments().contains(comment));
+		Assert.isTrue(comment.getDeleted() == true);
+
+		//authenticate(null);
+	}
+
+	/**
+	 * Test que comprueba que al intentar borrar un comentario sin ser admin
+	 * falla
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	@Rollback(value = true)
+	public void testDeleteCommentTrainerError2() {
+		Comment comment;
+		Trainer trainer;
+
+		trainer = trainerService.findAll().iterator().next();
+		comment = trainer.getComments().iterator().next();
+
+		authenticate("customer1");
+
+		Assert.isTrue(trainer.getComments().contains(comment));
+		Assert.isTrue(comment.getDeleted() == false);
+
+		commentService.delete(comment);
+
+		trainer = trainerService.findOne(trainer.getId());
+
+		Assert.isTrue(trainer.getComments().contains(comment));
+		Assert.isTrue(comment.getDeleted() == true);
+
+		authenticate(null);
+	}
+
+	/**
+	 * Test que comprueba que al intentar borrar un comentario sin ser admin
+	 * falla
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	@Rollback(value = true)
+	public void testDeleteCommentTraienrError3() {
+		Comment comment;
+		Trainer trainer;
+
+		trainer = trainerService.findAll().iterator().next();
+		comment = trainer.getComments().iterator().next();
+
+		authenticate("trainer1");
+
+		Assert.isTrue(trainer.getComments().contains(comment));
+		Assert.isTrue(comment.getDeleted() == false);
+
+		commentService.delete(comment);
+
+		trainer = trainerService.findOne(trainer.getId());
+
+		Assert.isTrue(trainer.getComments().contains(comment));
+		Assert.isTrue(comment.getDeleted() == true);
+
+		authenticate(null);
+	}
+
+	/**
+	 * Test que comprueba el correcto funcionamiento de
+	 * findAllByCommentedEntityId
+	 */
+	@Test
+	public void testListCommentsTrainer() {
+		Collection<Comment> comments;
+		Trainer trainer;
+
+		trainer = trainerService.findAll().iterator().next();
+
+		comments = commentService.findAllByCommentedEntityId(trainer.getId());
+		
+		Assert.isTrue(comments.size() == 1);
+	}
+	
+	//Test generales
 
 	/**
 	 * Test que comprueba que al crear un comentario sobre una entidad no
@@ -878,7 +1420,7 @@ public class CommentServiceTest extends AbstractTest {
 
 		comments = commentService.findAll();
 
-		Assert.isTrue(comments.size() == 9);
+		Assert.isTrue(comments.size() == 10);
 	}
 
 }

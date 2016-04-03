@@ -6,6 +6,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import domain.CreditCard;
@@ -29,6 +30,7 @@ public class FeePaymentForm {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "yyyy/dd/MM HH:mm")
+	@NotNull
 	public Date getActiveMoment() {
 		return activeMoment;
 	}

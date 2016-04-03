@@ -54,17 +54,6 @@
 		</jstl:forEach>
 	</display:column>
 
-<%-- 	<jstl:if test="${hayGymId}"> --%>
-<%-- 		<security:authorize access="hasRole('CUSTOMER')"> --%>
-<%-- 			<display:column> --%>
-<!-- 				<a -->
-<%-- 					href="booking/customer/create.do?gymId=${gymId}&serviceId=${row_Service.id}"> --%>
-<%-- 					<spring:message code="booking.create" /> --%>
-<!-- 				</a> -->
-<%-- 			</display:column> --%>
-<%-- 		</security:authorize> --%>
-<%-- 	</jstl:if> --%>
-
 	<display:column>
 		<a href="gym/list.do?serviceId=${row_Service.id}"> <spring:message
 				code="service.gyms" />
@@ -76,16 +65,19 @@
 				code="service.comments" />
 		</a>
 	</display:column>
-	
-	<display:column>
-		<a 
-			href="activity/administrator/create.do?gymId=${gymId}&serviceId=${row_Service.id}">
-			<spring:message code="activity.create"/>
-		</a>
-	
-	</display:column>
-	
-		
+
+	<security:authorize access="hasRole('ADMIN')">
+		<display:column>
+			<a
+				href="activity/administrator/create.do?serviceId=${row_Service.id}">
+				<spring:message code="activity.create" />
+			</a>
+
+		</display:column>
+	</security:authorize>
+
+
+
 	<security:authorize access="hasRole('TRAINER')">
 		<jstl:if test="${addService == 'true'}">
 		

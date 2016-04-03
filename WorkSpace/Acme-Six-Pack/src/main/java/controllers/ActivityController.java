@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActivityService;
-
 import controllers.AbstractController;
 import domain.Activity;
 
@@ -23,7 +22,7 @@ public class ActivityController extends AbstractController {
 
 	@Autowired
 	private ActivityService activityService;
-
+	
 	// Constructors ----------------------------------------------------------
 
 	public ActivityController() {
@@ -37,7 +36,7 @@ public class ActivityController extends AbstractController {
 		ModelAndView result;
 		Collection<Activity> activities;
 
-		activities = activityService.findAllByGymId(gymId);
+		activities = activityService.findAllActivesByGymId(gymId);
 		
 		result = new ModelAndView("activity/list");
 		result.addObject("requestURI", "activity/list.do");

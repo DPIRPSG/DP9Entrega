@@ -117,4 +117,7 @@ public class CurriculumService {
 		Assert.isTrue(trainerPrincipal == trainerOwner, "You can't manage a Curriculum of other Trainer.");
 	}
 	
+	public void flush() {
+		curriculumRepository.flush();
+	}
 }

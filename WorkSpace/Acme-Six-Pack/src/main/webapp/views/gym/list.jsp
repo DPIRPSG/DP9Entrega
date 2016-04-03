@@ -110,7 +110,7 @@
 	</display:column>
 	
 	<display:column>
-		<a href="activity/list.do?gymId=${row_Gym.id}"> <spring:message
+		<a href="${requestUri5}gymId=${row_Gym.id}"> <spring:message
 				code="gym.activities" />
 		</a>
 	</display:column>
