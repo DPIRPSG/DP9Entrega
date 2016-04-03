@@ -40,8 +40,8 @@
 		</jstl:forEach>
 		</td>
 	</tr>
-	<acme:display code="message.subject" value="${message.subject}"/>
-	<acme:display code="message.body" value="${message.body}"/>
+	<acme:display code="message.subject" value="${messa.subject}"/>
+	<acme:display code="message.body" value="${messa.body}"/>
 	
 	</table>
 	</div>
