@@ -17,7 +17,7 @@
 
 <security:authorize access="hasRole('CUSTOMER')">
 	<!-- Listing grid -->
-	<display:table pagesize="5" class="displaytag" keepStatus="true"
+	<display:table pagesize="5" class="displaytag" keepStatus="false"
 		name="invoices" requestURI="${requestURI}" id="row_invoice">
 		
 		<!-- Action links -->
