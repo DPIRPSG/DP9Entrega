@@ -209,11 +209,12 @@
 	<!-- Result -->
 	<jstl:forEach var="x" items="${averageNumberOfActivitiesPerGymByService}">
 	<jstl:choose>
-  		<jstl:when test="${x == 0}">
+  		<jstl:when test="${x == null}">
  			<spring:message code="administrator.ratio.null"/>
 		</jstl:when>
   		<jstl:otherwise>
-			<jstl:out value="${x}" />
+			<jstl:out value="${x.key}" />
+			<jstl:out value="${x.value}" />
 			</br>
 		</jstl:otherwise>
 	</jstl:choose>
