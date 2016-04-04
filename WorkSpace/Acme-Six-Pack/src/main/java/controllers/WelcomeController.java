@@ -27,20 +27,14 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActivityService;
 import services.ActorService;
 import services.ExchangeRateService;
-import services.ServiceService;
-
 import domain.Activity;
 import domain.ExchangeRate;
-import domain.ServiceEntity;
 
 @Controller
 @RequestMapping("/welcome")
 public class WelcomeController extends AbstractController {
 
 	// Services ----------------------------------------------------------
-
-	@Autowired
-	private ServiceService serviceService;
 	
 	@Autowired
 	private ActorService actorService;

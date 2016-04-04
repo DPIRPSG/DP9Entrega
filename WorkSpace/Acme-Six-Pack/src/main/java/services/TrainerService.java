@@ -193,6 +193,14 @@ public class TrainerService {
 	}
 	
 	public void removeService(ServiceEntity serv){
+		Trainer trainer;
+		
+		trainer = this.findByPrincipal();
+		
+		for(Activity activity : trainer.getActivities()) {
+			Assert.isTrue(activity.getService().getId() != serv.getId());
+		}
+		
 		Trainer actTrainer;
 		Collection<ServiceEntity> services;
 		Collection<Trainer> trainers;

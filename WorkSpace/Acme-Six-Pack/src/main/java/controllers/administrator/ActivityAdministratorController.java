@@ -21,7 +21,6 @@ import services.TrainerService;
 
 import controllers.AbstractController;
 import domain.Activity;
-import domain.Gym;
 import domain.Room;
 import domain.ServiceEntity;
 import domain.Trainer;
