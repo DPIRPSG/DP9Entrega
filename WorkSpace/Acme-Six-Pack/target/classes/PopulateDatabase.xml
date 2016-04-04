@@ -208,7 +208,7 @@
 	
 	<bean id="curriculum1" class="domain.Curriculum">
 		<property name="updateMoment" value="2016/03/01 12:00"/>
-		<property name="statement" value="No se que es"/>
+		<property name="statement" value="Hola, soy Pablo."/>
 		<property name="skills" value="Fuerte;Nado rápido;Puedo dar clases de natación"/>
 		<property name="likes" value="Me gusta nadar"/>
 		<property name="dislikes" value="No me gusta no estar en la piscina"/>
@@ -216,7 +216,7 @@
 	
 	<bean id="curriculum2" class="domain.Curriculum">
 		<property name="updateMoment" value="2016/02/01 12:00"/>
-		<property name="statement" value="No se que es"/>
+		<property name="statement" value="Hola, soy Antonio."/>
 		<property name="skills" value="Fuerte;Rápido;Resistente"/>
 		<property name="likes" value="Me gusta el Fitness;Me gusta el Spinning"/>
 		<property name="dislikes" value="No me gusta la natación"/>
@@ -224,7 +224,7 @@
 	
 	<bean id="curriculum3" class="domain.Curriculum">
 		<property name="updateMoment" value="2015/01/01 12:00"/>
-		<property name="statement" value="No se que es"/>
+		<property name="statement" value="Hola, soy Jose."/>
 		<property name="skills" value="Fuerte;Rápido;Resistente"/>
 		<property name="likes" value="Se me da bien el Fitness;Se me da bien el Spinning"/>
 		<property name="dislikes" value="No se me da bien la natación"/>
@@ -232,7 +232,7 @@
 	
 	<bean id="curriculum4" class="domain.Curriculum">
 		<property name="updateMoment" value="2016/03/05 12:00"/>
-		<property name="statement" value="No se que es"/>
+		<property name="statement" value="Hola, soy Rocío."/>
 		<property name="skills" value="Fuerte;Rápido;Resistente"/>
 		<property name="likes" value="Se me da bien el Fitness"/>
 		<property name="dislikes" value="No se me da bien nada mas"/>
@@ -240,7 +240,7 @@
 	
 	<bean id="curriculum5" class="domain.Curriculum">
 		<property name="updateMoment" value="2016/03/05 12:00"/>
-		<property name="statement" value="No se que es"/>
+		<property name="statement" value="Hola, spy Verónica."/>
 		<property name="skills" value="Fuerte;Rápido;Resistente"/>
 		<property name="likes" value="Se me da bien el Fitness;Se me da bien el Karate"/>
 		<property name="dislikes" value="No se me da bien la natación"/>
