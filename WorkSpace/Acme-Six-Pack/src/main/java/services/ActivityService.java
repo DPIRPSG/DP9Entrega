@@ -352,28 +352,36 @@ public class ActivityService {
 		}
 		finishMoment.setTime(c1.getTimeInMillis());
 		
-		for(Activity activityOfTrainer : trainer.getActivities()) {
-			if(activityOfTrainer.getId() != activity.getId()) {
-			momentOfActivities = new Date();
-			durationOfActivities = (int) activityOfTrainer.getDuration();
-			
-			Calendar c2 = Calendar.getInstance();
-			c2.setTime(activityOfTrainer.getStartingMoment());
-			if(activityOfTrainer.getDuration() - durationOfActivities == 0) {
-				c2.add(Calendar.HOUR_OF_DAY, +durationOfActivities);
-			} else {
-				durationOfActivities = (int) (activityOfTrainer.getDuration() + 0.5);
-				c2.add(Calendar.HOUR_OF_DAY, +durationOfActivities);
-			}
-			momentOfActivities.setTime(c2.getTimeInMillis());
-			
-			if(startingMoment.compareTo(momentOfActivities) <= 0 && startingMoment.compareTo(activityOfTrainer.getStartingMoment()) >= 0) {
-				result = false;
-				break;
-			} else if (finishMoment.compareTo(momentOfActivities) <= 0 && finishMoment.compareTo(activityOfTrainer.getStartingMoment()) >= 0) {
-				result = false;
-				break;
-			}
+		for (Activity activityOfTrainer : trainer.getActivities()) {
+			if (activityOfTrainer.getId() != activity.getId()) {
+				if (activityOfTrainer.getDeleted() == false) {
+					momentOfActivities = new Date();
+					durationOfActivities = (int) activityOfTrainer
+							.getDuration();
+
+					Calendar c2 = Calendar.getInstance();
+					c2.setTime(activityOfTrainer.getStartingMoment());
+					if (activityOfTrainer.getDuration() - durationOfActivities == 0) {
+						c2.add(Calendar.HOUR_OF_DAY, +durationOfActivities);
+					} else {
+						durationOfActivities = (int) (activityOfTrainer
+								.getDuration() + 0.5);
+						c2.add(Calendar.HOUR_OF_DAY, +durationOfActivities);
+					}
+					momentOfActivities.setTime(c2.getTimeInMillis());
+
+					if (startingMoment.compareTo(momentOfActivities) <= 0
+							&& startingMoment.compareTo(activityOfTrainer
+									.getStartingMoment()) >= 0) {
+						result = false;
+						break;
+					} else if (finishMoment.compareTo(momentOfActivities) <= 0
+							&& finishMoment.compareTo(activityOfTrainer
+									.getStartingMoment()) >= 0) {
+						result = false;
+						break;
+					}
+				}
 			}
 		}
 		

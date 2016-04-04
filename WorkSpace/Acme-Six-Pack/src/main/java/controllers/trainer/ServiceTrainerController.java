@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ServiceService;
 import services.TrainerService;
 import controllers.AbstractController;
+import domain.Activity;
 import domain.ServiceEntity;
 import domain.Trainer;
 
@@ -41,8 +42,19 @@ public class ServiceTrainerController extends AbstractController {
 		Trainer actTrainer;
 		Collection<ServiceEntity> services;
 		Collection<ArrayList<Integer>> customers;
+		Collection<Activity> activities;
+		Collection<Integer> servicesId;
+		
+		servicesId = new ArrayList<Integer>();
 				
 		actTrainer = trainerService.findByPrincipal();
+		
+		activities = actTrainer.getActivities();
+		for(Activity activity : activities) {
+			if(!servicesId.contains(activity.getService().getId())) {
+				servicesId.add(activity.getService().getId());
+			}
+		}
 		
 		result = new ModelAndView("service/list/specialised");
 		result.addObject("requestURI", "service/trainer/list.do");
@@ -54,6 +66,7 @@ public class ServiceTrainerController extends AbstractController {
 		result.addObject("services", services);
 		result.addObject("customers", customers);
 		result.addObject("addService", false);
+		result.addObject("servicesId", servicesId);
 
 		return result;
 	}
