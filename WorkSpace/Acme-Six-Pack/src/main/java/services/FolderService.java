@@ -72,7 +72,9 @@ public class FolderService {
 		Assert.notNull(folder);
 		boolean isAuthenticated;
 		
-		folder.setIsSystem(false);
+		if(folder.getId() == 0){
+			folder.setIsSystem(false);
+		}
 		
 		isAuthenticated = actorService.checkAuthority("ADMIN") || actorService.checkAuthority("CUSTOMER");
 		isAuthenticated = isAuthenticated || actorService.checkAuthority("TRAINER");

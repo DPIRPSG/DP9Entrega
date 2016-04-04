@@ -151,7 +151,7 @@
 		                </td>
 		                
 		                <td>
-		                    <jstl:out value="${feePayment.amount}"/>
+		                    <jstl:out value="${feePayment.amount}"/>&euro;
 		                </td>
 		            </tr>
 			    </jstl:forEach>
@@ -160,7 +160,7 @@
 	                <td></td>
 	                
 	                <td>
-	                   <spring:message code="invoice.totalCost" />: <jstl:out value="${invoice.totalCost}"/>
+	                   <spring:message code="invoice.totalCost" />: <jstl:out value="${invoice.totalCost}"/>&euro;
 	                </td>
 	            </tr>
 	        </table>
