@@ -19,7 +19,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-@Table(indexes = { @Index(columnList = "activeMoment"), @Index(columnList = "inactiveMoment") })
+@Table(indexes = { @Index(columnList = "activeMoment"), @Index(columnList = "inactiveMoment"), @Index(columnList = "paymentMoment") })
 public class FeePayment extends DomainEntity {
 
 	// Constructors -----------------------------------------------------------
@@ -88,6 +88,7 @@ public class FeePayment extends DomainEntity {
 
 	private Gym gym;
 	private Customer customer;
+	private Invoice invoice;
 
 	@Valid
 	@NotNull
@@ -109,6 +110,16 @@ public class FeePayment extends DomainEntity {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+	
+	@Valid
+	@ManyToOne(optional = true)
+	public Invoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
 	}
 
 }

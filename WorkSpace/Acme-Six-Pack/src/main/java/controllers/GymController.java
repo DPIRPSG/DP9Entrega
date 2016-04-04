@@ -64,6 +64,9 @@ public class GymController extends AbstractController {
 		result.addObject("gyms", gyms);
 		result.addObject("customers", customers);
 		result.addObject("requestUri2", "service/list.do?");
+		result.addObject("requestUri3", "room/list.do?");
+		result.addObject("requestUri4", "bulletin/list.do?");
+		result.addObject("requestUri5", "activity/list.do?");
 
 		return result;
 	}

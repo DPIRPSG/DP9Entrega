@@ -70,7 +70,10 @@ public class GymAdministratorController extends AbstractController {
 		result.addObject("requestURI", "gym/administrator/list.do?");
 		result.addObject("gyms", gyms);
 		result.addObject("customers", customers);
-		result.addObject("requestUri2", "service/list.do?");
+		result.addObject("requestUri2", "service/administrator/list.do?");
+		result.addObject("requestUri3", "room/administrator/list.do?");
+		result.addObject("requestUri4", "bulletin/administrator/list.do?");
+		result.addObject("requestUri5", "activity/administrator/list.do?");
 
 		return result;
 	}
@@ -104,14 +107,17 @@ public class GymAdministratorController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid Gym gym, BindingResult binding) {
 		ModelAndView result;
-		boolean bindingError;
+		int limitError;
 		
+		limitError = 0;
 		if(binding.hasFieldErrors("services")){
-			bindingError = binding.getErrorCount() > 2;
-		}else{
-			bindingError = binding.getErrorCount() > 0;
+			limitError += 2;
 		}
-		if (bindingError) {
+		if(binding.hasFieldErrors("rooms")){
+			limitError += 1;
+		}		
+		
+		if (limitError < binding.getErrorCount()) {
 			result = createEditModelAndView(gym);
 		} else {
 			try {

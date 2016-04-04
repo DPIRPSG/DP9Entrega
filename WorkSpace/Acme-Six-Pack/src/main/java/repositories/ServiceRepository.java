@@ -20,19 +20,15 @@ public interface ServiceRepository extends JpaRepository<ServiceEntity, Integer>
 	@Query("select s from ServiceEntity s where s.name not like 'Fitness'")
 	Collection<ServiceEntity> findAllWithoutFitness();
 
-	//select s from ServiceEntity s group by s having s != (select distinct(s) from Customer c join c.booking b join b.service s join c.feePayment f where c.id = ?1 and f.gym in (select distinct(g) from Customer c join c.booking b join b.service s join s.gyms g where c.id = ?1))
-	//select s from ServiceEntity s group by s having s != (select distinct(s) from Customer c join c.booking b join b.service s where c.id = ?1)")
-	/*@Query("select s from ServiceEntity s group by s having s != (select distinct(b.service) from Customer c join c.bookings b where c.id = ?1) and s in (select distinct(s) from Customer c join c.feePayments f join f.gym.services s where c.id = ?1 and f.activeMoment < CURRENT_DATE and f.inactiveMoment > CURRENT_DATE)")
-	Collection<ServiceEntity> findAllPaidAndNotBookedByCustomerId(int customerId);*/
 	
 	/* == DASHBOARD == */
 	
 	/* Query 3 */
-	@Query("select s from ServiceEntity s left join s.bookings b group by s having count(b) >= all(select count(b) from ServiceEntity s left join s.bookings b group by s)")
+	@Query("select s from ServiceEntity s left join s.activities a group by s having count(a) >= all(select count(a) from ServiceEntity s left join s.activities a group by s)")
 	Collection<ServiceEntity> findMostPopularService();
 	
 	/* Query 4 */
-	@Query("select s from ServiceEntity s left join s.bookings b group by s having count(b) <= all(select count(b) from ServiceEntity s left join s.bookings b group by s)")
+	@Query("select s from ServiceEntity s left join s.activities a group by s having count(a) <= all(select count(a) from ServiceEntity s left join s.activities a group by s)")
 	Collection<ServiceEntity> findLeastPopularService();
 	
 	/* Query 10 */
@@ -46,4 +42,9 @@ public interface ServiceRepository extends JpaRepository<ServiceEntity, Integer>
 	@Query("select avg(s.comments.size) from ServiceEntity s")
 	Double findAverageNumberOfCommentsPerService();
 	
+	@Query("select avg(t.services.size) from Trainer t")
+	Double averageNumberOfServiceWithSpecialisedTrainer();
+	
+	@Query("select s from ServiceEntity s left join s.trainers t group by s having count(t) >= all(select count(t) from ServiceEntity s left join s.trainers t group by s)")
+	Collection<ServiceEntity> mostPopularServiceByNumberOfTrainer();
 }

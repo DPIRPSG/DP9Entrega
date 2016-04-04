@@ -1,0 +1,27 @@
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="invoice/list" extends="master.page">
+		<put-attribute name="title" value="Lista de facturas" />
+		<put-attribute name="body" value="/views/invoice/list.jsp" />
+	</definition>
+	
+	<definition name="invoice/draft" extends="master.page">
+		<put-attribute name="title" value="Borrador de la factura" />
+		<put-attribute name="body" value="/views/invoice/draft.jsp" />
+	</definition>
+	
+	<definition name="invoice/create" extends="master.page">	
+		<put-attribute name="title" value="Crear una factura" />
+		<put-attribute name="body" value="/views/invoice/create.jsp" />
+	</definition>
+	
+	<definition name="invoice/print" extends="master.page">
+		<put-attribute name="title" value="Impresión de la factura" />
+		<put-attribute name="body" value="/views/invoice/print.jsp" />
+	</definition>
+	
+</tiles-definitions>

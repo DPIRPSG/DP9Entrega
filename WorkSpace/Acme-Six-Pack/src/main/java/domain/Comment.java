@@ -13,6 +13,8 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -80,9 +82,10 @@ public class Comment extends DomainEntity{
 		this.actor = actor;
 	}
 	
-	@NotNull
+	//@NotNull
 	@Valid
 	@ManyToOne(optional = false)
+	@NotFound(action = NotFoundAction.IGNORE)
 	public CommentedEntity getCommentedEntity() {
 		return commentedEntity;
 	}

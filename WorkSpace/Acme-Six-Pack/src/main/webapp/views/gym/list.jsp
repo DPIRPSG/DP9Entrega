@@ -9,6 +9,13 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
+<acme:exchange requestURI="${requestURI}"/>
+<fmt:parseNumber var="exchangeRateNumber" type="number" value="${cookie['exchangeRate_rate'].value}" />
+
+<br/>
+
 
 <!-- Listing grid -->
 <display:table pagesize="5" class="displaytag" keepStatus="true"
@@ -81,7 +88,7 @@
 	<spring:message code="gym.fee" var="feeHeader" />
 	<display:column title="${feeHeader}"
 		sortable="true">
-		<jstl:out value="${row_Gym.fee}"/>
+		<fmt:formatNumber value="${exchangeRateNumber * row_Gym.fee}" maxFractionDigits="2" minFractionDigits="2"/>
 	</display:column>
 
 	<spring:message code="gym.picture" var="pictureHeader" />
@@ -101,7 +108,24 @@
 				code="gym.comments" />
 		</a>
 	</display:column>
+	
+	<display:column>
+		<a href="${requestUri5}gymId=${row_Gym.id}"> <spring:message
+				code="gym.activities" />
+		</a>
+	</display:column>
 
+	<display:column>
+		<a href="${requestUri3}gymId=${row_Gym.id}"> <spring:message
+				code="gym.rooms" />
+		</a>
+	</display:column>
+	
+	<display:column>
+		<a href="${requestUri4}gymId=${row_Gym.id}"> <spring:message
+				code="gym.bulletins" />
+		</a>
+	</display:column>
 
 </display:table>
 

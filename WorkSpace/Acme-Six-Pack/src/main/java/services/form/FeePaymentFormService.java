@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import services.CustomerService;
 import services.FeePaymentService;
 
 import domain.FeePayment;
@@ -19,7 +20,10 @@ public class FeePaymentFormService {
 		// Supporting services ----------------------------------------------------
 
 		@Autowired
-		private FeePaymentService feePaymentService;		
+		private FeePaymentService feePaymentService;
+		
+		@Autowired
+		private CustomerService customerService;	
 		
 		// Constructors -----------------------------------------------------------
 		
@@ -34,6 +38,8 @@ public class FeePaymentFormService {
 			
 			feePaymentForm = new FeePaymentForm();
 			feePaymentForm.setGymId(gymId);
+			feePaymentForm.setCreditCard(customerService.getOrCreateCreditCard());
+			
 			
 			return feePaymentForm;
 		}

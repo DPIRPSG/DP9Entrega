@@ -2,6 +2,8 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,10 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ServiceRepository;
+import domain.Activity;
 import domain.Comment;
 import domain.FeePayment;
 import domain.Gym;
 import domain.ServiceEntity;
+import domain.Trainer;
 
 @Service
 @Transactional
@@ -34,6 +38,9 @@ public class ServiceService {
 	@Autowired
 	private FeePaymentService feePaymentService;
 	
+	@Autowired
+	private ActivityService activityService;
+	
 	// Constructors -----------------------------------------------------------
 
 	public ServiceService() {
@@ -49,10 +56,14 @@ public class ServiceService {
 		Collection<Gym> gyms;
 		Collection<Comment> comments;
 		Collection<String> pictures;
+		Collection<Activity> activities;
+		Collection<Trainer> trainers;
 		
-		gyms = new ArrayList<>();
-		pictures = new ArrayList<>();
-		comments = new ArrayList<>();
+		gyms = new ArrayList<Gym>();
+		pictures = new ArrayList<String>();
+		comments = new ArrayList<Comment>();
+		activities = new ArrayList<Activity>();
+		trainers = new ArrayList<Trainer>();
 		
 		
 		result = new ServiceEntity();
@@ -60,6 +71,8 @@ public class ServiceService {
 		result.setGyms(gyms);
 		result.setPictures(pictures);
 		result.setComments(comments);
+		result.setActivities(activities);
+		result.setTrainers(trainers);
 		
 		return result;
 	}
@@ -91,6 +104,15 @@ public class ServiceService {
 			
 			Assert.isTrue(service.getGyms().containsAll(gyms) && service.getGyms().size() == gyms.size());
 			Assert.isTrue(service.getComments().containsAll(comments) && service.getComments().size() == comments.size());
+		} else {
+			Collection<Activity> activities;
+			Collection<Trainer> trainers;
+			
+			activities = new ArrayList<Activity>();
+			trainers = new ArrayList<Trainer>();
+			
+			service.setActivities(activities);
+			service.setTrainers(trainers);
 		}
 		
 		serviceRepository.save(service);
@@ -103,6 +125,7 @@ public class ServiceService {
 		Assert.isTrue(service.getGyms().isEmpty());
 		Assert.isTrue(service.getComments().isEmpty());
 		Assert.isTrue(service.getName() != "Fitness", "El servicio de Fitness lo pueden tener todos los gimnasios, luego no se deberá borrar");
+		Assert.isTrue(service.getActivities().isEmpty());
 		
 		serviceRepository.delete(service);
 	}
@@ -193,19 +216,11 @@ public class ServiceService {
 		return result;
 	}
 	
-	/*public Collection<ServiceEntity> findAllPaidAndNotBookedByCustomerId(int customerId) {
-		Collection<ServiceEntity> result;
-		
-		result = serviceRepository.findAllPaidAndNotBookedByCustomerId(customerId);
-		
-		return result;
-	}*/
-	
-	public Collection<ServiceEntity> findAllPaidAndNotBookedByCustomerId(
-			int customerId) {
+	public Collection<ServiceEntity> findAllPaidAndNotBookedByCustomerId() {
 		Collection<ServiceEntity> result;
 		Collection<ServiceEntity> services;
 		Collection<FeePayment> fees;
+		Collection<Activity> activities;
 
 		result = new ArrayList<ServiceEntity>();
 		fees = feePaymentService.findAllActiveByCustomer();
@@ -215,6 +230,13 @@ public class ServiceService {
 				if(!result.contains(service)) {
 					result.add(service);
 				}
+			}
+		}
+		
+		activities = activityService.findAllByCustomer();
+		for(Activity activity : activities) {
+			if(result.contains(activity.getService())) {
+				result.remove(activity.getService());
 			}
 		}
 		
@@ -252,5 +274,45 @@ public class ServiceService {
 		result = serviceRepository.findAverageNumberOfCommentsPerService();
 		
 		return result;
+	}
+	
+	
+	public Double averageNumberOfServiceWithSpecialisedTrainer(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Double result;
+		
+		result = serviceRepository.averageNumberOfServiceWithSpecialisedTrainer();
+		
+		return result;		
+	}
+	
+	public Collection<ServiceEntity> mostPopularServiceByNumberOfTrainer(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Collection<ServiceEntity> result;
+		
+		result = serviceRepository.mostPopularServiceByNumberOfTrainer();
+		
+		return result;			
+	}
+	
+	public Map<ServiceEntity,Integer> servicesWithTrainesSpecialized(){
+		
+		Map<ServiceEntity,Integer> result;
+		Collection<ServiceEntity> listOfServices;
+		
+		result = new HashMap<>();
+		listOfServices = findAll();
+		
+		for(ServiceEntity s:listOfServices){
+			result.put(s, s.getTrainers().size());
+		}
+		
+		return result;
+	}
+	
+	public void flush(){
+		serviceRepository.flush();
 	}
 }

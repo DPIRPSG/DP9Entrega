@@ -18,6 +18,11 @@
 		<acme:textbox code="actorForm.name" path="name"/>
 		<acme:textbox code="actorForm.surname" path="surname"/>
 		<acme:textbox code="actorForm.phone" path="phone"/>
+		<security:authorize access="hasRole('TRAINER')">
+			<acme:textbox code="actorForm.picture" path="picture"/>
+			<br/>			
+		</security:authorize>	
+		
 		<acme:textbox code="actorForm.username" path="username"/>
 		
 		<form:label path="password">
@@ -34,7 +39,7 @@
 		<form:errors class="error" path="repeatedPassword" />
 		<br />		
 		
-		<security:authorize access="!hasAnyRole('CUSTOMER', 'ADMIN')">
+		<security:authorize access="!hasAnyRole('CUSTOMER', 'ADMIN', 'TRAINER')">
 			
 			<acme:checkbox code="actorForm.createCreditCard" path="createCreditCard"/>
 			<acme:checkbox code="actorForm.createSocialIdentity" path="createSocialIdentity"/>
@@ -44,9 +49,10 @@
 			<acme:checkbox code="actorForm.acceptTerm" path="acceptTerm"/>
 			<a href="legal-terms/index.do"><spring:message
 				code="actorForm.legalTerms" /></a>
-		<br/>			
+			<br/>			
 			
-		</security:authorize>		
+		</security:authorize>
+
 		<br />
 		
 		<!-- Action buttons -->

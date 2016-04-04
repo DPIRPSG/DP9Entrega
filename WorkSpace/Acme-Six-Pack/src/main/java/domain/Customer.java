@@ -8,6 +8,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
@@ -55,18 +56,11 @@ public class Customer extends Actor {
 		
 	}
 	// Relationships ----------------------------------------------------------
-	private SocialIdentity socialIdentity;
+	
 	private Collection<FeePayment> feePayments;
-	
-	@Valid
-	@OneToOne(optional = true)
-	public SocialIdentity getSocialIdentity() {
-		return socialIdentity;
-	}
-	public void setSocialIdentity(SocialIdentity socialIdentity) {
-		this.socialIdentity = socialIdentity;
-	}
-	
+	private Collection<Activity> activities;
+	private SocialIdentity socialIdentity;
+		
 	@Valid
 	@NotNull
 	@OneToMany(mappedBy = "customer")
@@ -83,6 +77,25 @@ public class Customer extends Actor {
 
 	public void removeFeePayment(FeePayment feePayment) {
 		this.feePayments.remove(feePayment);
+	}
+	
+	@Valid
+	@NotNull
+	@ManyToMany
+	public Collection<Activity> getActivities() {
+		return activities;
+	}
+	public void setActivities(Collection<Activity> activities) {
+		this.activities = activities;
+	}
+	
+	@Valid
+	@OneToOne(optional = true)
+	public SocialIdentity getSocialIdentity() {
+		return socialIdentity;
+	}
+	public void setSocialIdentity(SocialIdentity socialIdentity) {
+		this.socialIdentity = socialIdentity;
 	}
 
 }

@@ -45,7 +45,7 @@ public class SpamTermService {
 	}
 	
 	/**
-	 * Guarda un folder creado o modificado
+	 * Guarda un spamTerm creado o modificado
 	 */
 	//req: 24.2
 	public SpamTerm save(SpamTerm spamTerm){
@@ -61,7 +61,7 @@ public class SpamTermService {
 	
 
 	/**
-	 * Elimina un folder. No elimina carpetas del sistema
+	 * Elimina un spamTerm.
 	 */
 	//req: 24.2	
 	public void delete(SpamTerm spamTerm){
@@ -104,5 +104,9 @@ public class SpamTermService {
 		result = spamTermRepository.checkSparmTermByWords(text);
 		
 		return result;
+	}
+	
+	public void flush(){
+		spamTermRepository.flush();
 	}
 }

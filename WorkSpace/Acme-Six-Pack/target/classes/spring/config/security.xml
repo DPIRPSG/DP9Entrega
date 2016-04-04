@@ -48,22 +48,41 @@
 		<security:intercept-url pattern="/service/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/feePayment/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/admin/administrator/**" access="hasRole('ADMIN')" />
-		
-		<security:intercept-url pattern="/service/customer/**" access="hasRole('CUSTOMER')"/>
-		<security:intercept-url pattern="/feePayment/customer/**" access="hasRole('CUSTOMER')"/>
-		
-		<security:intercept-url pattern="/folder/actor/**" access="hasAnyRole('CUSTOMER', 'ADMIN')"/>
-		<security:intercept-url pattern="/message/actor/**" access="hasAnyRole('CUSTOMER', 'ADMIN')"/>
-		<security:intercept-url pattern="/comment/actor/create.do" access="hasAnyRole('CUSTOMER', 'ADMIN')" />
-		
+		<security:intercept-url pattern="/exchangeRate/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/trainer/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/room/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/bulletin/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/activity/administrator/**" access="hasRole('ADMIN')" />
 
 		<security:intercept-url pattern="/creditCard/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/customer/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/socialIdentity/customer/**" access="hasRole('CUSTOMER')" />
-		<security:intercept-url pattern="/gym/customer/**" access="hasRole('CUSTOMER')" />		
+		<security:intercept-url pattern="/gym/customer/**" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/activity/customer/**" access="hasAnyRole('CUSTOMER')"/>
+		<security:intercept-url pattern="/service/customer/**" access="hasRole('CUSTOMER')"/>
+		<security:intercept-url pattern="/feePayment/customer/**" access="hasRole('CUSTOMER')"/>
+		<security:intercept-url pattern="/invoice/customer/**" access="hasRole('CUSTOMER')"/>
+		
+		
+		<security:intercept-url pattern="/service/trainer/**" access="hasRole('TRAINER')" />
+		<security:intercept-url pattern="/trainer/trainer/**" access="hasRole('TRAINER')" />
+		<security:intercept-url pattern="/curriculum/trainer/**" access="hasRole('TRAINER')" />
+		
+		
+		<security:intercept-url pattern="/folder/actor/**" access="hasAnyRole('CUSTOMER', 'ADMIN', 'TRAINER')"/>
+		<security:intercept-url pattern="/message/actor/**" access="hasAnyRole('CUSTOMER', 'ADMIN', 'TRAINER')"/>
+		<security:intercept-url pattern="/comment/actor/create.do" access="hasAnyRole('CUSTOMER', 'ADMIN', 'TRAINER')" />
+
+		
+	
 		<security:intercept-url pattern="/comment/list.do" access="permitAll" />
 		<security:intercept-url pattern="/gym/list.do" access="permitAll" />
 		<security:intercept-url pattern="/service/list.do" access="permitAll" />
+		<security:intercept-url pattern="/room/list.do" access="permitAll" />
+		<security:intercept-url pattern="/bulletin/list.do" access="permitAll" />
+		<security:intercept-url pattern="/trainer/*.do" access="permitAll" />
+		<security:intercept-url pattern="/exchangeRate/*.do" access="permitAll" />
+		<security:intercept-url pattern="/activity/list.do" access="permitAll" />
 		
 		<security:intercept-url pattern="/customer/create.do" access="!hasAnyRole('CUSTOMER', 'ADMIN')" />
 

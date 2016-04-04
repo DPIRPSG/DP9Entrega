@@ -3,8 +3,10 @@ package services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import repositories.CommentedEntityRepository;
+import domain.Actor;
 import domain.CommentedEntity;
 
 @Service
@@ -18,7 +20,11 @@ public class CommentedEntityService {
 	
 	// Supporting services ----------------------------------------------------
 
+	@Autowired
+	private ActorService actorService;
 	
+	@Autowired
+	private TrainerService trainerService;
 	
 	// Constructors -----------------------------------------------------------
 	
@@ -30,8 +36,16 @@ public class CommentedEntityService {
 
 	public CommentedEntity findOne(int commentedEntityId){
 		CommentedEntity result;
+		Actor actorCommented;
 		
-		result = commentedEntityRepository.findOne(commentedEntityId);
+		result = commentedEntityRepository.findOneById(commentedEntityId);
+		
+		actorCommented = actorService.findOne(commentedEntityId);
+		
+		if(actorCommented != null) {
+			actorCommented = trainerService.findOne(commentedEntityId);
+			Assert.isTrue(actorCommented != null, "Only a gym, service or trainer can be commented");
+		}
 		
 		return result;
 	}
