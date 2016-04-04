@@ -18,6 +18,9 @@
 	<form:hidden path="sentMoment" />
 	<form:hidden path="sender" />
 	<form:hidden path="folders" />
+	
+	<spring:message code="message.notBlank" var="notBlank"/>
+	<spring:message code="message.notEmpty" var="notEmpty"/>
 
 	<form:label path="recipients">
 		<spring:message code="message.recipients" />:
@@ -25,11 +28,31 @@
 	<form:select id="recipients" path="recipients" items="${actors}"
 		itemLabel="userAccount.username" itemValue="id" multiple="multiple" />
 	<form:errors cssClass="error" path="recipients" />
+	<jstl:if test="${!hayRecipients }">
+		<div class="error"><jstl:out value="${notEmpty }"></jstl:out></div>
+	</jstl:if>
 	<br />
-
-	<acme:textbox code="message.subject" path="subject" />
-	<acme:textarea code="message.body" path="body" />
-
+	
+	<form:label path="subject">
+		<spring:message code="message.subject" />:
+	</form:label>
+	<form:input path="subject"/>
+	<form:errors cssClass="error" path="subject" />
+	<jstl:if test="${!haySubject }">
+		<div class="error"><jstl:out value="${notBlank }"></jstl:out></div>
+	</jstl:if>
+	<br />
+	
+	<form:label path="body">
+		<spring:message code="message.body" />:
+	</form:label>
+	<form:textarea path="body"/>
+	<form:errors cssClass="error" path="body" />
+	<jstl:if test="${!hayBody }">
+		<div class="error"><jstl:out value="${notBlank }"></jstl:out></div>
+	</jstl:if>
+	<br />
+	
 	<br />
 
 	<!-- Action buttons -->
