@@ -20,7 +20,6 @@ import utilities.AbstractTest;
 import domain.Actor;
 import domain.Folder;
 import domain.Message;
-import domain.SpamTerm;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -138,7 +137,7 @@ public class MessageServiceTest extends AbstractTest {
 		// Declare variables
 		Actor customer;
 		Message message;
-		Message sentMessage;
+//		Message sentMessage;
 		Date sentMoment;
 //		Collection<Actor> allActors;
 //		Collection<Actor> recipients;
@@ -167,7 +166,7 @@ public class MessageServiceTest extends AbstractTest {
 //		}
 //		message.setRecipients(recipients);
 		
-		sentMessage = messageService.firstSave(message);
+		messageService.firstSave(message);
 		
 		// Checks results
 //		for(Folder f: customer.getMessageBoxes()){

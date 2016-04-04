@@ -75,6 +75,8 @@ public class TrainerService {
 	// req: 10.1
 	public Trainer save(Trainer trainer){
 		Assert.notNull(trainer);
+		Assert.notNull(trainer.getUserAccount().getUsername());
+		Assert.notNull(trainer.getUserAccount().getPassword());
 		
 		Trainer modify;
 		
@@ -178,17 +180,19 @@ public class TrainerService {
 		
 		actTrainer = this.findByPrincipal();
 		services = actTrainer.getServices();
-		if (!services.contains(serv)) {
-			trainers = serv.getTrainers();
+		
+		Assert.isTrue(!services.contains(serv), "You already have this service as specialised.");
+		
+		trainers = serv.getTrainers();
 
-			trainers.add(actTrainer);
-			serv.setTrainers(trainers);
+		trainers.add(actTrainer);
+		serv.setTrainers(trainers);
 
-			services.add(serv);
-			actTrainer.setServices(services);
+		services.add(serv);
+		actTrainer.setServices(services);
 
-			this.save(actTrainer);
-		}
+		this.save(actTrainer);
+		
 		
 	}
 	

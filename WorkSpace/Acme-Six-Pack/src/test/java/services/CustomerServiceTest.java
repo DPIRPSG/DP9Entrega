@@ -110,18 +110,19 @@ public class CustomerServiceTest extends AbstractTest {
 	 * 		+ Rellenar los campos y la contraseña a null
 	 * 		+ Presionar en registrarse
 	 * 		- Comprobación
-	 * 		+ Comprobar que salta una excepción del tipo: 
+	 * 		+ Comprobar que salta una excepción del tipo: IllegalArgumentException
 	 * 		+ Cerrar su sesión
 	 */
 	
-	// CORREGIR
-	@Test 
+	@Test(expected=IllegalArgumentException.class)
+	@Rollback(value = true)
+//	@Test 
 	public void testNewCustomerNullPassword() {
 		// Declare variables
 		Customer customer;
 		UserAccount userAccount;
-		Customer customerRegistered;
-		Actor authenticatedCustomer;
+//		Customer customerRegistered;
+//		Actor authenticatedCustomer;
 		
 		// Load objects to test
 		
@@ -143,18 +144,18 @@ public class CustomerServiceTest extends AbstractTest {
 		
 		customer.setUserAccount(userAccount);
 		
-		customerRegistered = customerService.save(customer);
+		customerService.save(customer);
 		
 		// Checks results
-		authenticate("admin");
-		Assert.isTrue(customerService.findAll().contains(customerRegistered), "El customer nuevo registrado no se encuentra entre los customers registrados en el sistema."); // First check
-		unauthenticate();
-		
-		authenticate("customer1");
-		
-		authenticatedCustomer = actorService.findByPrincipal();
-		
-		Assert.notNull(authenticatedCustomer, "No se ha podido loguear al customer que se acaba de registrar."); // Second check
+//		authenticate("admin");
+//		Assert.isTrue(customerService.findAll().contains(customerRegistered), "El customer nuevo registrado no se encuentra entre los customers registrados en el sistema."); // First check
+//		unauthenticate();
+//		
+//		authenticate("customer1");
+//		
+//		authenticatedCustomer = actorService.findByPrincipal();
+//		
+//		Assert.notNull(authenticatedCustomer, "No se ha podido loguear al customer que se acaba de registrar."); // Second check
 		
 		unauthenticate();
 

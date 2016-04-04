@@ -75,6 +75,8 @@ public class CustomerService {
 	// req: 10.1
 	public Customer save(Customer customer){
 		Assert.notNull(customer);
+		Assert.notNull(customer.getUserAccount().getUsername());
+		Assert.notNull(customer.getUserAccount().getPassword());
 		
 		Customer modify;
 		

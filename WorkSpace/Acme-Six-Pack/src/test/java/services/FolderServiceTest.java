@@ -95,74 +95,88 @@ public class FolderServiceTest extends AbstractTest {
 
 	}
 	
-//	/**
-//	 * Negative test case: Crear un nuevo folder a otro usuario del sistema
-//	 * 		- Acción
-//	 * 		+ Autenticarse en el sistema
-//	 * 		+ Crear una carpeta
-//	 * 		+ Asignarsela a otro usuario del sistema
-//	 * 		- Comprobación
-//	 * 		+ Listar sus carpetas
-//	 * 		+ Comprobar que salta una excepción del tipo: 
-//	 * 		+ Cerrar su sesión
-//	 */
-//	
-//	// CORREGIR
-//	@Test 
-//	public void testNewFolderForAnotherUser() {
-//		// Declare variables
-//		Actor customer;
-//		Actor otherCustomer;
-//		Folder folder;
-//		Folder newFolder;
-//		Collection<Folder> actorFolders;
-//		Integer numberOfFolders;
-//		
-//		// Load objects to test
-//		authenticate("customer1");
-//		customer = actorService.findByPrincipal();
-//		otherCustomer = actorService.findOne(71); // Id del customer2
-//		
-//		// Checks basic requirements
-//		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
-//		
-//		// Execution of test
-//		numberOfFolders = folderService.findAllByActor().size();
-//		
-//		folder = folderService.create();
-//		folder.setName("Nueva carpeta");
-//		folder.setIsSystem(false);
-//		folder.setActor(otherCustomer);
-//		
-//		newFolder = folderService.saveToEdit(folder);
-//		
-//		// Checks results
-//		folderService.checkActor(newFolder); // First check
-//		
-//		actorFolders = folderService.findAllByActor();
-//		Assert.isTrue(actorFolders.contains(newFolder), "El usuario no tiene asignada la carpeta que acaba de crearse."); // Second check
-//		
-//		Assert.isTrue(folderService.findAllByActor().size() == numberOfFolders + 1, "El actor no tiene el mismo número de carpetas que antes + 1 tras crearse una nueva carpeta"); // Third check
-//		
-//		unauthenticate();
-//
-//	}
+	/**
+	 * Positive test case: Crear un nuevo folder a otro usuario del sistema (Test planteado como negativo, pero resultante como positivo al no saltar excepción, si no autocorregirse para, aunque tú impongas otro usuario que no seas tú, te inserte el usuario logueado como dueño de la carpeta)
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Crear una carpeta
+	 * 		+ Asignarsela a otro usuario del sistema
+	 * 		- Comprobación
+	 * 		+ Listar sus carpetas
+	 * 		+ Comprobar que el dueño de la carpeta es el del creador y no el usuario al que se intenta crear
+	 * 		+ Comprobar que entre las carpetas del usuario creador se encuentra la nueva carpeta creada
+	 * 		+ Comprobar que el número de carpetas del usuario creador es el mismo de antes + 1
+	 * 		+ Comprobar que entre las carpetas del usuario al que se intenta crear no se encuentra la nueva carpeta creada
+	 * 		+ Comprobar que el número de carpetas del usuario al que se intentar crear la carpeta no ha cambiado
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test 
+	public void testNewFolderForAnotherUser() {
+		// Declare variables
+		Actor customer;
+		Actor otherCustomer;
+		Folder folder;
+		Folder newFolder;
+		Collection<Folder> actorFolders;
+		Collection<Folder> otherActorFolders;
+		Integer numberOfFolders;
+		Integer numberOfFoldersOtherActor;
+		Integer actorId;
+		
+		// Load objects to test
+		authenticate("customer1");
+		customer = actorService.findByPrincipal();
+		otherCustomer = actorService.findOne(71); // Id del customer2
+		actorId = otherCustomer.getId();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+		numberOfFolders = folderService.findAllByActor().size();
+		numberOfFoldersOtherActor = folderService.findAllByActorId(actorId).size();
+		
+		folder = folderService.create();
+		folder.setName("Nueva carpeta");
+		folder.setIsSystem(false);
+		folder.setActor(otherCustomer);
+		
+		newFolder = folderService.saveToEdit(folder);
+		
+		// Checks results
+		folderService.checkActor(newFolder); // First check
+		
+		actorFolders = folderService.findAllByActor();
+		Assert.isTrue(actorFolders.contains(newFolder), "El usuario no tiene asignada la carpeta que acaba de crearse."); // Second check
+		
+		Assert.isTrue(folderService.findAllByActor().size() == numberOfFolders + 1, "El actor no tiene el mismo número de carpetas que antes + 1 tras crearse una nueva carpeta."); // Third check
+		
+		otherActorFolders = folderService.findAllByActorId(actorId);
+		
+		Assert.isTrue(!otherActorFolders.contains(newFolder), "El usuario al que se le ha intentado crear una carpeta desde otra cuenta tiene asignada la carpeta, cuando no debería."); // Fourth check
+		
+		Assert.isTrue(folderService.findAllByActorId(actorId).size() == numberOfFoldersOtherActor, "El actor al que se le ha intentado crear una carpeta desde otra cuenta no tiene el mismo número de carpetas que antes tras crearse una nueva carpeta."); // Fifth check
+		
+		
+		unauthenticate();
+
+	}
 	
 	
 	
 	/**
-	 * Negative test case: Crear un nuevo folder como folder del sistema (isSystem = true)
+	 * Positive test case: Crear un nuevo folder como folder del sistema (isSystem = true) (Test planteado como negativo, pero resultante como positivo al no saltar excepción, si no autocorregirse poniendo siempre el isSystem a true aunque tú se lo pases como false)
 	 * 		- Acción
 	 * 		+ Autenticarse en el sistema
 	 * 		+ Crearse una carpeta
 	 * 		+ Hacerla carpeta del sistema
 	 * 		- Comprobación
 	 * 		+ Listar sus carpetas
-	 * 		+ Comprobar que salta una excepción del tipo: 
+	 * 		+ Comprobar que la carpeta creada tiene el isSytem a false
 	 * 		+ Cerrar su sesión
 	 */
 	
-	// CORREGIR
 	@Test 
 	public void testNewFolderIsSystem() {
 		// Declare variables
@@ -190,7 +204,52 @@ public class FolderServiceTest extends AbstractTest {
 		newFolder = folderService.saveToEdit(folder);
 		
 		// Checks results
-		System.out.println(newFolder.getIsSystem());
+		Assert.isTrue(newFolder.getIsSystem() == false, "Se ha conseguido crear una carpeta del sistema.");
+		
+		unauthenticate();
+
+	}
+	
+	/**
+	 * Negative test case: Crear un nuevo folder con el nombre vacío
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Crearse una carpeta
+	 * 		- Comprobación
+	 * 		+ Listar sus carpetas
+	 * 		+ Comprobar que salta una excepción del tipo: ConstraintViolationException
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test(expected=ConstraintViolationException.class)
+	@Rollback(value = true)
+//	@Test 
+	public void testNewBlankNameFolder() {
+		// Declare variables
+		Actor customer;
+		Folder folder;
+//		Folder newFolder;
+//		Collection<Folder> actorFolders;
+//		Integer numberOfFolders;
+		
+		// Load objects to test
+		authenticate("customer1");
+		customer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+//		numberOfFolders = folderService.findAllByActor().size();
+		
+		folder = folderService.create();
+		folder.setName("");
+		folder.setIsSystem(false);
+		folder.setActor(customer);
+		
+		folderService.saveToEdit(folder);
+		
+		// Checks results
 //		folderService.checkActor(newFolder); // First check
 //		
 //		actorFolders = folderService.findAllByActor();
@@ -199,6 +258,61 @@ public class FolderServiceTest extends AbstractTest {
 //		Assert.isTrue(folderService.findAllByActor().size() == numberOfFolders + 1, "El actor no tiene el mismo número de carpetas que antes + 1 tras crearse una nueva carpeta"); // Third check
 		
 		unauthenticate();
+		
+		folderService.flush();
+
+	}
+	
+	/**
+	 * Negative test case: Crear un nuevo folder con el nombre a null
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Crearse una carpeta
+	 * 		- Comprobación
+	 * 		+ Listar sus carpetas
+	 * 		+ Comprobar que salta una excepción del tipo: ConstraintViolationException
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test(expected=ConstraintViolationException.class)
+	@Rollback(value = true)
+//	@Test 
+	public void testNewNullNameFolder() {
+		// Declare variables
+		Actor customer;
+		Folder folder;
+//		Folder newFolder;
+//		Collection<Folder> actorFolders;
+//		Integer numberOfFolders;
+		
+		// Load objects to test
+		authenticate("customer1");
+		customer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+//		numberOfFolders = folderService.findAllByActor().size();
+		
+		folder = folderService.create();
+		folder.setName(null);
+		folder.setIsSystem(false);
+		folder.setActor(customer);
+		
+		folderService.saveToEdit(folder);
+		
+		// Checks results
+//		folderService.checkActor(newFolder); // First check
+//		
+//		actorFolders = folderService.findAllByActor();
+//		Assert.isTrue(actorFolders.contains(newFolder), "El usuario no tiene asignada la carpeta que acaba de crearse."); // Second check
+//		
+//		Assert.isTrue(folderService.findAllByActor().size() == numberOfFolders + 1, "El actor no tiene el mismo número de carpetas que antes + 1 tras crearse una nueva carpeta"); // Third check
+		
+		unauthenticate();
+		
+		folderService.flush();
 
 	}
 	
