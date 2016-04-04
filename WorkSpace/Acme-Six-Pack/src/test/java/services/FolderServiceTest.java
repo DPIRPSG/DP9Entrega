@@ -17,6 +17,7 @@ import org.springframework.util.Assert;
 import utilities.AbstractTest;
 import domain.Actor;
 import domain.Folder;
+import domain.Message;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -94,48 +95,48 @@ public class FolderServiceTest extends AbstractTest {
 
 	}
 	
-	/**
-	 * Negative test case: Crear un nuevo folder a otro usuario del sistema
-	 * 		- Acción
-	 * 		+ Autenticarse en el sistema
-	 * 		+ Crear una carpeta
-	 * 		+ Asignarsela a otro usuario del sistema
-	 * 		- Comprobación
-	 * 		+ Listar sus carpetas
-	 * 		+ Comprobar que salta una excepción del tipo: 
-	 * 		+ Cerrar su sesión
-	 */
-	
-	// CORREGIR
-	@Test 
-	public void testNewFolderForAnotherUser() {
-		// Declare variables
-		Actor customer;
-		Actor otherCustomer;
-		Folder folder;
+//	/**
+//	 * Negative test case: Crear un nuevo folder a otro usuario del sistema
+//	 * 		- Acción
+//	 * 		+ Autenticarse en el sistema
+//	 * 		+ Crear una carpeta
+//	 * 		+ Asignarsela a otro usuario del sistema
+//	 * 		- Comprobación
+//	 * 		+ Listar sus carpetas
+//	 * 		+ Comprobar que salta una excepción del tipo: 
+//	 * 		+ Cerrar su sesión
+//	 */
+//	
+//	// CORREGIR
+//	@Test 
+//	public void testNewFolderForAnotherUser() {
+//		// Declare variables
+//		Actor customer;
+//		Actor otherCustomer;
+//		Folder folder;
 //		Folder newFolder;
 //		Collection<Folder> actorFolders;
 //		Integer numberOfFolders;
-		
-		// Load objects to test
-		authenticate("customer1");
-		customer = actorService.findByPrincipal();
-		otherCustomer = actorService.findOne(71); // Id del customer2
-		
-		// Checks basic requirements
-		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
-		
-		// Execution of test
+//		
+//		// Load objects to test
+//		authenticate("customer1");
+//		customer = actorService.findByPrincipal();
+//		otherCustomer = actorService.findOne(71); // Id del customer2
+//		
+//		// Checks basic requirements
+//		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+//		
+//		// Execution of test
 //		numberOfFolders = folderService.findAllByActor().size();
-		
-		folder = folderService.create();
-		folder.setName("Nueva carpeta");
-		folder.setIsSystem(false);
-		folder.setActor(otherCustomer);
-		
-		folderService.saveToEdit(folder);
-		
-		// Checks results
+//		
+//		folder = folderService.create();
+//		folder.setName("Nueva carpeta");
+//		folder.setIsSystem(false);
+//		folder.setActor(otherCustomer);
+//		
+//		newFolder = folderService.saveToEdit(folder);
+//		
+//		// Checks results
 //		folderService.checkActor(newFolder); // First check
 //		
 //		actorFolders = folderService.findAllByActor();
@@ -143,9 +144,9 @@ public class FolderServiceTest extends AbstractTest {
 //		
 //		Assert.isTrue(folderService.findAllByActor().size() == numberOfFolders + 1, "El actor no tiene el mismo número de carpetas que antes + 1 tras crearse una nueva carpeta"); // Third check
 //		
-		unauthenticate();
-
-	}
+//		unauthenticate();
+//
+//	}
 	
 	
 	
@@ -167,7 +168,7 @@ public class FolderServiceTest extends AbstractTest {
 		// Declare variables
 		Actor customer;
 		Folder folder;
-//		Folder newFolder;
+		Folder newFolder;
 //		Collection<Folder> actorFolders;
 //		Integer numberOfFolders;
 		
@@ -186,9 +187,10 @@ public class FolderServiceTest extends AbstractTest {
 		folder.setIsSystem(true);
 		folder.setActor(customer);
 		
-		folderService.saveToEdit(folder);
+		newFolder = folderService.saveToEdit(folder);
 		
 		// Checks results
+		System.out.println(newFolder.getIsSystem());
 //		folderService.checkActor(newFolder); // First check
 //		
 //		actorFolders = folderService.findAllByActor();
@@ -324,7 +326,7 @@ public class FolderServiceTest extends AbstractTest {
 	}
 	
 	/**
-	 * Positive test case: Renombrar un folder a un texto vacío
+	 * Negative test case: Renombrar un folder a un texto vacío
 	 * 		- Acción
 	 * 		+ Autenticarse en el sistema
 	 * 		+ Renombrar una carpeta a ""
@@ -384,6 +386,479 @@ public class FolderServiceTest extends AbstractTest {
 		unauthenticate();
 		
 		folderService.flush();
+
+	}
+	
+	/**
+	 * Positive test case: Eliminar un folder
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Eliminar una carpeta suya
+	 * 		- Comprobación
+	 * 		+ Listar sus carpetas
+	 * 		* Comprobar que el actor logueado ya no posee dicha carpeta
+	 * 		+ Comprobar que no existe carpeta creada con el nombre que tenía la carpeta eliminada
+	 * 		+ Comprobar que el número de carpetas que posee es el mismo que antes - 1
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test 
+	public void testDeleteFolder() {
+		// Declare variables
+		Actor customer;
+		Folder folder;
+		Collection<Folder> actorFolders;
+		Collection<Folder> newActorFolders;
+		String folderName;
+		Integer numberOfFolders;
+		Integer newNumberOfFolders;
+		
+		// Load objects to test
+		authenticate("customer1");
+		customer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+		actorFolders = folderService.findAllByActor();
+		numberOfFolders = actorFolders.size();
+		
+		folder = null;
+		for(Folder f: actorFolders){
+			if(f.getName().equals("MyBox")){
+				folder = f;
+			}
+		}
+		folderName = folder.getName();
+		
+		folderService.delete(folder);
+		
+		// Checks results
+		newActorFolders = folderService.findAllByActor();
+		newNumberOfFolders = newActorFolders.size();
+		
+		Assert.isTrue(!newActorFolders.contains(folder), "El usuario sigue teniendo asignada la carpeta que acaba de eliminar."); // First check
+				
+		for(Folder f: newActorFolders){
+			if(f.getName() == folderName){
+				Assert.isTrue(false, "El actor sigue teniendo una carpeta con el nombre de la carpeta que acaba de borrar."); // Second check
+			}
+		}
+				
+		Assert.isTrue( (numberOfFolders - 1 == newNumberOfFolders) , "El actor no tiene el mismo número de carpetas que antes - 1 al borrar una de sus carpetas."); // Fourth check
+		
+		unauthenticate();
+
+	}
+	
+	/**
+	 * Negative test case: Eliminar un folder del sistema
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Eliminar una carpeta suya, pero que sea carpeta del sistema
+	 * 		- Comprobación
+	 * 		* Comprobar que salta una excepción del tipo: IllegalArgumentException
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test(expected=IllegalArgumentException.class)
+	@Rollback(value = true)
+//	@Test 
+	public void testDeleteSystemFolder() {
+		// Declare variables
+		Actor customer;
+		Folder folder;
+		Collection<Folder> actorFolders;
+//		Collection<Folder> newActorFolders;
+//		String folderName;
+//		Integer numberOfFolders;
+//		Integer newNumberOfFolders;
+		
+		// Load objects to test
+		authenticate("customer1");
+		customer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+		actorFolders = folderService.findAllByActor();
+//		numberOfFolders = actorFolders.size();
+		
+		folder = actorFolders.iterator().next(); // folder es una carpeta del sistema
+//		folderName = folder.getName();
+		while(folder.getIsSystem() == false){
+			folder = actorFolders.iterator().next();
+		}
+		
+		folderService.delete(folder);
+		
+		// Checks results
+//		newActorFolders = folderService.findAllByActor();
+//		newNumberOfFolders = newActorFolders.size();
+//		
+//		Assert.isTrue(newActorFolders.contains(folder), "El usuario sigue teniendo asignada la carpeta que acaba de eliminar."); // First check
+//				
+//		for(Folder f: newActorFolders){
+//			if(f.getName() == folderName){
+//				Assert.isTrue(false, "El actor sigue teniendo una carpeta con el nombre de la carpeta que acaba de borrar."); // Second check
+//			}
+//		}
+//				
+//		Assert.isTrue( (numberOfFolders - 1 == newNumberOfFolders) , "El actor no tiene el mismo número de carpetas que antes - 1 al borrar una de sus carpetas."); // Fourth check
+		
+		unauthenticate();
+
+	}
+	
+	/**
+	 * Negative test case: Eliminar un folder de otro usuario
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Eliminar una carpeta que no sea tuya
+	 * 		- Comprobación
+	 * 		* Comprobar que salta una excepción del tipo: IllegalArgumentException
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test(expected=IllegalArgumentException.class)
+	@Rollback(value = true)
+//	@Test
+	public void testDeleteSystemFolderOfOtherUser() {
+		// Declare variables
+		Actor customer;
+		Folder folder;
+//		Collection<Folder> actorFolders;
+//		Collection<Folder> newActorFolders;
+//		String folderName;
+//		Integer numberOfFolders;
+//		Integer newNumberOfFolders;
+		
+		// Load objects to test
+		authenticate("customer2");
+		customer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+//		actorFolders = folderService.findAllByActor();
+//		numberOfFolders = actorFolders.size();
+		
+		folder = folderService.findOne(122); // Carpeta "MyBox", no del sistema, del customer1
+//		folderName = folder.getName();
+//		while(folder.getIsSystem() == false){
+//			folder = actorFolders.iterator().next();
+//		}
+		
+		folderService.delete(folder);
+		
+		// Checks results
+//		newActorFolders = folderService.findAllByActor();
+//		newNumberOfFolders = newActorFolders.size();
+//		
+//		Assert.isTrue(newActorFolders.contains(folder), "El usuario sigue teniendo asignada la carpeta que acaba de eliminar."); // First check
+//				
+//		for(Folder f: newActorFolders){
+//			if(f.getName() == folderName){
+//				Assert.isTrue(false, "El actor sigue teniendo una carpeta con el nombre de la carpeta que acaba de borrar."); // Second check
+//			}
+//		}
+//				
+//		Assert.isTrue( (numberOfFolders - 1 == newNumberOfFolders) , "El actor no tiene el mismo número de carpetas que antes - 1 al borrar una de sus carpetas."); // Fourth check
+		
+		unauthenticate();
+
+	}
+	
+	/**
+	 * Acme-Six-Pack - Level B - 17.2
+	 * When a message is deleted from a folder other than "trash box", it is moved to "trash box"
+	 */
+	
+	/**
+	 * Positive test case: Borrar un mensaje de una carpeta
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Entrar a una carpeta
+	 * 		+ Borrar un mensaje de ella
+	 * 		- Comprobación
+	 * 		+ Entrar a la carpeta
+	 * 		+ Comprobar que el mensaje no sigue en esa carpeta
+	 * 		+ Comprobar que el mensaje está ahora en la carpeta TrashBox
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test 
+	public void testDeleteMessage() {
+		// Declare variables
+		Actor customer;
+		Folder folder;
+		Collection<Folder> actorFolders;
+		Message message;
+		Collection<Folder> newActorFolders;
+		
+		// Load objects to test
+		authenticate("customer1");
+		customer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+		actorFolders = folderService.findAllByActor();
+		
+		folder = null;
+		for(Folder f: actorFolders){
+			if(f.getName().equals("InBox")){
+				folder = f;
+			}
+		}
+		Assert.notNull(folder, "No está el folder \"InBox\" necesario para realizar el test.");
+		
+		message = null;
+		for(Message m: folder.getMessages()){
+			message = m;
+		}
+		Assert.notNull(message, "No hay ningún mensaje en la carpeta, necesario para realizar el test.");
+		
+		folderService.removeMessage(folder, message);
+		
+		// Checks results
+		newActorFolders = folderService.findAllByActor();
+		
+		folder = null;
+		for(Folder f: newActorFolders){
+			if(f.getName().equals("InBox")){
+				folder = f;
+			}
+		}
+		
+		Assert.isTrue(!folder.getMessages().contains(message), "La carpeta todavía contiene el mensaje eliminado."); // First check
+		
+		folder = null;
+		for(Folder f: newActorFolders){
+			if(f.getName().equals("TrashBox")){
+				folder = f;
+			}
+		}
+		
+		Assert.isTrue(folder.getMessages().contains(message), "La carpeta TrashBox no contiene el mensaje eliminado."); // Second check
+		
+		unauthenticate();
+
+	}
+	
+	/**
+	 * Positive test case: Borrar un mensaje de la carpeta TrashBox
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Entrar a la carpeta TrashBox
+	 * 		+ Borrar un mensaje de ella
+	 * 		- Comprobación
+	 * 		+ Entrar a la carpeta
+	 * 		+ Comprobar que el mensaje no está ahora en la carpeta TrashBox
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test 
+	public void testDeleteMessageFromTrashBox() {
+		// Declare variables
+		Actor customer;
+		Folder folder;
+		Collection<Folder> actorFolders;
+		Message message;
+		Collection<Folder> newActorFolders;
+		
+		// Load objects to test
+		authenticate("customer1");
+		customer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+		actorFolders = folderService.findAllByActor();
+		
+		folder = null;
+		for(Folder f: actorFolders){
+			if(f.getName().equals("TrashBox")){
+				folder = f;
+			}
+		}
+		Assert.notNull(folder, "No está el folder \"TrashBox\" necesario para realizar el test.");
+		
+		message = null;
+		for(Message m: folder.getMessages()){
+			message = m;
+		}
+		Assert.notNull(message, "No hay ningún mensaje en la carpeta, necesario para realizar el test.");
+		
+		folderService.removeMessage(folder, message);
+		
+		// Checks results
+		newActorFolders = folderService.findAllByActor();
+		
+		folder = null;
+		for(Folder f: newActorFolders){
+			if(f.getName().equals("TrashBox")){
+				folder = f;
+			}
+		}
+		
+		Assert.isTrue(!folder.getMessages().contains(message), "La carpeta TrashBox sigue conteniendo el mensaje eliminado."); // First check
+		
+		unauthenticate();
+
+	}
+	
+	/**
+	 * Negative test case: Borrar un mensaje de otro usuario
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Borrar un mensaje de otro usuario
+	 * 		- Comprobación
+	 * 		+ Comprobar que salta una excepción del tipo: IllegalArgumentException
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test(expected=IllegalArgumentException.class)
+	@Rollback(value = true)
+//	@Test
+	public void testDeleteMessageOfOther() {
+		// Declare variables
+		Actor customer;
+		Folder folder;
+//		Collection<Folder> actorFolders;
+		Message message;
+//		Collection<Folder> newActorFolders;
+		
+		// Load objects to test
+		authenticate("customer1");
+		customer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+//		actorFolders = folderService.findAllByActor();
+		
+		folder = folderService.findOne(86); // Carpeta InBox del customer2
+		Assert.notNull(folder, "No está el folder necesario para realizar el test.");
+		
+		message = null;
+		for(Message m: folder.getMessages()){
+			message = m;
+		}
+		Assert.notNull(message, "No hay ningún mensaje en la carpeta, necesario para realizar el test.");
+		
+		folderService.removeMessage(folder, message);
+		
+		// Checks results
+//		newActorFolders = folderService.findAllByActor();
+//		
+//		folder = null;
+//		for(Folder f: newActorFolders){
+//			if(f.getName().equals("InBox")){
+//				folder = f;
+//			}
+//		}
+//		
+//		Assert.isTrue(!folder.getMessages().contains(message), "La carpeta todavía contiene el mensaje eliminado."); // First check
+//		
+//		folder = null;
+//		for(Folder f: newActorFolders){
+//			if(f.getName().equals("TrashBox")){
+//				folder = f;
+//			}
+//		}
+//		
+//		Assert.isTrue(folder.getMessages().contains(message), "La carpeta TrashBox no contiene el mensaje eliminado."); // Second check
+		
+		unauthenticate();
+
+	}
+	
+	/**
+	 * Negative test case: Borrar un mensaje null de una carpeta null
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema
+	 * 		+ Borrar un mensaje null de una carpeta null
+	 * 		- Comprobación
+	 * 		+ Entrar a la carpeta
+	 * 		+ Comprobar que salta una execpción del tipo: IllegalArgumentException
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test(expected=IllegalArgumentException.class)
+	@Rollback(value = true)
+//	@Test
+	public void testDeleteNullMessageFromNullFolder() {
+		// Declare variables
+		Actor customer;
+//		Folder folder;
+//		Folder otherFolder;
+//		Collection<Folder> actorFolders;
+//		Message message;
+//		Collection<Folder> newActorFolders;
+		
+		// Load objects to test
+		authenticate("customer1");
+		customer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+//		actorFolders = folderService.findAllByActor();
+//		
+//		folder = null;
+//		for(Folder f: actorFolders){
+//			if(f.getName().equals("InBox")){
+//				folder = f;
+//			}
+//		}
+//		Assert.notNull(folder, "No está el folder \"InBox\" necesario para realizar el test.");
+//		
+//		otherFolder = null;
+//		for(Folder f: actorFolders){
+//			if(f.getName().equals("OutBox")){
+//				otherFolder = f;
+//			}
+//		}
+//		Assert.notNull(otherFolder, "No está el folder \"OutBox\" necesario para realizar el test.");
+//		
+//		message = null;
+//		for(Message m: folder.getMessages()){
+//			message = m;
+//		}
+//		Assert.notNull(message, "No hay ningún mensaje en la carpeta, necesario para realizar el test.");
+		
+		folderService.removeMessage(null, null);
+		
+		// Checks results
+//		newActorFolders = folderService.findAllByActor();
+//		
+//		folder = null;
+//		for(Folder f: newActorFolders){
+//			if(f.getName().equals("InBox")){
+//				folder = f;
+//			}
+//		}
+//		
+//		Assert.isTrue(folder.getMessages().contains(message), "La carpeta ya no contiene el mensaje, y debería."); // First check
+//		
+//		folder = null;
+//		for(Folder f: newActorFolders){
+//			if(f.getName().equals("TrashBox")){
+//				folder = f;
+//			}
+//		}
+//		
+//		Assert.isTrue(!folder.getMessages().contains(message), "El mensaje ha sido enviado a TrashBox sin haber sido eliminado de ninguna carpeta."); // Second check
+		
+		unauthenticate();
 
 	}
 	
