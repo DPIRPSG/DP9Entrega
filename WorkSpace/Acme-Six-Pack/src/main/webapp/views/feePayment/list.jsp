@@ -11,7 +11,6 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <acme:exchange requestURI="${requestURI}"/>
-<fmt:parseNumber var="exchangeRateNumber" type="number" value="${cookie['exchangeRate_rate'].value}" />
 
 <br/>
 
@@ -49,7 +48,7 @@
 	<spring:message code="feePayment.amount" var="amountHeader" />
 	<display:column title="${amountHeader}" sortable="true">
 		<fmt:formatNumber
-			value="${exchangeRateNumber * row_feePayment.amount}"
+			value="${cookie['exchangeRate_rate'].value * row_feePayment.amount}"
 			maxFractionDigits="2" minFractionDigits="2" />
 	</display:column>
 
