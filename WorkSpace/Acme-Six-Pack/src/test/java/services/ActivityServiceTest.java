@@ -3,12 +3,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
-
-import javax.activity.InvalidActivityException;
 
 import org.junit.Test;
-import org.junit.internal.runners.statements.Fail;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
@@ -18,18 +14,15 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import repositories.CustomerRepository;
-
+import utilities.AbstractTest;
+import utilities.InvalidPostTestException;
+import utilities.InvalidPreTestException;
 import domain.Activity;
 import domain.Customer;
 import domain.Gym;
 import domain.Room;
 import domain.ServiceEntity;
 import domain.Trainer;
-
-import utilities.AbstractTest;
-import utilities.InvalidPostTestException;
-import utilities.InvalidPreTestException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -63,9 +56,6 @@ public class ActivityServiceTest extends AbstractTest{
 	
 	@Autowired
 	private TrainerService trainerService;
-	
-	@Autowired
-	private CustomerRepository customerRepository;
 	
 	// Test ---------------------------------------
 	
@@ -528,14 +518,14 @@ public class ActivityServiceTest extends AbstractTest{
 		activities = activityService.findAllByCustomer();
 		
 		// Checks results 
-
+		
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
 	public void testListActivitiesBookedCustoErrorAdmin(){
-		Collection<Activity> activities;
+//		Collection<Activity> activities;
 		
 		// Load objects to test
 		
@@ -544,7 +534,7 @@ public class ActivityServiceTest extends AbstractTest{
 		// Execution of test
 
 		authenticate("admin");
-		activities = activityService.findAllByCustomer();
+		activityService.findAllByCustomer();
 		
 		// Checks results 
 
