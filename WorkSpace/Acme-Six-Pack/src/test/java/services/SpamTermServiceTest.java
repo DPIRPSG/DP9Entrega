@@ -2,6 +2,8 @@ package services;
 
 import java.util.Collection;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -322,14 +324,13 @@ public class SpamTermServiceTest extends AbstractTest {
 	 * 		+ Traerse la lista de spam terms del sistema
 	 * 		+ Crear un nuevo término con el term (nombre) vacío
 	 * 		- Comprobación
-	 * 		+ Comprobar que salta la excepción de tipo: 
+	 * 		+ Comprobar que salta la excepción de tipo: ConstraintViolationException
 	 * 		+ Cerrar su sesión
 	 */
 	
-//	CORREGIR
-//	@Test(expected=ConstraintViolationException.class)
-//	@Rollback(value = true)
-	@Test
+	@Test(expected=ConstraintViolationException.class)
+	@Rollback(value = true)
+//	@Test
 	public void testNewSpamTermBlankName() {
 		// Declare variables
 		Actor admin;
@@ -364,14 +365,13 @@ public class SpamTermServiceTest extends AbstractTest {
 	 * 		+ Traerse la lista de spam terms del sistema
 	 * 		+ Crear un nuevo término con el term (nombre) a null
 	 * 		- Comprobación
-	 * 		+ Comprobar que salta la excepción de tipo: 
+	 * 		+ Comprobar que salta la excepción de tipo: ConstraintViolationException
 	 * 		+ Cerrar su sesión
 	 */
 	
-//	CORREGIR
-//	@Test(expected=ConstraintViolationException.class)
-//	@Rollback(value = true)
-	@Test
+	@Test(expected=ConstraintViolationException.class)
+	@Rollback(value = true)
+//	@Test
 	public void testNewSpamTermNullName() {
 		// Declare variables
 		Actor admin;
