@@ -59,6 +59,8 @@ public class FolderService {
 
 		Folder result;
 		
+		folder.setIsSystem(false);
+		
 		result = folderRepository.save(folder);
 		
 		return result;
@@ -195,6 +197,20 @@ public class FolderService {
 		Actor actor;
 		
 		actor = actorService.findByPrincipal();
+		result = folderRepository.findAllByActorId(actor.getId());
+		
+		return result;
+	}
+	
+	/**
+	 * Devuelve todas las carpetas de un actor dado
+	 */
+	//req: 24.1
+	public Collection<Folder> findAllByActorId(int actorId){
+		Collection<Folder> result;
+		Actor actor;
+		
+		actor = actorService.findOne(actorId);
 		result = folderRepository.findAllByActorId(actor.getId());
 		
 		return result;
