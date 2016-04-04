@@ -579,6 +579,12 @@ public class ServiceServiceTest extends AbstractTest{
 		
 	}
 	
+	/**
+	 * Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+	 * Precondition: The user is not and admin. The service has no activities attached.
+	 * Return: FALSE
+	 * Postcondition: The service is deleted.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	@Rollback(value = true)
 	public void testDeleteServiceAdmin2(){
@@ -613,6 +619,12 @@ public class ServiceServiceTest extends AbstractTest{
 		
 	}
 	
+	/**
+	 * Description: A user who is authenticated as an administrator must be able to manage the services, which includes listing, creating, modifying, and deleting them.
+	 * Precondition: The user is an admin. The service has activities attached.
+	 * Return: FALSE
+	 * Postcondition: The service is deleted.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	@Rollback(value = true)
 	public void testDeleteServiceAdmin3(){

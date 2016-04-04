@@ -60,6 +60,13 @@ public class GymServiceTest extends AbstractTest{
 		
 	}
 	
+	/**
+	 * TEST POSITVO
+	 * Description: A user who is not authenticated must be able to navigate (list) through the gyms and its activity plans.
+	 * Precondition: -
+	 * Return: TRUE
+  	 * Postcondition: All activity plans of the gym selected are shown.
+	 */
 	@Test
 	public void testFindAllGymsAndActivityPlan1(){
 		
@@ -85,7 +92,7 @@ public class GymServiceTest extends AbstractTest{
 	 * Description: A user who is authenticated as a customer must be able to list the gyms in which he or she has an active fee payment and navigate to the details of the corresponding fee payments.
 	 * Precondition: The user is a customer.
 	 * Return: TRUE
-	 * Postcondition: All gyms in which the customer has a paid fee.
+	 * Postcondition: All gyms in which the customer has a paid fee are shown.
 	 */
 	@Test
 	public void testPaidGyms1(){
