@@ -81,7 +81,7 @@ public class DashboardAdministratorController extends AbstractController {
 		
 		// Level B 2.0
 		Collection<Activity> activitiesByPopularity;
-		Collection<Double> averageNumberOfActivitiesPerGymByService;
+		Map<String, Double> averageNumberOfActivitiesPerGymByService;
 		Double averageNumberOfServiceWithSpecialisedTrainer;
 		Collection<ServiceEntity> mostPopularServiceByNumberOfTrainer;
 		

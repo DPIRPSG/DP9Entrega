@@ -43,18 +43,18 @@
 			<li><a class="fNiv"><spring:message	code="master.page.manage" /></a>
 				<ul>
 					<li class="arrow"></li>
+					<li><a href="feePayment/administrator/list.do"><spring:message code="master.page.list.feePayments" /></a></li>
 					<li><a href="gym/administrator/list.do"><spring:message code="master.page.manage.gym" /></a></li>
 					<li><a href="service/administrator/list.do"><spring:message code="master.page.manage.service" /></a></li>
 					<li><a href="activity/administrator/list.do"><spring:message code="master.page.manage.activity" /></a></li>
 					<li><a href="spamTerm/administrator/list.do"><spring:message code="master.page.manage.spamTerms" /></a></li>
+					<li><a href="exchangeRate/administrator/list.do"><spring:message code="master.page.exchangeRate" /></a></li>
 					<li><a href="trainer/administrator/register.do"><spring:message code="master.page.register.trainer" /></a></li>
 				</ul>
 			</li>
 			<li><a class="fNiv"><spring:message	code="master.page.list" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="feePayment/administrator/list.do"><spring:message code="master.page.list.feePayments" /></a></li>
-					<li><a href="exchangeRate/administrator/list.do"><spring:message code="master.page.exchangeRate" /></a></li>	
 					<li><a href="trainer/list.do"><spring:message code="master.page.trainer" /></a></li>
 				</ul>
 			</li>
