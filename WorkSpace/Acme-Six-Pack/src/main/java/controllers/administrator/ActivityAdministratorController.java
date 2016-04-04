@@ -75,21 +75,22 @@ public class ActivityAdministratorController extends AbstractController{
 		ModelAndView result;
 		Activity activity;
 		
-		if(activityId == null) {
+		
+		if (activityId == null) {
 			activity = activityService.createWithoutGym();
 		} else {
 			activity = activityService.findOne(activityId);
 		}
-		if(serviceId != null) {
+		if (serviceId != null) {
 			ServiceEntity service;
-			
+
 			service = serviceService.findOne(serviceId);
-			
+
 			activity.setService(service);
 		}
-		
+
 		result = createEditModelAndViewCreate(activity);
-		
+
 		return result;
 	}
 	

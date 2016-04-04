@@ -178,15 +178,17 @@ public class TrainerService {
 		
 		actTrainer = this.findByPrincipal();
 		services = actTrainer.getServices();
-		trainers = serv.getTrainers();
-		
-		trainers.add(actTrainer);
-		serv.setTrainers(trainers);
-		
-		services.add(serv);
-		actTrainer.setServices(services);
-		
-		this.save(actTrainer);
+		if (!services.contains(serv)) {
+			trainers = serv.getTrainers();
+
+			trainers.add(actTrainer);
+			serv.setTrainers(trainers);
+
+			services.add(serv);
+			actTrainer.setServices(services);
+
+			this.save(actTrainer);
+		}
 		
 	}
 	
