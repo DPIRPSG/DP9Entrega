@@ -506,9 +506,9 @@ public class ActivityServiceTest extends AbstractTest{
 	 */
 	@Test
 	public void testListActivitiesBookedCustoOk(){
-		Collection<Activity> activities;
 		
 		// Load objects to test
+		Collection<Activity> activities;
 		
 		// Checks basic requirements
 	
@@ -517,7 +517,8 @@ public class ActivityServiceTest extends AbstractTest{
 		authenticate("customer1");
 		activities = activityService.findAllByCustomer();
 		
-		// Checks results 
+		// Checks results
+		Assert.isTrue(activities.size() == 2, "El número de activities obtenido no es 2, como se esperaba.");
 		
 	}
 	
@@ -679,6 +680,7 @@ public class ActivityServiceTest extends AbstractTest{
 	public void testListActivitiesAdminOk(){
 	
 		// Load objects to test
+		Collection<Activity> activities;
 		
 		// Checks basic requirements
 		
@@ -686,9 +688,10 @@ public class ActivityServiceTest extends AbstractTest{
 		
 		authenticate("admin");
 		
-		activityService.findAll();
-
+		activities = activityService.findAll();
+		
 		// Checks results 
+		Assert.isTrue(activities.size() == 10, "El número de activities obtenido no es 10, como se esperaba.");
 
 	}
 	
@@ -724,10 +727,14 @@ public class ActivityServiceTest extends AbstractTest{
 		Trainer trainer;
 		Room room;
 		Date startingMoment;
+		Integer numberOfActivities;
+		Integer newNumberOfActivities;
 		
 		// Load objects to test
 		
 		authenticate("admin");
+		
+		numberOfActivities = activityService.findAll().size();
 		
 		activity = null;
 		gym = null;
@@ -788,8 +795,11 @@ public class ActivityServiceTest extends AbstractTest{
 		activity.setRoom(room);
 		
 		activityService.saveToEdit(activity);
+		
+		newNumberOfActivities = activityService.findAll().size();
 
 		// Checks results 
+		Assert.isTrue(numberOfActivities + 1 == newNumberOfActivities, "El número de actividades tras añadir una nueva no es igual al de antes de añadirla + 1.");
 
 	}
 	
@@ -959,6 +969,8 @@ public class ActivityServiceTest extends AbstractTest{
 	@Test
 	public void testModifyActivitiesAdminOkSeats(){
 		Activity activity;
+		Integer activityId;
+		Activity activityModified;
 
 		// Load objects to test
 		
@@ -982,6 +994,8 @@ public class ActivityServiceTest extends AbstractTest{
 			throw new InvalidPreTestException(e.toString());
 		}
 		
+		activityId = activity.getId();
+		
 		// Execution of test
 		
 		authenticate("admin");
@@ -989,7 +1003,9 @@ public class ActivityServiceTest extends AbstractTest{
 		activity.setNumberOfSeatsAvailable(activity.getRoom().getNumberOfSeats());
 		activityService.saveToEdit(activity);
 
-		// Checks results 
+		// Checks results
+		activityModified = activityService.findOne(activityId);
+		Assert.isTrue(activityModified.getNumberOfSeatsAvailable() == activity.getRoom().getNumberOfSeats(), "No se ha editado correctamente el número de asientos disponibles para la actividad.");
 
 	}
 	
@@ -1079,12 +1095,26 @@ public class ActivityServiceTest extends AbstractTest{
 	@Test
 	public void testDeleteActivitiesAdminOk(){
 		Activity activity;
+		Integer numberOfActivitiesNotDeleted;
+		Integer newNumberOfActivitiesNotDeleted;
+		Collection<Activity> activitiesNotDeleted;
+		Collection<Activity> newActivitiesNotDeleted;
 
 		// Load objects to test
 		
 		authenticate("admin");
 		
 		activity = null;
+		
+		activitiesNotDeleted = new ArrayList<Activity>();
+		
+		for(Activity a:activityService.findAll()){
+			
+			if(a.getDeleted() == false){
+				activitiesNotDeleted.add(a);
+			}
+			
+		}
 
 		for(Activity a:activityService.findAll()){
 			boolean isAcceptable;
@@ -1095,7 +1125,11 @@ public class ActivityServiceTest extends AbstractTest{
 				activity = a;
 				break;
 			}
+			
 		}
+		
+		numberOfActivitiesNotDeleted = activitiesNotDeleted.size();
+		
 		// Checks basic requirements
 		try{
 			Assert.notNull(activity, "No se ha encontrado un activity con la que realizar la comprobación");
@@ -1109,7 +1143,20 @@ public class ActivityServiceTest extends AbstractTest{
 		
 		activityService.delete(activity);
 
-		// Checks results 
+		// Checks results
+		newActivitiesNotDeleted = new ArrayList<Activity>();
+		
+		for(Activity a:activityService.findAll()){
+			
+			if(a.getDeleted() == false){
+				newActivitiesNotDeleted.add(a);
+			}
+			
+		}
+		
+		newNumberOfActivitiesNotDeleted = newActivitiesNotDeleted.size();
+				
+		Assert.isTrue(numberOfActivitiesNotDeleted - 1 == newNumberOfActivitiesNotDeleted, "El número de actividades tras borrar una de ellas no es igual al numero de actividades que había antes - 1.");
 
 	}
 	
