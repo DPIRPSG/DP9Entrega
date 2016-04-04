@@ -326,11 +326,13 @@ public class TrainerServiceTest extends AbstractTest{
 	 * 		+ Registrar un nuevo Trainer con username nulo
 	 * 		- Comprobación
 	 * 		+ Listar los trainers
-	 * 		+ Comprobar que salta una excepción del tipo: 
+	 * 		+ Comprobar que salta una excepción del tipo: IllegalArgumentException
 	 * 		+ Cerrar su sesión
 	 */
 	
-	@Test 
+	@Test(expected=IllegalArgumentException.class)
+	@Rollback(value = true)
+//	@Test 
 	public void testRegisterTrainerNullUsername() {
 		// Declare variables
 		Actor admin;
@@ -463,13 +465,77 @@ public class TrainerServiceTest extends AbstractTest{
 	 * 		+ Eliminarse un servicio especializado
 	 * 		- Comprobación
 	 * 		+ Listar sus servicios especializados
-	 * 		+ Comprobar que hay 1 más de los que había
-	 * 		+ Comprobar que el nuevo servicio se encuentra entre ellos
+	 * 		+ Comprobar que hay 1 menos de los que había
+	 * 		+ Comprobar que el servicio eliminado no se encuentra entre ellos
 	 * 		+ Cerrar su sesión
 	 */
 	
 	@Test 
 	public void testDeleteServiceSpecialised() {
+		// Declare variables
+		Actor trainer;
+		Trainer trainerUser;
+		Integer numberOfServices;
+		Collection<ServiceEntity> newServices;
+		Integer newnumberOfServices;
+		Collection<ServiceEntity> services;
+		ServiceEntity serviceToRemove;
+		Iterator<ServiceEntity> serviceIterator;
+		
+		// Load objects to test
+		authenticate("trainer2");
+		trainer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(trainer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+		trainerUser = trainerService.findByPrincipal();
+		numberOfServices = trainerUser.getServices().size();
+		
+		services = serviceService.findAll();
+		
+		serviceIterator = services.iterator();
+		
+		serviceToRemove = serviceIterator.next();
+		
+		if(numberOfServices == 0){
+			Assert.isTrue(false, "El Trainer no tiene servicios especializados para poder eliminar alguno.");
+		}else{
+			while(!trainerUser.getServices().contains(serviceToRemove) && !serviceToRemove.getName().equals("Fitness")){
+				serviceToRemove = serviceIterator.next();
+			}
+		}
+		
+		trainerService.removeService(serviceToRemove);
+		
+		
+		// Checks results
+		newServices = trainerUser.getServices();
+		newnumberOfServices = newServices.size();
+		
+		Assert.isTrue(numberOfServices - 1 == newnumberOfServices, "El numero de servicios especializados del trainer o es el mismo que antes + 1."); // First check
+		
+		Assert.isTrue(!newServices.contains(serviceToRemove), "El nuevo servicio se sigue encontrando entre los especializados del trainer."); // Second check
+		
+		unauthenticate();
+
+	}
+	
+	/**
+	 * Negative test case: Eliminar un servicio especializado con el que ya participes en alguna actividad
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema como trainer
+	 * 		+ Eliminarse un servicio especializado con el que ya participes en alguna actividad
+	 * 		- Comprobación
+	 * 		+ Comprobar que salta una excepción del tipo: IllegalArgumentException
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test(expected=IllegalArgumentException.class)
+	@Rollback(value = true)
+//	@Test 
+	public void testDeleteServiceSpecialisedUsedInActivity() {
 		// Declare variables
 		Actor trainer;
 		Trainer trainerUser;
@@ -526,19 +592,20 @@ public class TrainerServiceTest extends AbstractTest{
 	 * 		+ Autenticarse en el sistema como trainer
 	 * 		+ Añadirse un nuevo servicio especializado que ya tengas especializado
 	 * 		- Comprobación
-	 * 		+ Comprobar que salta una excepción del tipo: 
+	 * 		+ Comprobar que salta una excepción del tipo: IllegalArgumentException
 	 * 		+ Cerrar su sesión
 	 */
 	
-	// CORREGIR
-	@Test 
+	@Test(expected=IllegalArgumentException.class)
+	@Rollback(value = true)
+//	@Test 
 	public void testNewServiceSpecialisedStillSpecialised() {
 		// Declare variables
 		Actor trainer;
 		Trainer trainerUser;
 		Integer numberOfServices;
-		Collection<ServiceEntity> newServices;
-		Integer newnumberOfServices;
+//		Collection<ServiceEntity> newServices;
+//		Integer newnumberOfServices;
 		Collection<ServiceEntity> services;
 		ServiceEntity serviceToAdd;
 		Iterator<ServiceEntity> serviceIterator;
@@ -571,79 +638,76 @@ public class TrainerServiceTest extends AbstractTest{
 		
 		
 		// Checks results
-		newServices = trainerUser.getServices();
-		newnumberOfServices = newServices.size();
-		
-		Assert.isTrue(numberOfServices + 1 == newnumberOfServices, "El numero de servicios especializados del trainer o es el mismo que antes + 1."); // First check
-		
-		Assert.isTrue(newServices.contains(serviceToAdd), "El nuevo servicio no se encuentra entre los especializados del trainer."); // Second check
+//		newServices = trainerUser.getServices();
+//		newnumberOfServices = newServices.size();
+//		
+//		Assert.isTrue(numberOfServices + 1 == newnumberOfServices, "El numero de servicios especializados del trainer no es el mismo que antes + 1."); // First check
+//		
+//		Assert.isTrue(newServices.contains(serviceToAdd), "El nuevo servicio no se encuentra entre los especializados del trainer."); // Second check
 		
 		unauthenticate();
 
 	}
 	
-//	Está controlado, pero no salta excepción
-//	/**
-//	 * Negative test case: Eliminar un servicio especializado que no tengas especializado
-//	 * 		- Acción
-//	 * 		+ Autenticarse en el sistema como trainer
-//	 * 		+ Eliminarse un servicio especializado que no tengas especializado todavía
-//	 * 		- Comprobación
-//	 * 		+ Listar sus servicios especializados
-//	 * 		+ Comprobar que hay 1 más de los que había
-//	 * 		+ Comprobar que el nuevo servicio se encuentra entre ellos
-//	 * 		+ Cerrar su sesión
-//	 */
-//	
-//	@Test 
-//	public void testDeleteServiceSpecialisedNotSpecialied() {
-//		// Declare variables
-//		Actor trainer;
-//		Trainer trainerUser;
-//		Integer numberOfServices;
-//		Collection<ServiceEntity> newServices;
-//		Integer newnumberOfServices;
-//		Collection<ServiceEntity> services;
-//		ServiceEntity serviceToRemove;
-//		Iterator<ServiceEntity> serviceIterator;
-//		
-//		// Load objects to test
-//		authenticate("trainer1");
-//		trainer = actorService.findByPrincipal();
-//		
-//		// Checks basic requirements
-//		Assert.notNull(trainer, "El usuario no se ha logueado correctamente.");
-//		
-//		// Execution of test
-//		trainerUser = trainerService.findByPrincipal();
-//		numberOfServices = trainerUser.getServices().size();
-//		
-//		services = serviceService.findAll();
-//		
-//		serviceIterator = services.iterator();
-//		
-//		serviceToRemove = serviceIterator.next();
-//		
-//		if(numberOfServices == 0){
-//			Assert.isTrue(false, "El Trainer no tiene servicios especializados para poder eliminar alguno.");
-//		}else{
-//			while(trainerUser.getServices().contains(serviceToRemove)){
-//				serviceToRemove = serviceIterator.next();
-//			}
-//		}
-//		
-//		trainerService.removeService(serviceToRemove);
-//		
-//		
-//		// Checks results
-//		newServices = trainerUser.getServices();
-//		newnumberOfServices = newServices.size();
-//		
-//		Assert.isTrue(numberOfServices - 1 == newnumberOfServices, "El numero de servicios especializados del trainer o es el mismo que antes + 1."); // First check
-//		
-//		Assert.isTrue(!newServices.contains(serviceToRemove), "El nuevo servicio se sigue encontrando entre los especializados del trainer."); // Second check
-//		
-//		unauthenticate();
-//
-//	}
+	/**
+	 * Positive test case: Eliminar un servicio especializado que no tengas especializado (Test planteado como negativo, pero resultante como positivo al no saltar excepción alguna, si no ignorarlo en el servicio para que no borre nada, puesto que no tiene sentido borrar lo que se pide)
+	 * 		- Acción
+	 * 		+ Autenticarse en el sistema como trainer
+	 * 		+ Eliminarse un servicio especializado que no tengas especializado todavía
+	 * 		- Comprobación
+	 * 		+ Listar sus servicios especializados
+	 * 		+ Comprobar que tiene especializados el mismo número de servicios que tenía
+	 * 		+ Cerrar su sesión
+	 */
+	
+	@Test 
+	public void testDeleteServiceSpecialisedNotSpecialied() {
+		// Declare variables
+		Actor trainer;
+		Trainer trainerUser;
+		Integer numberOfServices;
+		Collection<ServiceEntity> newServices;
+		Integer newnumberOfServices;
+		Collection<ServiceEntity> services;
+		ServiceEntity serviceToRemove;
+		Iterator<ServiceEntity> serviceIterator;
+		
+		// Load objects to test
+		authenticate("trainer1");
+		trainer = actorService.findByPrincipal();
+		
+		// Checks basic requirements
+		Assert.notNull(trainer, "El usuario no se ha logueado correctamente.");
+		
+		// Execution of test
+		trainerUser = trainerService.findByPrincipal();
+		numberOfServices = trainerUser.getServices().size();
+		
+		services = serviceService.findAll();
+		
+		serviceIterator = services.iterator();
+		
+		serviceToRemove = serviceIterator.next();
+		
+		if(numberOfServices == 0){
+			Assert.isTrue(false, "El Trainer no tiene servicios especializados para poder eliminar alguno.");
+		}else{
+			while(trainerUser.getServices().contains(serviceToRemove)){
+				serviceToRemove = serviceIterator.next();
+			}
+		}
+		
+		trainerService.removeService(serviceToRemove);
+		
+		
+		// Checks results
+		newServices = trainerUser.getServices();
+		newnumberOfServices = newServices.size();
+		
+		Assert.isTrue(numberOfServices == newnumberOfServices, "El numero de servicios especializados del trainer no es el mismo que antes."); // First check
+		
+		unauthenticate();
+
+	}
+	
 }
