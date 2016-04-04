@@ -116,8 +116,6 @@ public class MessageActorController extends AbstractController{
 		
 
 		if (binding.hasErrors()) {
-			System.out.println(message.getBody());
-			System.out.println(message.getSubject());
 			if(message.getBody() == "") {
 				hayBody = false;
 			}
