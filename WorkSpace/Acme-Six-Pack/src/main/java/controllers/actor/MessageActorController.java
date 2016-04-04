@@ -102,6 +102,11 @@ public class MessageActorController extends AbstractController{
 	public ModelAndView save(@Valid Message message, BindingResult binding) {
 		ModelAndView result;
 		int sendId, actId;
+		boolean haySubject, hayBody, hayRecipients;
+		
+		hayBody = true;
+		hayRecipients = true;
+		haySubject = true;
 		
 		
 		sendId = message.getSender().getUserAccount().getId();
@@ -111,13 +116,24 @@ public class MessageActorController extends AbstractController{
 		
 
 		if (binding.hasErrors()) {
-			result = createSendModelAndView(message);
+			System.out.println(message.getBody());
+			System.out.println(message.getSubject());
+			if(message.getBody() == "") {
+				hayBody = false;
+			}
+			if(message.getRecipients() == null) {
+				hayRecipients = false;
+			}
+			if(message.getSubject() == "") {
+				haySubject = false;
+			}
+			result = createSendModelAndView(message,null, hayBody, hayRecipients, haySubject);
 		} else {
 			try {
 				messageService.firstSave(message);
 				result = new ModelAndView("redirect:../../folder/actor/list.do");
 			} catch (Throwable oops) {
-				result = createSendModelAndView(message, "message.commit.error");				
+				result = createSendModelAndView(message, "message.commit.error", true, true, true);				
 			}
 		}
 
@@ -191,12 +207,12 @@ public class MessageActorController extends AbstractController{
 	protected ModelAndView createSendModelAndView(Message input) {
 		ModelAndView result;
 		
-		result = createSendModelAndView(input, null);
+		result = createSendModelAndView(input, null, true, true, true);
 		
 		return result;
 	}
 	
-	protected ModelAndView createSendModelAndView(Message input, String message){
+	protected ModelAndView createSendModelAndView(Message input, String message, boolean hayBody, boolean hayRecipients, boolean haySubject){
 		ModelAndView result;
 		Collection<Actor> actors;
 		
@@ -206,6 +222,9 @@ public class MessageActorController extends AbstractController{
 		result.addObject("messa", input);
 		result.addObject("actors", actors);
 		result.addObject("message", message);
+		result.addObject("hayBody", hayBody);
+		result.addObject("hayRecipients", hayRecipients);
+		result.addObject("haySubject", haySubject);
 		
 		return result;
 	}
