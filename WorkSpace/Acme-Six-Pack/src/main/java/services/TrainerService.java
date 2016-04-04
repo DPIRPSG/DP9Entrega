@@ -178,19 +178,29 @@ public class TrainerService {
 		
 		actTrainer = this.findByPrincipal();
 		services = actTrainer.getServices();
-		trainers = serv.getTrainers();
-		
-		trainers.add(actTrainer);
-		serv.setTrainers(trainers);
-		
-		services.add(serv);
-		actTrainer.setServices(services);
-		
-		this.save(actTrainer);
+		if (!services.contains(serv)) {
+			trainers = serv.getTrainers();
+
+			trainers.add(actTrainer);
+			serv.setTrainers(trainers);
+
+			services.add(serv);
+			actTrainer.setServices(services);
+
+			this.save(actTrainer);
+		}
 		
 	}
 	
 	public void removeService(ServiceEntity serv){
+		Trainer trainer;
+		
+		trainer = this.findByPrincipal();
+		
+		for(Activity activity : trainer.getActivities()) {
+			Assert.isTrue(activity.getService().getId() != serv.getId());
+		}
+		
 		Trainer actTrainer;
 		Collection<ServiceEntity> services;
 		Collection<Trainer> trainers;

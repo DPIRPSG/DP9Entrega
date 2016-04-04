@@ -87,14 +87,23 @@
 				</a>
 			</display:column>
 		</jstl:if>
+
 		<jstl:if test="${addService == 'false'}">
-		
 			<display:column>
-				<a href="service/trainer/delete.do?serviceId=${row_Service.id}"> <spring:message
+				<jstl:if test="${false}" var="seBorra"/>
+				<jstl:forEach items="${servicesId}" var="serviceId">
+					<jstl:if test="${serviceId != row_Service.id}">
+						<jstl:if test="${true}" var="seBorra"/>
+					</jstl:if>
+				</jstl:forEach>
+				<jstl:if test="${seBorra}">
+					<a href="service/trainer/delete.do?serviceId=${row_Service.id}"> <spring:message
 					code="service.delete" />
 				</a>
+				</jstl:if>
 			</display:column>
 		</jstl:if>
+
 	</security:authorize>
 
 </display:table>
