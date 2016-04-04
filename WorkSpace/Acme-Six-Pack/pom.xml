@@ -320,6 +320,8 @@
 		    <artifactId>aspectjweaver</artifactId>
 		    <version>1.7.4</version>
 		</dependency>
+		
+		<!-- Mockito -->
 
 		<dependency>
 			<groupId>org.mockito</groupId>
