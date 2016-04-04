@@ -98,7 +98,7 @@ public class ActivityAdministratorController extends AbstractController{
 				
 				result = createEditModelAndView(activity);
 			}catch(Throwable oops){
-				result = createEditModelAndView(activity, "activity.commit.error");
+				result = createEditModelAndViewCreate(activity, "activity.commit.error");
 			}
 		}
 		return result;
