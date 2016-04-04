@@ -483,7 +483,7 @@ public class TrainerServiceTest extends AbstractTest{
 		Iterator<ServiceEntity> serviceIterator;
 		
 		// Load objects to test
-		authenticate("trainer2");
+		authenticate("trainer5");
 		trainer = actorService.findByPrincipal();
 		
 		// Checks basic requirements

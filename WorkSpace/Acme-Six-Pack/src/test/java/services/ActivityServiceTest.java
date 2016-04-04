@@ -134,66 +134,6 @@ public class ActivityServiceTest extends AbstractTest{
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
-	public void testBookActivityErrorOverlapping(){
-		Activity activity;
-		Customer custo;
-		Collection<Customer> customers;
-		Collection<Gym> gyms;
-		
-		// Load objects to test
-		authenticate("customer1");
-		custo = customerService.findByPrincipal();
-		activity = null;
-		
-		gyms = gymService.findAllWithFeePaymentActive();
-		for(Gym gym:gyms){
-			Collection<Activity> activities;
-			activities = activityService.findAllByGymId(gym.getId());
-			for(Activity a:activities){
-				boolean isAcceptable;
-				
-				isAcceptable = !a.getDeleted(); // Activity not deleted
-				isAcceptable = isAcceptable && a.getStartingMoment().after(new Date()); //	Activity in the future
-				isAcceptable = isAcceptable && a.getRoom().getGym().getId() == gym.getId(); // Activity belonging to gym
-				isAcceptable = isAcceptable && a.getNumberOfSeatsAvailable() - a.getCustomers().size() > 0; // seats available
-				isAcceptable = isAcceptable && this.isActivePayGym(a); // Active pay
-				isAcceptable = isAcceptable && !activityService.findAllByCustomer().contains(a); // Activity not booked
-				isAcceptable = isAcceptable && !activityService.compruebaOverlappingCustomer(a); // No Overlapping
-				
-				if(isAcceptable){
-					activity = a;
-					break;
-				}
-			}	
-		}
-		
-		// Checks basic requirements
-		try{
-			Assert.notNull(activity, "No se ha encontrado una actividad con la que realizar la comprobación");
-		}catch (Exception e) {
-			//assertThat(e);
-			throw new InvalidPreTestException(e.toString());
-		}
-		
-		// Execution of test
-		customers = activity.getCustomers();
-		customers.add(custo);
-		
-		activity.setCustomers(customers);
-		activity = activityService.book(activity);
-		
-		// Checks results 
-		try{
-			custo = customerService.findByPrincipal();
-			Assert.isTrue(activity.getCustomers().contains(custo), "El usuario no ha sido añadido a la actividad");
-		}catch (Exception e) {
-			throw new InvalidPostTestException(e.toString());
-		}
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	@Transactional(noRollbackFor=IllegalArgumentException.class)
-	@Rollback(value=true)
 	public void testBookActivityErrorAdmin(){
 		Activity activity;
 		Customer custo;
