@@ -35,12 +35,14 @@ public class InvoiceServiceTest extends AbstractTest {
 	private InvoiceService invoiceService;
 	
 	@Autowired
-	private FeePaymentService feePaymentService;
-	
-	@Autowired
 	private CustomerService customerService;
 	
 	// Test ---------------------------------------
+	
+	/**
+	 * Acme-Six-Pack - Level C - 5.1
+	 * Customer can request an invoice to the system.
+	 */
 	
 	/**
 	 * Test que comprueba que se crea un Invoice sin problemas
@@ -86,6 +88,11 @@ public class InvoiceServiceTest extends AbstractTest {
 	}
 	
 	/**
+	 * Acme-Six-Pack - Level C - 5.1
+	 * Customer can request an invoice to the system.
+	 */
+	
+	/**
 	 * Test que comprueba que se crea un Invoice sin introducir un nombre sin problemas
 	 */
 	@Test
@@ -127,6 +134,11 @@ public class InvoiceServiceTest extends AbstractTest {
 		Assert.isTrue(invoice.getFeePayments().containsAll(feePayments));
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack - Level C - 5.1
+	 * Customer can request an invoice to the system.
+	 */
 	
 	/**
 	 * Test que comprueba que no falla al cambiar el totalCost de un Invoice
@@ -176,6 +188,11 @@ public class InvoiceServiceTest extends AbstractTest {
 	}
 	
 	/**
+	 * Acme-Six-Pack - Level C - 5.1
+	 * Customer can request an invoice to the system.
+	 */
+	
+	/**
 	 * Test que comprueba que al crear un Invoice sin descripción falla
 	 */
 	@Test(expected=ConstraintViolationException.class)
@@ -219,6 +236,11 @@ public class InvoiceServiceTest extends AbstractTest {
 		Assert.isTrue(invoice.getFeePayments().containsAll(feePayments));
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack - Level C - 5.1
+	 * Customer can request an invoice to the system.
+	 */
 	
 	/**
 	 * Test que comprueba que al crear un Invoice sin VAT falla
@@ -266,6 +288,11 @@ public class InvoiceServiceTest extends AbstractTest {
 	}
 	
 	/**
+	 * Acme-Six-Pack - Level C - 5.1
+	 * Customer can request an invoice to the system.
+	 */
+	
+	/**
 	 * Test que comprueba que al crear un Invoice sin FeePayments falla
 	 */
 	@Test(expected=IllegalArgumentException.class)
@@ -310,6 +337,11 @@ public class InvoiceServiceTest extends AbstractTest {
 	}
 	
 	/**
+	 * Acme-Six-Pack - Level C - 5.1
+	 * Customer can request an invoice to the system.
+	 */
+	
+	/**
 	 * Test que comprueba que al crear un Invoice con FeePayments ya usados falla
 	 */
 	@Test(expected=IllegalArgumentException.class)
@@ -351,6 +383,30 @@ public class InvoiceServiceTest extends AbstractTest {
 		
 		Assert.isTrue(invoice.getTotalCost() == totalCost);
 		Assert.isTrue(invoice.getFeePayments().containsAll(feePayments));
+		authenticate(null);
+	}
+	
+	/**
+	 * Acme-Six-Pack - Level C - 5.2
+	 * List his or her invoices.
+	 */
+	
+	/**
+	 * Test que comprueba que el listar Invoice de un customer funciona
+	 */
+	@Test
+	public void testListInvoicess() {
+		Customer customer;
+		Collection<Invoice> invoicees;
+		
+		authenticate("customer1");
+	
+		customer = customerService.findByPrincipal();
+		
+		invoicees = invoiceService.findAllByCustomerId(customer.getId());
+		
+		Assert.isTrue(invoicees.size() == 2);
+		
 		authenticate(null);
 	}
 }

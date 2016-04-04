@@ -39,6 +39,11 @@ public class CurriculumServiceTest extends AbstractTest {
 	// Test ---------------------------------------
 	
 	/**
+	 * Acme-Six-Pack - Level A - 3.1
+	 * Trainers can manage his curriculum, which includes creating it, displaying it, modifying it, or de-leting it.
+	 */
+	
+	/**
 	 * Test que crea un curriculum en condiciones normales
 	 */
 	@Test
@@ -79,6 +84,11 @@ public class CurriculumServiceTest extends AbstractTest {
 		
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack - Level A - 3.1
+	 * Trainers can manage his curriculum, which includes creating it, displaying it, modifying it, or de-leting it.
+	 */
 	
 	/**
 	 * Test que crea un curriculum sin statement
@@ -125,6 +135,11 @@ public class CurriculumServiceTest extends AbstractTest {
 	}
 	
 	/**
+	 * Acme-Six-Pack - Level A - 3.1
+	 * Trainers can manage his curriculum, which includes creating it, displaying it, modifying it, or de-leting it.
+	 */
+	
+	/**
 	 * Test que crea un curriculum sin skills
 	 */
 	@Test(expected = ConstraintViolationException.class)
@@ -133,12 +148,12 @@ public class CurriculumServiceTest extends AbstractTest {
 		Curriculum curriculum;
 		Trainer trainer;
 		Collection<Trainer> trainers;
-		String skills, likes, dislikes;
+		String likes, dislikes;
 		
 		trainers = trainerService.findAll();
 		trainer = null;
 		
-		skills = "Prueba";
+//		skills = "Prueba";
 		likes = "Prueba";
 		dislikes = "Prueba";
 		
@@ -169,6 +184,11 @@ public class CurriculumServiceTest extends AbstractTest {
 	}
 	
 	/**
+	 * Acme-Six-Pack - Level A - 3.1
+	 * Trainers can manage his curriculum, which includes creating it, displaying it, modifying it, or de-leting it.
+	 */
+	
+	/**
 	 * Test que crea un curriculum sin likes
 	 */
 	@Test(expected = ConstraintViolationException.class)
@@ -177,13 +197,13 @@ public class CurriculumServiceTest extends AbstractTest {
 		Curriculum curriculum;
 		Trainer trainer;
 		Collection<Trainer> trainers;
-		String skills, likes, dislikes;
+		String skills, dislikes;
 		
 		trainers = trainerService.findAll();
 		trainer = null;
 		
 		skills = "Prueba";
-		likes = "Prueba";
+//		likes = "Prueba";
 		dislikes = "Prueba";
 		
 		for(Trainer trainerAux : trainers) {
@@ -211,6 +231,12 @@ public class CurriculumServiceTest extends AbstractTest {
 		
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack - Level A - 3.1
+	 * Trainers can manage his curriculum, which includes creating it, displaying it, modifying it, or de-leting it.
+	 */
+	
 	/**
 	 * Test que crea un curriculum sin dislikes
 	 */
@@ -220,14 +246,14 @@ public class CurriculumServiceTest extends AbstractTest {
 		Curriculum curriculum;
 		Trainer trainer;
 		Collection<Trainer> trainers;
-		String skills, likes, dislikes;
+		String skills, likes;
 		
 		trainers = trainerService.findAll();
 		trainer = null;
 		
 		skills = "Prueba";
 		likes = "Prueba";
-		dislikes = "Prueba";
+//		dislikes = "Prueba";
 		
 		for(Trainer trainerAux : trainers) {
 			if(trainerAux.getCurriculum() == null) {
@@ -254,6 +280,11 @@ public class CurriculumServiceTest extends AbstractTest {
 		
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack - Level A - 3.1
+	 * Trainers can manage his curriculum, which includes creating it, displaying it, modifying it, or de-leting it.
+	 */
 	
 	/**
 	 * Test que comprueba que al crear un curriculum sin foto, usa la del profile del Trainer
@@ -288,6 +319,15 @@ public class CurriculumServiceTest extends AbstractTest {
 		
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack - Level A - 3.1
+	 * Trainers can manage his curriculum, which includes creating it, displaying it, modifying it, or de-leting it.
+	 */
+	
+	/**
+	 * Test que comprueba que se puede editar un curriculum de forma correcta
+	 */
 	@Test
 	public void testEditCurriculum() {
 		Trainer trainer;
@@ -324,6 +364,107 @@ public class CurriculumServiceTest extends AbstractTest {
 		authenticate(null);
 	}
 	
+	/**
+	 * Acme-Six-Pack - Level A - 3.1
+	 * Trainers can manage his curriculum, which includes creating it, displaying it, modifying it, or de-leting it.
+	 */
+	
+	/**
+	 * Test que comprueba que al editar un curriculum no se pueden dejar los likes en blanco
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	@Rollback(value=true)
+	public void testEditCurriculumError1() {
+		Trainer trainer;
+		Curriculum curriculum;
+		Date moment;
+		String skills, likes, dislikes;
+		
+		skills = "Prueba";
+		likes = "Prueba";
+		dislikes = "Prueba";
+			
+		authenticate("trainer1");
+		
+		trainer = trainerService.findByPrincipal();
+		curriculum = trainer.getCurriculum();
+		
+		moment = curriculum.getUpdateMoment();
+		
+		curriculum.setStatement("Hola");
+		//curriculum.setLikes(likes);
+		curriculum.setSkills(skills);
+		curriculum.setDislikes(dislikes);
+		curriculum = curriculumService.save(curriculum);
+		curriculumService.flush();
+		
+		Assert.isTrue(curriculum.getStatement().equals("Hola"));
+		Assert.isTrue(curriculum.getSkills().equals("Prueba"));
+		Assert.isTrue(curriculum.getLikes().equals("Prueba"));
+		Assert.isTrue(curriculum.getDislikes().equals("Prueba"));
+		Assert.isTrue(curriculum.getPicture().equals(trainer.getPicture()));
+		
+		//Comprueba que cambia la fecha de actualizacion
+		Assert.isTrue(moment.before(curriculum.getUpdateMoment()));
+		
+		authenticate(null);
+	}
+	
+	/**
+	 * Acme-Six-Pack - Level A - 3.1
+	 * Trainers can manage his curriculum, which includes creating it, displaying it, modifying it, or de-leting it.
+	 */
+	
+	/**
+	 * Test que comprueba que al editar un curriculum no se pueden dejar los skills en blanco
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	@Rollback(value=true)
+	public void testEditCurriculumError2() {
+		Trainer trainer;
+		Curriculum curriculum;
+		Date moment;
+		String skills, likes, dislikes;
+		
+		skills = "Prueba";
+		likes = "Prueba";
+		dislikes = "Prueba";
+			
+		authenticate("trainer1");
+		
+		trainer = trainerService.findByPrincipal();
+		curriculum = trainer.getCurriculum();
+		
+		moment = curriculum.getUpdateMoment();
+		
+		curriculum.setStatement("Hola");
+		curriculum.setLikes(likes);
+		//curriculum.setSkills(skills);
+		curriculum.setDislikes(dislikes);
+		curriculum = curriculumService.save(curriculum);
+		curriculumService.flush();
+		
+		Assert.isTrue(curriculum.getStatement().equals("Hola"));
+		Assert.isTrue(curriculum.getSkills().equals("Prueba"));
+		Assert.isTrue(curriculum.getLikes().equals("Prueba"));
+		Assert.isTrue(curriculum.getDislikes().equals("Prueba"));
+		Assert.isTrue(curriculum.getPicture().equals(trainer.getPicture()));
+		
+		//Comprueba que cambia la fecha de actualizacion
+		Assert.isTrue(moment.before(curriculum.getUpdateMoment()));
+		
+		authenticate(null);
+	}
+	
+	/**
+	 * Acme-Six-Pack - Level A - 3.1
+	 * Trainers can manage his curriculum, which includes creating it, displaying it, modifying it, or de-leting it.
+	 */
+	
+	/**
+	 * Test que comprueba que se puede eliminar un curriculum de forma correcta
+	 */
+	
 	@Test
 	public void testDeleteCurriculum() {
 		Trainer trainer;
@@ -333,6 +474,70 @@ public class CurriculumServiceTest extends AbstractTest {
 		
 		trainer = trainerService.findByPrincipal();
 		curriculum = trainer.getCurriculum();
+		
+		Assert.isTrue(curriculum != null);
+		Assert.isTrue(trainer.getCurriculum() != null);
+		
+		curriculumService.delete(curriculum);
+		
+		Assert.isTrue(trainer.getCurriculum() == null);
+		
+		authenticate(null);
+	}
+	
+	/**
+	 * Acme-Six-Pack - Level A - 3.1
+	 * Trainers can manage his curriculum, which includes creating it, displaying it, modifying it, or de-leting it.
+	 */
+	
+	/**
+	 * Test que comprueba que un usuario no logueado no puede borrar un curriculum
+	 */
+	
+	@Test(expected=IllegalArgumentException.class)
+	@Rollback(value=true)
+	public void testDeleteCurriculumError1() {
+		Trainer trainer;
+		Curriculum curriculum;
+		
+		authenticate("trainer1");
+		
+		trainer = trainerService.findByPrincipal();
+		curriculum = trainer.getCurriculum();
+		
+		authenticate(null);
+		
+		Assert.isTrue(curriculum != null);
+		Assert.isTrue(trainer.getCurriculum() != null);
+		
+		curriculumService.delete(curriculum);
+		
+		Assert.isTrue(trainer.getCurriculum() == null);
+	}
+	
+	/**
+	 * Acme-Six-Pack - Level A - 3.1
+	 * Trainers can manage his curriculum, which includes creating it, displaying it, modifying it, or de-leting it.
+	 */
+	
+	/**
+	 * Test que comprueba que un trainer no puede borrar el curriculum de otro trainer
+	 */
+	
+	@Test(expected=IllegalArgumentException.class)
+	@Rollback(value=true)
+	public void testDeleteCurriculumError2() {
+		Trainer trainer;
+		Curriculum curriculum;
+		
+		authenticate("trainer1");
+		
+		trainer = trainerService.findByPrincipal();
+		curriculum = trainer.getCurriculum();
+		
+		authenticate(null);
+		
+		authenticate("trainer2");
 		
 		Assert.isTrue(curriculum != null);
 		Assert.isTrue(trainer.getCurriculum() != null);
