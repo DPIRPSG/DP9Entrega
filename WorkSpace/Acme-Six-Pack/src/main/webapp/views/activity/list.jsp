@@ -33,7 +33,7 @@
 		</display:column>
 		<spring:message code="activity.delete" var="deleteHeader"/>
 		<display:column title="${deleteHeader}" sortable="true">
-		<jstl:if test="${row_Activity.deleted == false}">
+		<jstl:if test="${row_Activity.deleted == false && row_Activity.customers.size() == 0}">
 			<a href="activity/administrator/delete.do?activityId=${row_Activity.id}"> <spring:message
 					code="activity.delete" />
 			</a>
