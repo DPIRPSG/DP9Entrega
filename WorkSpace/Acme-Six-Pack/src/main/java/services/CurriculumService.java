@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.CurriculumRepository;
-import repositories.TrainerRepository;
 import domain.Curriculum;
 import domain.Trainer;
 
@@ -50,7 +49,7 @@ public class CurriculumService {
 		return result;
 	}
 	
-	public void save(Curriculum curriculum){
+	public Curriculum save(Curriculum curriculum){
 		Assert.isTrue(actorService.checkAuthority("TRAINER"), "Only a Trainer can manage his Curriculum.");
 		Assert.notNull(curriculum);
 		if(curriculum.getId() != 0){ // Si está editando y no creando
@@ -74,12 +73,13 @@ public class CurriculumService {
 		}
 		
 
-		curriculumRepository.save(curriculum);
+		curriculum = curriculumRepository.save(curriculum);
 		if(curriculumId == 0){
 			trainer.setCurriculum(curriculum);
 			trainerService.save(trainer);
 		}
 		
+		return curriculum;
 	}
 	
 	public void delete(Curriculum curriculum){
@@ -105,7 +105,7 @@ public class CurriculumService {
 		return result;
 	}
 	
-	public void checkCurriculum(Curriculum curriculum) {
+	private void checkCurriculum(Curriculum curriculum) {
 		Trainer trainerPrincipal;
 		Trainer trainerOwner;
 		int curriculumId;
@@ -117,4 +117,7 @@ public class CurriculumService {
 		Assert.isTrue(trainerPrincipal == trainerOwner, "You can't manage a Curriculum of other Trainer.");
 	}
 	
+	public void flush() {
+		curriculumRepository.flush();
+	}
 }

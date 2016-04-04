@@ -15,6 +15,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -66,19 +67,6 @@ public class Invoice extends DomainEntity {
 	@Min(0)
 	@Digits(integer=9, fraction=2)
 	public double getTotalCost() {
-//		double result;
-//		
-//		if(totalCost != null){
-//			result = 0.0;
-//			
-//			for(FeePayment f: feePayments){
-//				result += f.getAmount();
-//			}
-//		}else{
-//			result = totalCost;
-//		}
-//		
-//		return result;
 		return totalCost;
 	}
 	
@@ -101,6 +89,7 @@ public class Invoice extends DomainEntity {
 	
 	@Valid
 	@NotNull
+	@NotEmpty
 	@OneToMany(mappedBy = "invoice")
 	public Collection<FeePayment> getFeePayments() {
 		return feePayments;

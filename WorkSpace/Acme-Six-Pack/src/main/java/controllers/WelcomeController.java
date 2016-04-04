@@ -24,21 +24,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActivityService;
 import services.ActorService;
 import services.ExchangeRateService;
-import services.ServiceService;
-
+import domain.Activity;
 import domain.ExchangeRate;
-import domain.ServiceEntity;
 
 @Controller
 @RequestMapping("/welcome")
 public class WelcomeController extends AbstractController {
 
 	// Services ----------------------------------------------------------
-
-	@Autowired
-	private ServiceService serviceService;
 	
 	@Autowired
 	private ActorService actorService;
@@ -48,6 +44,9 @@ public class WelcomeController extends AbstractController {
 	
 	@Autowired
 	private ExchangeRateService exchangeRateService;
+	
+	@Autowired
+	private ActivityService activityService;
 	
 	// Constructors -----------------------------------------------------------
 
@@ -69,36 +68,36 @@ public class WelcomeController extends AbstractController {
 		ModelAndView result;
 		SimpleDateFormat formatter;
 		String moment;
-		Collection<ServiceEntity> services;
-		ServiceEntity service;
+		Collection<Activity> activities;
+		Activity activity;
 		int actorId;
 		
 		formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		moment = formatter.format(new Date());
 		if(actorService.checkAuthority("CUSTOMER")){
 			try{
-				services = serviceService.findAllPaidAndNotBookedByCustomerId(actorService.findByPrincipal().getId());
-				if(!services.isEmpty()){
+				activities = activityService.findAllPaidAndNotBookedByCustomerId();
+				if(!activities.isEmpty()){
 					Random rnd = new Random();
-					int i = rnd.nextInt(services.size());
-					service = (ServiceEntity) services.toArray()[i];
+					int i = rnd.nextInt(activities.size());
+					activity = (Activity) activities.toArray()[i];
 				}else{
-					services = null;
-					service = null;
+					activities = null;
+					activity = null;
 				}
 			}catch(org.springframework.dao.DataIntegrityViolationException oops){
-				services = null;
-				service = null;
+				activities = null;
+				activity = null;
 			}
 		}else{
-			services = null;
-			service = null;
+			activities = null;
+			activity = null;
 		}
 		
 
 		result = new ModelAndView("welcome/index");
 		result.addObject("moment", moment);
-		result.addObject("service", service);
+		result.addObject("activity", activity);
 		
 		if(messageStatus != ""){
 			result.addObject("messageStatus", messageStatus);

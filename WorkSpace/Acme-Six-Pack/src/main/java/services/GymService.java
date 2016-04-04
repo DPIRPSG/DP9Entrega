@@ -316,4 +316,50 @@ public class GymService {
 		
 		return result;
 	}
+	
+	public Double findAverageRoomsPerGym(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+		
+		Double result;
+		
+		result = gymRepository.findAverageRoomsPerGym();
+		
+		return result;
+	}
+	
+	public Double standardDeviationRoomsPerGym(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Double result;
+		
+		result = gymRepository.standardDeviationRoomsPerGym();
+		
+		return result;
+	}
+	
+	public Collection<Gym> gymsWithMoreRoomsThanAverage(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Collection<Gym> result;
+		
+		result = gymRepository.gymsWithMoreRoomsThanAverage();
+		
+		return result;
+	}
+	
+	public Collection<Gym> gymsWithLessRoomsThanAverage(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Collection<Gym> result;
+		
+		result = gymRepository.gymsWithLessRoomsThanAverage();
+		
+		return result;
+	}
+	
+	public void flush(){
+		
+		gymRepository.flush();
+		
+	}
 }

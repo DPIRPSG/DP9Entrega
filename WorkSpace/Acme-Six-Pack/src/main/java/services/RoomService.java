@@ -87,7 +87,7 @@ public class RoomService {
 		if(room.getId() == 0) {
 			Gym gym;
 			
-			this.save(room);
+			room = this.save(room);
 			
 			gym = room.getGym();
 			
@@ -98,6 +98,10 @@ public class RoomService {
 			Room roomPreSave;
 			
 			roomPreSave = this.findOne(room.getId());
+			
+			for(Activity activity : roomPreSave.getActivities()) {
+				Assert.isTrue(room.getNumberOfSeats() >= activity.getNumberOfSeatsAvailable());
+			}
 			
 			Assert.isTrue(roomPreSave.getGym().getId() == room.getGym().getId());
 			
@@ -147,6 +151,20 @@ public class RoomService {
 		Collection<Room> result;
 		
 		result = roomRepository.findAllByGymId(gymId);
+		
+		return result;
+	}
+	
+	public void flush(){
+		
+		roomRepository.flush();
+		
+	}
+
+	public Collection<Room> findAllByServiceId(int id) {
+		Collection<Room> result;
+		
+		result = roomRepository.findAllByServiceId(id);
 		
 		return result;
 	}

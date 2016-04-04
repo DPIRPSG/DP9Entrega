@@ -13,7 +13,7 @@
 <h3><spring:message code="comment.entityPlural"/>: <jstl:out value="${commentedEntity.name}" /></h3>
 
 <!-- Listing grid -->
-<display:table pagesize="5" class="displaytag" keepStatus="true"
+<display:table pagesize="5" class="displaytag" keepStatus="false"
 	name="comments" requestURI="${requestURI}" id="row_Comment">
 	
 	<!-- Action links -->

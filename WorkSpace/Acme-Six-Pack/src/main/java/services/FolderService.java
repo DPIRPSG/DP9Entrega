@@ -54,16 +54,40 @@ public class FolderService {
 		return result;
 	}
 	
+	private Folder save(Folder folder){
+		Assert.notNull(folder);
+
+		Folder result;
+		
+		folder.setIsSystem(false);
+		
+		result = folderRepository.save(folder);
+		
+		return result;
+	}
+	
 	/**
 	 * Guarda un folder creado o modificado
 	 */
 	//req: 24.2
-	public Folder save(Folder folder){
+	public Folder saveToEdit(Folder folder){
 		Assert.notNull(folder);
+		boolean isAuthenticated;
+		
+		isAuthenticated = actorService.checkAuthority("ADMIN") || actorService.checkAuthority("CUSTOMER");
+		isAuthenticated = isAuthenticated || actorService.checkAuthority("TRAINER");
+		
+		Assert.isTrue(isAuthenticated, "folder.saveToEdit.Error.NotAuthenticated");
+		
+		if(folder.getId() == 0){
+			folder.setActor(actorService.findByPrincipal());
+		}
+		
+		this.checkActor(folder);
 		
 		Folder result;
 		
-		result = folderRepository.save(folder);
+		result = this.save(folder);
 		
 		return result;
 	}
@@ -80,7 +104,7 @@ public class FolderService {
 		result = new ArrayList<Folder>();
 		
 		for(Folder a:folder){
-			result.add(folderRepository.save(a));
+			result.add(this.save(a));
 		}
 
 		
@@ -134,6 +158,7 @@ public class FolderService {
 	public void removeMessage(Folder f, Message m){
 		Assert.notNull(m);
 		Assert.notNull(f);
+		this.checkActor(f);
 		if (f.getName().equals("TrashBox") && f.getIsSystem()){
 			f.removeMessage(m);
 			this.save(f);
@@ -172,6 +197,20 @@ public class FolderService {
 		Actor actor;
 		
 		actor = actorService.findByPrincipal();
+		result = folderRepository.findAllByActorId(actor.getId());
+		
+		return result;
+	}
+	
+	/**
+	 * Devuelve todas las carpetas de un actor dado
+	 */
+	//req: 24.1
+	public Collection<Folder> findAllByActorId(int actorId){
+		Collection<Folder> result;
+		Actor actor;
+		
+		actor = actorService.findOne(actorId);
 		result = folderRepository.findAllByActorId(actor.getId());
 		
 		return result;
@@ -238,7 +277,7 @@ public class FolderService {
 		Assert.isTrue(origin.getMessages().contains(m));
 		
 		if(destination.getId()==0){
-			destination = this.save(destination);
+			destination = this.saveToEdit(destination);
 		}
 		
 		if(!destination.getMessages().contains(m)){
@@ -279,5 +318,9 @@ public class FolderService {
 		
 		
 		return result;
+	}
+	
+	public void flush(){
+		folderRepository.flush();
 	}
 }

@@ -10,9 +10,12 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<acme:exchange requestURI="${requestURI}"/>
+
+<br/>
 
 	<!-- Listing grid -->
-	<display:table pagesize="5" class="displaytag" keepStatus="true"
+	<display:table pagesize="5" class="displaytag" keepStatus="false"
 		name="feePayments" requestURI="${requestURI}" id="row_feePayment">
 		
 		<!-- Action links -->
@@ -41,11 +44,15 @@
 		
 		<spring:message code="feePayment.inactiveMoment" var="inactiveMomentHeader" />
 		<acme:displayColumn title="${inactiveMomentHeader}" sorteable="true" value="${row_feePayment.inactiveMoment}" format="{0,date,yyyy/MM/dd}"/>
-		
-		<spring:message code="feePayment.amount" var="amountHeader" />
-		<acme:displayColumn title="${amountHeader}" sorteable="true" value="${row_feePayment.amount}"/>
-		
-		<security:authorize access="hasRole('CUSTOMER')">
+
+	<spring:message code="feePayment.amount" var="amountHeader" />
+	<display:column title="${amountHeader}" sortable="true">
+		<fmt:formatNumber
+			value="${cookie['exchangeRate_rate'].value * row_feePayment.amount}"
+			maxFractionDigits="2" minFractionDigits="2" />
+	</display:column>
+
+	<security:authorize access="hasRole('CUSTOMER')">
 			<div>
 				<acme:link href="invoice/customer/create.do" code="feePayment.invoice.create"/>
 			</div>

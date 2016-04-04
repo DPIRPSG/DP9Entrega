@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,15 +41,20 @@ public class ExchangeRateController extends AbstractController {
 
 	@RequestMapping(value = "/edit")
 	public ModelAndView edit(@RequestParam(required=false, defaultValue="", value="requestURI") String requestURI
-			, @RequestParam(required=false, value="exchangeRateId") String exchangeRateId
+			, @RequestParam(required=true, value="exchangeRateId") String exchangeRateId
 			, HttpServletResponse response) {
 
 		ModelAndView result;
 		ExchangeRate exchangeRate;
-
-		exchangeRate = exchangeRateService.findOne(Integer.valueOf(exchangeRateId));
-		result = this.load(exchangeRate, requestURI, response);
 		
+		try{
+			exchangeRate = exchangeRateService.findOne(Integer.valueOf(exchangeRateId));
+			
+			Assert.notNull(exchangeRate);
+		}catch (Exception e) {
+			exchangeRate = exchangeRateService.findByCurrency("EUR");
+		}
+		result = this.load(exchangeRate, requestURI, response);
 
 		return result;
 	}
@@ -68,6 +74,8 @@ public class ExchangeRateController extends AbstractController {
 
 	public void loadCookies(ExchangeRate exRate
 			, HttpServletResponse response){
+		
+		Assert.notNull(exRate);
 		
 		Cookie cook1;
 		Cookie cook2;

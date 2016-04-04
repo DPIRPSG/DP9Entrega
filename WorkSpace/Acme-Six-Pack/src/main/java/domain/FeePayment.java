@@ -19,7 +19,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-@Table(indexes = { @Index(columnList = "activeMoment"), @Index(columnList = "inactiveMoment") })
+@Table(indexes = { @Index(columnList = "activeMoment"), @Index(columnList = "inactiveMoment"), @Index(columnList = "paymentMoment") })
 public class FeePayment extends DomainEntity {
 
 	// Constructors -----------------------------------------------------------

@@ -1,24 +1,24 @@
 package domain;
 
-import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
+@Table(indexes = { @Index(columnList = "statement"), @Index(columnList = "skills"), @Index(columnList = "likes"), @Index(columnList = "dislikes") })
 public class Curriculum extends DomainEntity {
 
 	// Constructors -----------------------------------------------------------
@@ -27,9 +27,9 @@ public class Curriculum extends DomainEntity {
 	private Date updateMoment;
 	private String picture;
 	private String statement;
-	private Collection<String> skills;
-	private Collection<String> likes;
-	private Collection<String> dislikes;
+	private String skills;
+	private String likes;
+	private String dislikes;
 	
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
@@ -60,36 +60,30 @@ public class Curriculum extends DomainEntity {
 		this.statement = statement;
 	}
 	
-	@ElementCollection
-	@Valid
+	@NotBlank
 	@NotNull
-	@NotEmpty
-	public Collection<String> getSkills() {
+	public String getSkills() {
 		return skills;
 	}
-	public void setSkills(Collection<String> skills) {
+	public void setSkills(String skills) {
 		this.skills = skills;
 	}
 	
-	@ElementCollection
-	@Valid
+	@NotBlank
 	@NotNull
-	@NotEmpty
-	public Collection<String> getLikes() {
+	public String getLikes() {
 		return likes;
 	}
-	public void setLikes(Collection<String> likes) {
+	public void setLikes(String likes) {
 		this.likes = likes;
 	}
 	
-	@ElementCollection
-	@Valid
+	@NotBlank
 	@NotNull
-	@NotEmpty
-	public Collection<String> getDislikes() {
+	public String getDislikes() {
 		return dislikes;
 	}
-	public void setDislikes(Collection<String> dislikes) {
+	public void setDislikes(String dislikes) {
 		this.dislikes = dislikes;
 	}
 

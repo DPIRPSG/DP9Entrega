@@ -14,7 +14,7 @@
 
 
 <!-- Listing grid -->
-<display:table pagesize="5" class="displaytag" keepStatus="true"
+<display:table pagesize="5" class="displaytag" keepStatus="false"
 	name="trainers" requestURI="${requestURI}" id="row_Trainer">
 	<!-- Action links -->
 
@@ -27,14 +27,44 @@
 
 	<spring:message code="trainer.surname" var="surnameHeader" />
 	<display:column title="${surnameHeader}"
-		sortable="false">
+		sortable="true">
 		<jstl:out value="${row_Trainer.surname}"/>
 	</display:column>
 	
 	<spring:message code="trainer.picture" var="pictureHeader" />	
 	<display:column title="${pictureHeader}"
-		sortable="true" >
+		sortable="false" >
 		<img src="${row_Trainer.picture}" style="height:128px;"/>
+	</display:column>
+	
+	<spring:message code="trainer.statement" var="statementHeader" />
+	<display:column title="${statementHeader}"
+		sortable="false">
+		<jstl:out value="${row_Trainer.curriculum.statement}"/>
+	</display:column>
+	
+	<spring:message code="trainer.skills" var="skillsHeader" />
+	<display:column title="${skillsHeader}"
+		sortable="false">
+		<jstl:forEach var="skill" items="${row_Trainer.curriculum.skills}" >
+	        -<jstl:out value="${skill}"/><br>
+	    </jstl:forEach>
+	</display:column>
+	
+	<spring:message code="trainer.likes" var="likesHeader" />
+	<display:column title="${likesHeader}"
+		sortable="false">
+		<jstl:forEach var="like" items="${row_Trainer.curriculum.likes}" >
+	        -<jstl:out value="${like}"/><br>
+	    </jstl:forEach>
+	</display:column>
+	
+	<spring:message code="trainer.dislikes" var="dislikesHeader" />
+	<display:column title="${dislikesHeader}"
+		sortable="false">
+		<jstl:forEach var="dislike" items="${row_Trainer.curriculum.dislikes}" >
+	        -<jstl:out value="${dislike}"/><br>
+	    </jstl:forEach>
 	</display:column>
 
 	<display:column>

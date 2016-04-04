@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActivityService;
+import services.RoomService;
 import services.ServiceService;
+import services.TrainerService;
 
 import controllers.AbstractController;
 import domain.Activity;
-import domain.Gym;
 import domain.Room;
 import domain.ServiceEntity;
 import domain.Trainer;
@@ -35,6 +36,12 @@ public class ActivityAdministratorController extends AbstractController{
 	@Autowired
 	private ServiceService serviceService;
 	
+	@Autowired
+	private RoomService roomService;
+	
+	@Autowired
+	private TrainerService trainerService;
+	
 	// Constructors ----------------------------------------------------------
 	public ActivityAdministratorController(){
 		super();
@@ -42,12 +49,16 @@ public class ActivityAdministratorController extends AbstractController{
 	
 	// Listing ----------------------------------------------------------
 	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public ModelAndView list(){
+	public ModelAndView list(@RequestParam (required = false) Integer gymId){
 		
 		ModelAndView result;
 		Collection<Activity> activities;
 		
 		activities = activityService.findAll();
+		
+		if(gymId != null) {
+			activities = activityService.findAllByGymId(gymId);
+		}
 		
 		result = new ModelAndView("activity/list");
 		result.addObject("requestURI", "activity/administrator/list.do");
@@ -59,14 +70,26 @@ public class ActivityAdministratorController extends AbstractController{
 	// Edition ----------------------------------------------------------
 	
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(){
+	public ModelAndView create(@RequestParam(required=false) Integer activityId, @RequestParam(required=false) Integer serviceId){
 		ModelAndView result;
 		Activity activity;
 		
-		activity = activityService.createWithoutGym();
 		
+		if (activityId == null) {
+			activity = activityService.createWithoutGym();
+		} else {
+			activity = activityService.findOne(activityId);
+		}
+		if (serviceId != null) {
+			ServiceEntity service;
+
+			service = serviceService.findOne(serviceId);
+
+			activity.setService(service);
+		}
+
 		result = createEditModelAndViewCreate(activity);
-		
+
 		return result;
 	}
 	
@@ -83,7 +106,7 @@ public class ActivityAdministratorController extends AbstractController{
 				
 				result = createEditModelAndView(activity);
 			}catch(Throwable oops){
-				result = createEditModelAndView(activity, "activity.commit.error");
+				result = createEditModelAndViewCreate(activity, "activity.commit.error");
 			}
 		}
 		return result;
@@ -112,7 +135,7 @@ public class ActivityAdministratorController extends AbstractController{
 				activityService.saveToEdit(activity);
 				result = new ModelAndView("redirect:list.do");
 			}catch(Throwable oops){
-				result = createEditModelAndView(activity, "booking.commit.error");
+				result = createEditModelAndView(activity, "activity.commit.error");
 			}
 		}
 		return result;
@@ -154,19 +177,30 @@ public class ActivityAdministratorController extends AbstractController{
 		ModelAndView result;
 		Collection<Room> rooms;
 		Collection<Trainer> trainers;
+		boolean activityVacia;
+		int serviceId;
+		
+		serviceId = activity.getService().getId();
 		
 		rooms = new ArrayList<Room>();
 		
-		for(Gym gym : activity.getService().getGyms()) {
-			rooms.addAll(gym.getRooms());
+		rooms = roomService.findAllByServiceId(serviceId);
+		
+		if(activity.getCustomers().isEmpty()) {
+			activityVacia = true;
+		} else {
+			activityVacia = false;
+			rooms = activity.getRoom().getGym().getRooms();
 		}
-		trainers = activity.getService().getTrainers();
+		
+		trainers = trainerService.findAllByServiceId(serviceId);
 
 		result = new ModelAndView("activity/edit");
 		result.addObject("activity", activity);
 		result.addObject("message", message);
 		result.addObject("rooms", rooms);
 		result.addObject("trainers", trainers);
+		result.addObject("activityVacia", activityVacia);
 
 		return result;
 	}

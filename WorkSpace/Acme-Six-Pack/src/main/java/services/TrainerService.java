@@ -1,6 +1,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,8 @@ public class TrainerService {
 	// req: 10.1
 	public Trainer save(Trainer trainer){
 		Assert.notNull(trainer);
+		Assert.notNull(trainer.getUserAccount().getUsername());
+		Assert.notNull(trainer.getUserAccount().getPassword());
 		
 		Trainer modify;
 		
@@ -177,19 +180,31 @@ public class TrainerService {
 		
 		actTrainer = this.findByPrincipal();
 		services = actTrainer.getServices();
-		trainers = serv.getTrainers();
 		
+		Assert.isTrue(!services.contains(serv), "You already have this service as specialised.");
+		
+		trainers = serv.getTrainers();
+
 		trainers.add(actTrainer);
 		serv.setTrainers(trainers);
-		
+
 		services.add(serv);
 		actTrainer.setServices(services);
-		
+
 		this.save(actTrainer);
+		
 		
 	}
 	
 	public void removeService(ServiceEntity serv){
+		Trainer trainer;
+		
+		trainer = this.findByPrincipal();
+		
+		for(Activity activity : trainer.getActivities()) {
+			Assert.isTrue(activity.getService().getId() != serv.getId());
+		}
+		
 		Trainer actTrainer;
 		Collection<ServiceEntity> services;
 		Collection<Trainer> trainers;
@@ -238,6 +253,41 @@ public class TrainerService {
 		
 		return result;
 		
+	}
+	
+	public Double ratioOfTrainerWithCurriculumUpToDate(){
+		
+		Double result;
+		Double numerator;
+		Double denominator;
+		Calendar limitDate;
+		Collection<Trainer> listOfTrainers;
+		
+		result = 0.0;
+		numerator = 0.0;
+		denominator = 0.0;
+		limitDate = Calendar.getInstance();
+		limitDate.set(limitDate.get(Calendar.YEAR)-1, limitDate.get(Calendar.MONTH), limitDate.get(Calendar.DAY_OF_MONTH));
+		listOfTrainers = findAll();
+		denominator = (double) listOfTrainers.size();
+		
+		for(Trainer t:listOfTrainers){
+			if(t.getCurriculum() != null){
+				Long trainerDate = t.getCurriculum().getUpdateMoment().getTime();
+				Long limit = limitDate.getTimeInMillis();
+				if(trainerDate > limit){
+					numerator = numerator + 1.0;
+				}
+			}
+		}
+		
+		result = numerator / denominator;
+		
+		return result;
+	}
+	
+	public void flush(){
+		trainerRepository.flush();
 	}
 
 }

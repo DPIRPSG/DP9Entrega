@@ -42,4 +42,9 @@ public interface ServiceRepository extends JpaRepository<ServiceEntity, Integer>
 	@Query("select avg(s.comments.size) from ServiceEntity s")
 	Double findAverageNumberOfCommentsPerService();
 	
+	@Query("select avg(t.services.size) from Trainer t")
+	Double averageNumberOfServiceWithSpecialisedTrainer();
+	
+	@Query("select s from ServiceEntity s left join s.trainers t group by s having count(t) >= all(select count(t) from ServiceEntity s left join s.trainers t group by s)")
+	Collection<ServiceEntity> mostPopularServiceByNumberOfTrainer();
 }

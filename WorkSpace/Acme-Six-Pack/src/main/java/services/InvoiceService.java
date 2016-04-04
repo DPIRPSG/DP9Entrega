@@ -42,17 +42,26 @@ public class InvoiceService {
 		Assert.isTrue(actorService.checkAuthority("CUSTOMER"), "Only a customer can manage an invoice.");
 		
 		Invoice result;		
+		String invoiceesName;
+		
+		invoiceesName = actorService.findByPrincipal().getName();
 		
 		result = new Invoice();
 		
+		result.setInvoiceesName(invoiceesName);
 		result.setCreationMoment(new Date()); // Se crea una fecha en este momento porque no puede ser null, pero la fecha real se fijará en el método "save"
 		
 		return result;
 	}
 	
-	public void save(Invoice invoice){
+	public Invoice save(Invoice invoice){
 		Assert.isTrue(actorService.checkAuthority("CUSTOMER"), "Only a customer can manage an invoice.");
 		Assert.notNull(invoice);
+		Assert.notEmpty(invoice.getFeePayments());
+		
+		for(FeePayment fee : invoice.getFeePayments()) {
+			Assert.isTrue(fee.getInvoice() == null);
+		}
 		
 		Collection<FeePayment> feePayments;
 		double totalCost;
@@ -73,6 +82,8 @@ public class InvoiceService {
 			feePayment.setInvoice(invoice);
 			feePaymentService.save(feePayment);
 		}
+		
+		return invoice;
 	}
 	
 	public Invoice findOne(int invoiceId) {
@@ -105,6 +116,10 @@ public class InvoiceService {
 		customerReal = actorService.findOne(customerId);
 		
 		Assert.isTrue(customerPrincipal == customerReal, "You can't manage an Invoice of other Customer.");
+	}
+	
+	public void flush() {
+		invoiceRepository.flush();
 	}
 	
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
 import services.ServiceService;
 import services.TrainerService;
 
@@ -29,9 +28,6 @@ public class TrainerController extends AbstractController {
 	
 	@Autowired
 	private ServiceService serviceService;
-	
-	@Autowired
-	private ActorService actorService;
 
 	// Constructors ----------------------------------------------------------
 
@@ -86,7 +82,7 @@ public class TrainerController extends AbstractController {
 		
 		result.addObject("services", services);
 		result.addObject("customers", customers);
-		try{
+		/*try{
 			int id;
 			
 			id = actorService.findByPrincipal().getId();
@@ -98,8 +94,7 @@ public class TrainerController extends AbstractController {
 			}
 		} catch (Exception e) {
 			result.addObject("addService", null);
-		}
-
+		}*/
 
 		return result;
 	}

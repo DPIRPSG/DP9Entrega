@@ -10,9 +10,13 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<acme:exchange requestURI="${requestURI}"/>
+
+<br/>
+
 <security:authorize access="hasRole('CUSTOMER')">
 	<!-- Listing grid -->
-	<display:table pagesize="5" class="displaytag" keepStatus="true"
+	<display:table pagesize="5" class="displaytag" keepStatus="false"
 		name="invoices" requestURI="${requestURI}" id="row_invoice">
 		
 		<!-- Action links -->
@@ -30,10 +34,14 @@
 	
 		<spring:message code="invoice.creationMoment" var="creationMomentHeader" />
 		<acme:displayColumn title="${creationMomentHeader}" sorteable="true" value="${row_invoice.creationMoment}" format="{0,date,yyyy/MM/dd}"/>
-	
+
 		<spring:message code="invoice.totalCost" var="totalCostHeader" />
-		<acme:displayColumn title="${totalCostHeader}" sorteable="true" value="${row_invoice.totalCost}"/>
-		
+		<display:column title="${totalCostHeader}" sortable="true">
+			<fmt:formatNumber
+				value="${cookie['exchangeRate_rate'].value * row_invoice.totalCost}"
+				maxFractionDigits="2" minFractionDigits="2" />
+		</display:column>
+
 		<spring:message code="invoice.description" var="descriptionHeader" />
 		<acme:displayColumn title="${descriptionHeader}" sorteable="false" value="${row_invoice.description}"/>
 			

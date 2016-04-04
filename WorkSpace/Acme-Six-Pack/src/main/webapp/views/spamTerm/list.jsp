@@ -11,7 +11,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 	<!-- Listing grid -->
-	<display:table pagesize="5" class="displaytag" keepStatus="true"
+	<display:table pagesize="5" class="displaytag" keepStatus="false"
 		name="spamTerms" requestURI="${requestURI}" id="row_spamTerm">
 
 		<spring:message code="spamTerm.editHeader" var="editHeader" />

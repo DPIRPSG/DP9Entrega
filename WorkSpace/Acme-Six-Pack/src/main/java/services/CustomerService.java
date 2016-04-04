@@ -75,6 +75,8 @@ public class CustomerService {
 	// req: 10.1
 	public Customer save(Customer customer){
 		Assert.notNull(customer);
+		Assert.notNull(customer.getUserAccount().getUsername());
+		Assert.notNull(customer.getUserAccount().getPassword());
 		
 		Customer modify;
 		
@@ -247,5 +249,25 @@ public class CustomerService {
 		result = customerRepository.findCustomerWhoHaveBeenRemovedMoreComments();
 		
 		return result;
+	}
+	
+	public Collection<Customer> moreInvoicesIssuedCustomer(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Collection<Customer> result;
+		
+		result = customerRepository.moreInvoicesIssuedCustomer();
+		
+		return result;
+	}
+	
+	public Collection<Customer> noRequestedInvoicesCustomer(){
+		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+
+		Collection<Customer> result;
+		
+		result = customerRepository.noRequestedInvoicesCustomer();
+		
+		return result;		
 	}
 }

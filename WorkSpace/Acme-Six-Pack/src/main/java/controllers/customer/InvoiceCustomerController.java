@@ -94,9 +94,9 @@ public class InvoiceCustomerController extends AbstractController {
 		customerId = customer.getId();
 		feePaymentsNotIssued = feePaymentService.findAllByCustomerIdNotIssued(customerId);
 		
-		invoiceForm.setFeePaymentsNotIssued(feePaymentsNotIssued);
 				
 		if (binding.hasErrors()) {
+			invoiceForm.setFeePaymentsNotIssued(feePaymentsNotIssued);
 			result = createEditModelAndView(invoiceForm);
 		} else {
 			try {
@@ -105,6 +105,7 @@ public class InvoiceCustomerController extends AbstractController {
 //				result.addObject("invoice", invoice);
 				result = draft(invoice);
 			} catch (Throwable oops) {
+				invoiceForm.setFeePaymentsNotIssued(feePaymentsNotIssued);
 				result = createEditModelAndView(invoiceForm, "invoice.commit.error");
 			}
 		}
