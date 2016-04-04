@@ -96,7 +96,7 @@
 						<jstl:if test="${true}" var="seBorra"/>
 					</jstl:if>
 				</jstl:forEach>
-				<jstl:if test="${seBorra}">
+				<jstl:if test="${seBorra || sinActivity}">
 					<a href="service/trainer/delete.do?serviceId=${row_Service.id}"> <spring:message
 					code="service.delete" />
 				</a>

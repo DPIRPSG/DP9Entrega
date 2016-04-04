@@ -48,6 +48,12 @@ public class CommentServiceTest extends AbstractTest {
 	// Test ---------------------------------------
 
 	//Test para comentar Gym
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
+	
 	/**
 	 * Test que comprueba que un comentario sobre un Gym se crea correctamente
 	 */
@@ -95,6 +101,11 @@ public class CommentServiceTest extends AbstractTest {
 	}
 	
 	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
+	
+	/**
 	 * Test que comprueba que si se intenta crear un comentario sin estar logueado falla
 	 */
 	@Test(expected=IllegalArgumentException.class)
@@ -116,6 +127,11 @@ public class CommentServiceTest extends AbstractTest {
 		comment = commentService.create(gym.getId());
 		commentService.save(comment);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 	
 	/**
 	 * Test que comprueba que al crear un comentario con una puntuación negativa falla
@@ -148,6 +164,11 @@ public class CommentServiceTest extends AbstractTest {
 	}
 	
 	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
+	
+	/**
 	 * Test que comprueba que al crear un comentario con una puntuación mayor que 3 falla
 	 */
 	@Test(expected =javax.validation.ConstraintViolationException.class)
@@ -176,6 +197,11 @@ public class CommentServiceTest extends AbstractTest {
 		
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario sin puntuación no falla
@@ -206,6 +232,11 @@ public class CommentServiceTest extends AbstractTest {
 				
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario sin texto falla
@@ -236,6 +267,11 @@ public class CommentServiceTest extends AbstractTest {
 		
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 	
 	/**
 	 * Test que comprueba que al crear un comentario sin Gym falla
@@ -269,6 +305,11 @@ public class CommentServiceTest extends AbstractTest {
 	}
 	
 	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
+	
+	/**
 	 * Test que comprueba que al crear un comentario sin customer falla
 	 */
 	@Test(expected =NullPointerException.class)
@@ -297,6 +338,11 @@ public class CommentServiceTest extends AbstractTest {
 		
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 	
 	/**
 	 * Test que comprueba que al crear un comentario con el atributo deleted a True falla
@@ -328,6 +374,11 @@ public class CommentServiceTest extends AbstractTest {
 		
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 	
 	/**
 	 * Test que comprueba que al crear un comentario cambiando el usuario que realiza el comentario falla
@@ -366,6 +417,11 @@ public class CommentServiceTest extends AbstractTest {
 	}
 	
 	/**
+	 * Acme-Six-Pack1 - Level A - 23.1
+	 * A user who is authenticated as an administrator must be able to delete a comment that he or she considers is inappropriate.
+	 */
+	
+	/**
 	 * Test que comprueba que se puede borrar un comentario en condiciones normales
 	 */
 	@Test
@@ -390,6 +446,11 @@ public class CommentServiceTest extends AbstractTest {
 		
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 23.1
+	 * A user who is authenticated as an administrator must be able to delete a comment that he or she considers is inappropriate.
+	 */
 	
 	/**
 	 * Test que comprueba que al intentar borrar un comentario sin ser admin falla
@@ -419,6 +480,11 @@ public class CommentServiceTest extends AbstractTest {
 	}
 	
 	/**
+	 * Acme-Six-Pack1 - Level A - 23.1
+	 * A user who is authenticated as an administrator must be able to delete a comment that he or she considers is inappropriate.
+	 */
+	
+	/**
 	 * Test que comprueba que al intentar borrar un comentario sin ser admin falla
 	 */
 	@Test(expected = IllegalArgumentException.class)
@@ -444,6 +510,11 @@ public class CommentServiceTest extends AbstractTest {
 		
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 23.1
+	 * A user who is authenticated as an administrator must be able to delete a comment that he or she considers is inappropriate.
+	 */
 	
 	/**
 	 * Test que comprueba que al intentar borrar un comentario sin ser admin falla
@@ -473,6 +544,11 @@ public class CommentServiceTest extends AbstractTest {
 	}
 	
 	/**
+	 * Acme-Six-Pack1 - Level A - 21.1
+	 * Every user, including users who are not authenticated, must be able to list the comments that are associated with the gyms and the services.
+	 */
+	
+	/**
 	 * Test que comprueba el correcto funcionamiento de findAllByCommentedEntityId
 	 */
 	@Test
@@ -488,6 +564,12 @@ public class CommentServiceTest extends AbstractTest {
 	}
 	
 	// Test para comentar Service
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
+	
 	/**
 	 * Test que comprueba que un comentario sobre un Service se crea correctamente
 	 */
@@ -533,6 +615,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que si se intenta crear un comentario sin estar
@@ -557,6 +644,11 @@ public class CommentServiceTest extends AbstractTest {
 		comment = commentService.create(service.getId());
 		commentService.save(comment);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario con una puntuación negativa
@@ -588,6 +680,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario con una puntuación mayor
@@ -619,6 +716,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario sin puntuación no falla
@@ -650,6 +752,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario sin texto falla
@@ -680,6 +787,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario sin Service falla
@@ -711,6 +823,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario sin customer falla
@@ -741,6 +858,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario con el atributo deleted a
@@ -773,6 +895,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 	
 	/**
 	 * Test que comprueba que al crear un comentario cambiando el usuario que realiza el comentario falla
@@ -809,6 +936,11 @@ public class CommentServiceTest extends AbstractTest {
 		
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 23.1
+	 * A user who is authenticated as an administrator must be able to delete a comment that he or she considers is inappropriate.
+	 */
 
 	/**
 	 * Test que comprueba que se puede borrar un comentario en condiciones
@@ -836,6 +968,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 23.1
+	 * A user who is authenticated as an administrator must be able to delete a comment that he or she considers is inappropriate.
+	 */
 
 	/**
 	 * Test que comprueba que al intentar borrar un comentario sin ser admin
@@ -864,6 +1001,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		// authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 23.1
+	 * A user who is authenticated as an administrator must be able to delete a comment that he or she considers is inappropriate.
+	 */
 
 	/**
 	 * Test que comprueba que al intentar borrar un comentario sin ser admin
@@ -892,6 +1034,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 23.1
+	 * A user who is authenticated as an administrator must be able to delete a comment that he or she considers is inappropriate.
+	 */
 
 	/**
 	 * Test que comprueba que al intentar borrar un comentario sin ser admin
@@ -920,6 +1067,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 21.1
+	 * Every user, including users who are not authenticated, must be able to list the comments that are associated with the gyms and the services.
+	 */
 
 	/**
 	 * Test que comprueba el correcto funcionamiento de
@@ -938,6 +1090,11 @@ public class CommentServiceTest extends AbstractTest {
 	}
 	
 	//Test para comentar Trainer
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 	
 	/**
 	 * Test que comprueba que un comentario sobre un Trainer se crea correctamente
@@ -984,6 +1141,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que si se intenta crear un comentario sin estar
@@ -1008,6 +1170,11 @@ public class CommentServiceTest extends AbstractTest {
 		comment = commentService.create(trainer.getId());
 		commentService.save(comment);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario con una puntuación negativa
@@ -1039,6 +1206,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario con una puntuación mayor
@@ -1070,6 +1242,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario sin puntuación no falla
@@ -1101,6 +1278,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario sin texto falla
@@ -1131,6 +1313,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario sin Trainer falla
@@ -1162,6 +1349,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario sin customer falla
@@ -1192,6 +1384,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario con el atributo deleted a
@@ -1224,6 +1421,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 	
 	/**
 	 * Test que comprueba que al crear un comentario cambiando el usuario que realiza el comentario falla
@@ -1260,6 +1462,11 @@ public class CommentServiceTest extends AbstractTest {
 		
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 23.1
+	 * A user who is authenticated as an administrator must be able to delete a comment that he or she considers is inappropriate.
+	 */
 
 	/**
 	 * Test que comprueba que se puede borrar un comentario en condiciones
@@ -1287,6 +1494,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 23.1
+	 * A user who is authenticated as an administrator must be able to delete a comment that he or she considers is inappropriate.
+	 */
 
 	/**
 	 * Test que comprueba que al intentar borrar un comentario sin ser admin
@@ -1315,6 +1527,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		//authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 23.1
+	 * A user who is authenticated as an administrator must be able to delete a comment that he or she considers is inappropriate.
+	 */
 
 	/**
 	 * Test que comprueba que al intentar borrar un comentario sin ser admin
@@ -1343,6 +1560,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 23.1
+	 * A user who is authenticated as an administrator must be able to delete a comment that he or she considers is inappropriate.
+	 */
 
 	/**
 	 * Test que comprueba que al intentar borrar un comentario sin ser admin
@@ -1371,6 +1593,11 @@ public class CommentServiceTest extends AbstractTest {
 
 		authenticate(null);
 	}
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 21.1
+	 * Every user, including users who are not authenticated, must be able to list the comments that are associated with the gyms and the services.
+	 */
 
 	/**
 	 * Test que comprueba el correcto funcionamiento de
@@ -1389,6 +1616,11 @@ public class CommentServiceTest extends AbstractTest {
 	}
 	
 	//Test generales
+	
+	/**
+	 * Acme-Six-Pack1 - Level A - 22.1
+	 * Every authenticated user must be able to write a comment and associate it with a gym or a service
+	 */
 
 	/**
 	 * Test que comprueba que al crear un comentario sobre una entidad no
@@ -1410,6 +1642,10 @@ public class CommentServiceTest extends AbstractTest {
 		authenticate(null);
 	}
 
+	/**
+	 * Acme-Six-Pack1 - Level A - 21.1
+	 * Every user, including users who are not authenticated, must be able to list the comments that are associated with the gyms and the services.
+	 */
 	@Test
 	public void testListComments() {
 		Collection<Comment> comments;

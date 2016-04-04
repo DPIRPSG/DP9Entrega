@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -464,14 +467,37 @@ public class ActivityService {
 		return result;
 	}
 	
-	public Collection<Double> averageNumberOfActivitiesPerGymByService(){
+//	public Collection<Double> averageNumberOfActivitiesPerGymByService(){
+//		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
+//
+//		Collection<Double> result;
+//		
+//		result = activityRepository.averageNumberOfActivitiesPerGymByService();
+//		
+//		return result;		
+//	}
+	
+	public Map<String, Double> averageNumberOfActivitiesPerGymByService(){
 		Assert.isTrue(actorService.checkAuthority("ADMIN"), "Only an admin can open the dashboard");
 
-		Collection<Double> result;
+		Map<String, Double>  result;
 		
-		result = activityRepository.averageNumberOfActivitiesPerGymByService();
+		Collection<Double> averages;
+		Collection<String> services;
+		Iterator<String> servicesIterator;
 		
-		return result;		
+		averages = activityRepository.averageNumberOfActivitiesPerGymByService();
+		services = activityRepository.serviceAverageNumberOfActivitiesPerGymByService();
+		
+		servicesIterator = services.iterator();
+		
+		result = new HashMap<>();
+		
+		for(Double average: averages){
+			result.put(servicesIterator.next(), average);
+		}
+		
+		return result;
 	}
 
 	public Collection<Activity> findAllActivesByGymId(int gymId) {
