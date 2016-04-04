@@ -81,7 +81,7 @@ public class DashboardAdministratorController extends AbstractController {
 		
 		// Level B 2.0
 		Collection<Activity> activitiesByPopularity;
-		Collection<Double> averageNumberOfActivitiesPerGymByService;
+		Map<String, Double> averageNumberOfActivitiesPerGymByService;
 		Double averageNumberOfServiceWithSpecialisedTrainer;
 		Collection<ServiceEntity> mostPopularServiceByNumberOfTrainer;
 		
@@ -180,7 +180,7 @@ public class DashboardAdministratorController extends AbstractController {
 		result.addObject("servicesWithTrainesSpecialized", servicesWithTrainesSpecialized);
 		result.addObject("ratioOfTrainerWithCurriculumUpToDate", ratioOfTrainerWithCurriculumUpToDate);
 		
-		result.addObject("requestURI", "administrator/list.do");
+		result.addObject("requestURI", "dashboard/administrator/list.do");
 		
 		return result;
 	}	
