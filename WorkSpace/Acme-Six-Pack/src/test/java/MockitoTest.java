@@ -100,7 +100,7 @@ public class MockitoTest extends AbstractTest{
 				.param("name", "admin")
 				.param("surname", "admin")
 				.param("phone", "admin")
-				.param("username", "jeeioi")
+				.param("username", "userExample1")
 				.param("password", "admin")
 				.param("repeatedPassword", "admin")
 				.param("acceptTerm", "true") 
@@ -113,14 +113,13 @@ public class MockitoTest extends AbstractTest{
 				;
 
 		mockMvc.perform(requestBuilder)
-			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isMovedTemporarily())
 			.andExpect(MockMvcResultMatchers.view().name("redirect:../security/login.do"))
 			.andExpect(MockMvcResultMatchers.model().hasNoErrors())
 			.andExpect(MockMvcResultMatchers.model().attribute("messageStatus", "customer.commit.ok"))
 			;
 		
-		authenticate("jeeioi");
+		authenticate("userExample1");
 		
 		requestBuilder = 
 				MockMvcRequestBuilders.post("/welcome/index.do", "")
@@ -128,7 +127,6 @@ public class MockitoTest extends AbstractTest{
 				;
 		
 		mockMvc.perform(requestBuilder)
-			.andDo(MockMvcResultHandlers.print())
 			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.view().name("welcome/index"))
 			.andExpect(MockMvcResultMatchers.model().hasNoErrors())
