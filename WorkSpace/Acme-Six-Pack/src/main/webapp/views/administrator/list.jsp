@@ -196,7 +196,7 @@
 	<h3><spring:message code="administrator.activitiesByPopularity"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="activitiesByPopularity" requestURI="${requestURI}" id="row">
+ 		name="activitiesByPopularity" requestURI="dashboard/administrator/list.do" id="row">
 		<!-- Attributes -->
 		<spring:message code="activity.title" var="titleHeader" />
 		<display:column title="${titleHeader}" 
