@@ -11,7 +11,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <!-- Listing grid -->
-<display:table pagesize="5" class="displaytag" keepStatus="true"
+<display:table pagesize="5" class="displaytag" keepStatus="false"
 	name="services" requestURI="${requestURI}" id="row_Service">
 	<!-- Action links -->
 	<security:authorize access="hasRole('ADMIN')">
