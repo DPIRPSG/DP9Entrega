@@ -13,7 +13,7 @@
 <h3><spring:message code="bulletin.gym"/>: <jstl:out value="${gym.name}" /></h3>
 
 <!-- Listing grid -->
-<display:table pagesize="5" class="displaytag" keepStatus="true"
+<display:table pagesize="5" class="displaytag" keepStatus="false"
 	name="bulletins" requestURI="${requestURI}" id="row_Bulletin">
 	<!-- Action links -->
 

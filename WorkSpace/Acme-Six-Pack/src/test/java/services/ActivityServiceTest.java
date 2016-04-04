@@ -37,7 +37,7 @@ import utilities.InvalidPreTestException;
 	"classpath:spring/config/packages.xml"})
 @Transactional
 @TransactionConfiguration(defaultRollback = false)
-public class ActivityTest extends AbstractTest{
+public class ActivityServiceTest extends AbstractTest{
 
 	// Pending test 
 	
