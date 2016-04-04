@@ -2063,7 +2063,7 @@
 		<property name="paymentMoment" value="2016/01/11 18:00"/>
 		<property name="creditCard" ref="creditCard1"/>
 		<property name="activeMoment" value="2016/05/12 12:00"/>
-		<property name="inactiveMoment" value="2016/06/12 12:00"/>
+		<property name="inactiveMoment" value="2016/06/13 11:59"/>
 		<property name="amount" value="30"/>
 		<property name="gym" ref="gym1"/>
 		<property name="customer" ref="customer1"/>
@@ -2171,7 +2171,7 @@
 		<property name="paymentMoment" value="2016/03/01 11:00"/>
 		<property name="creditCard" ref="creditCard1"/>
 		<property name="activeMoment" value="2016/03/14 12:00"/>
-		<property name="inactiveMoment" value="2016/05/01 12:00"/>
+		<property name="inactiveMoment" value="2016/05/12 11:59"/>
 		<property name="amount" value="30"/>
 		<property name="gym" ref="gym1"/>
 		<property name="customer" ref="customer1"/>
