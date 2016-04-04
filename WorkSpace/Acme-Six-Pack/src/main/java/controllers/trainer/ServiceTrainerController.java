@@ -44,6 +44,7 @@ public class ServiceTrainerController extends AbstractController {
 		Collection<ArrayList<Integer>> customers;
 		Collection<Activity> activities;
 		Collection<Integer> servicesId;
+		boolean sinActivity;
 		
 		servicesId = new ArrayList<Integer>();
 				
@@ -61,12 +62,19 @@ public class ServiceTrainerController extends AbstractController {
 
 		services = actTrainer.getServices();
 		
+		if(actTrainer.getActivities().isEmpty()) {
+			sinActivity = true;
+		} else {
+			sinActivity = false;
+		}
+		
 		customers = serviceService.numbersOfCustomersByService(services);
 		
 		result.addObject("services", services);
 		result.addObject("customers", customers);
 		result.addObject("addService", false);
 		result.addObject("servicesId", servicesId);
+		result.addObject("sinActivity",sinActivity);
 
 		return result;
 	}
