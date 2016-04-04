@@ -14,6 +14,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import domain.Activity;
 import domain.Gym;
 
 import utilities.AbstractTest;
@@ -34,6 +35,9 @@ public class GymServiceTest extends AbstractTest{
 	
 	@Autowired
 	private GymService gymService;
+	
+	@Autowired
+	private ActivityService activityService;
 	
 	// Test ---------------------------------------
 	
@@ -56,6 +60,26 @@ public class GymServiceTest extends AbstractTest{
 		
 	}
 	
+	@Test
+	public void testFindAllGymsAndActivityPlan1(){
+		
+		Collection<Gym> all;
+		Gym gym = null;
+		Collection<Activity> allActivities;
+		
+		all = gymService.findAll();
+		
+		for(Gym i:all){
+			if(i.getName().equals("Gym Sevilla")){
+				gym = i;
+			}
+		}
+		
+		allActivities = activityService.findAllActivesByGymId(gym.getId());
+		
+		Assert.isTrue(allActivities.size() == 5);
+	}
+		
 	/**
 	 * TEST POSITIVO
 	 * Description: A user who is authenticated as a customer must be able to list the gyms in which he or she has an active fee payment and navigate to the details of the corresponding fee payments.
