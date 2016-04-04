@@ -10,6 +10,8 @@
 
 <security:authorize access="hasRole('CUSTOMER')">
 
+<acme:exchange requestURI="invoice/customer/print.do?invoiceId=${invoice.id}"/>
+
 	<!doctype html>
 	<html>
 	<head>
@@ -151,7 +153,9 @@
 		                </td>
 		                
 		                <td>
-		                    <jstl:out value="${feePayment.amount}"/>&euro;
+		                    <fmt:formatNumber
+							value="${cookie['exchangeRate_rate'].value * feePayment.amount}"
+							maxFractionDigits="2" minFractionDigits="2" /> <jstl:out value="${cookie['exchangeRate_currency'].value}"/>
 		                </td>
 		            </tr>
 			    </jstl:forEach>
@@ -160,7 +164,9 @@
 	                <td></td>
 	                
 	                <td>
-	                   <spring:message code="invoice.totalCost" />: <jstl:out value="${invoice.totalCost}"/>&euro;
+	                   <fmt:formatNumber
+							value="${cookie['exchangeRate_rate'].value * invoice.totalCost}"
+							maxFractionDigits="2" minFractionDigits="2" /> <jstl:out value="${cookie['exchangeRate_currency'].value}"/>
 	                </td>
 	            </tr>
 	        </table>
