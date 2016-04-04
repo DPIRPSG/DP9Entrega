@@ -16,12 +16,12 @@
 	<h3><spring:message code="administrator.mostPopularGyms"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="mostPopularGyms" requestURI="${requestURI}" id="row">
+ 		name="mostPopularGyms" requestURI="${requestURI}" id="row1">
 		<!-- Attributes -->
 		<spring:message code="gym.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row1.name}"/>
  		</display:column>
  	</display:table>
  	
@@ -29,12 +29,12 @@
 	<h3><spring:message code="administrator.leastPopularGyms"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="leastPopularGyms" requestURI="${requestURI}" id="row">
+ 		name="leastPopularGyms" requestURI="${requestURI}" id="row2">
 		<!-- Attributes -->
 		<spring:message code="gym.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row2.name}"/>
  		</display:column>
  	</display:table>
  	
@@ -42,12 +42,12 @@
 	<h3><spring:message code="administrator.mostPopularService"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="mostPopularService" requestURI="${requestURI}" id="row">
+ 		name="mostPopularService" requestURI="${requestURI}" id="row3">
 		<!-- Attributes -->
 		<spring:message code="service.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row3.name}"/>
  		</display:column>
  	</display:table>
  	
@@ -55,12 +55,12 @@
 	<h3><spring:message code="administrator.leastPopularService"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="leastPopularService" requestURI="${requestURI}" id="row">
+ 		name="leastPopularService" requestURI="${requestURI}" id="row4">
 		<!-- Attributes -->
 		<spring:message code="service.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row4.name}"/>
  		</display:column>
  	</display:table>
  	
@@ -68,12 +68,12 @@
 	<h3><spring:message code="administrator.paidMoreFees"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="paidMoreFees" requestURI="${requestURI}" id="row">
+ 		name="paidMoreFees" requestURI="${requestURI}" id="row5">
 		<!-- Attributes -->
 		<spring:message code="customer.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row5.name}"/>
  		</display:column>
  	</display:table>
 	 
@@ -81,12 +81,12 @@
 	<h3><spring:message code="administrator.paidLessFees"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="paidLessFees" requestURI="${requestURI}" id="row">
+ 		name="paidLessFees" requestURI="${requestURI}" id="row6">
 		<!-- Attributes -->
 		<spring:message code="customer.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row6.name}"/>
  		</display:column>
  	</display:table>
  	
@@ -118,12 +118,12 @@
  	<h3><spring:message code="administrator.gymsWithMoreRoomsThanAverage"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="gymsWithMoreRoomsThanAverage" requestURI="${requestURI}" id="row">
+ 		name="gymsWithMoreRoomsThanAverage" requestURI="${requestURI}" id="row7">
 		<!-- Attributes -->
 		<spring:message code="gym.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row7.name}"/>
  		</display:column>
  	</display:table>
  	
@@ -131,12 +131,12 @@
  	<h3><spring:message code="administrator.gymsWithLessRoomsThanAverage"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="gymsWithLessRoomsThanAverage" requestURI="${requestURI}" id="row">
+ 		name="gymsWithLessRoomsThanAverage" requestURI="${requestURI}" id="row8">
 		<!-- Attributes -->
 		<spring:message code="gym.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row8.name}"/>
  		</display:column>
  	</display:table>
  	 	
@@ -144,12 +144,12 @@
  	<h3><spring:message code="administrator.moreInvoicesIssuedCustomer"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="moreInvoicesIssuedCustomer" requestURI="${requestURI}" id="row">
+ 		name="moreInvoicesIssuedCustomer" requestURI="${requestURI}" id="row9">
 		<!-- Attributes -->
 		<spring:message code="gym.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row9.name}"/>
  		</display:column>
  	</display:table>
  	
@@ -157,12 +157,12 @@
  	<h3><spring:message code="administrator.noRequestedInvoicesCustomer"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="noRequestedInvoicesCustomer" requestURI="${requestURI}" id="row">
+ 		name="noRequestedInvoicesCustomer" requestURI="${requestURI}" id="row10">
 		<!-- Attributes -->
 		<spring:message code="gym.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row10.name}"/>
  		</display:column>
  	</display:table>
  	
@@ -170,12 +170,12 @@
 	<h3><spring:message code="administrator.sendMoreSpam"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="sendMoreSpam" requestURI="${requestURI}" id="row">
+ 		name="sendMoreSpam" requestURI="${requestURI}" id="row11">
 		<!-- Attributes -->
 		<spring:message code="customer.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row11.name}"/>
  		</display:column>
  	</display:table>
  	
@@ -196,12 +196,12 @@
 	<h3><spring:message code="administrator.activitiesByPopularity"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="activitiesByPopularity" requestURI="${requestURI}" id="row">
+ 		name="activitiesByPopularity" requestURI="${requestURI}" id="row12">
 		<!-- Attributes -->
 		<spring:message code="activity.title" var="titleHeader" />
 		<display:column title="${titleHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.title}"/>
+ 			<jstl:out value="${row12.title}"/>
  		</display:column>
  	</display:table>
 	
@@ -234,12 +234,12 @@
 	<h3><spring:message code="administrator.mostPopularServiceByNumberOfTrainer"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="mostPopularServiceByNumberOfTrainer" requestURI="${requestURI}" id="row">
+ 		name="mostPopularServiceByNumberOfTrainer" requestURI="${requestURI}" id="row13">
 		<!-- Attributes -->
 		<spring:message code="service.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row13.name}"/>
  		</display:column>
  	</display:table>
 	
@@ -249,12 +249,12 @@
 	<h3><spring:message code="administrator.moreCommentedGyms"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="moreCommentedGyms" requestURI="${requestURI}" id="row">
+ 		name="moreCommentedGyms" requestURI="${requestURI}" id="row14">
 		<!-- Attributes -->
 		<spring:message code="gym.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row14.name}"/>
  		</display:column>
  	</display:table>
  	
@@ -262,12 +262,12 @@
 	<h3><spring:message code="administrator.moreCommentedServices"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="moreCommentedServices" requestURI="${requestURI}" id="row">
+ 		name="moreCommentedServices" requestURI="${requestURI}" id="row15">
 		<!-- Attributes -->
 		<spring:message code="service.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row15.name}"/>
  		</display:column>
  	</display:table>
  	
@@ -323,12 +323,12 @@
 	<h3><spring:message code="administrator.removedMoreComments"/></h3>
 	<!-- Listing grid -->
 	<display:table pagesize="5" class="displaytag" keepStatus="true"
- 		name="removedMoreComments" requestURI="${requestURI}" id="row">
+ 		name="removedMoreComments" requestURI="${requestURI}" id="row16">
 		<!-- Attributes -->
 		<spring:message code="customer.name" var="nameHeader" />
 		<display:column title="${nameHeader}" 
  			sortable="false" >
- 			<jstl:out value="${row.name}"/>
+ 			<jstl:out value="${row16.name}"/>
  		</display:column>
  	</display:table>
  	
