@@ -112,7 +112,7 @@ public class TrainerServiceTest extends AbstractTest{
 		
 		Collection<Trainer> all;
 		
-		all = trainerService.findBySingleKeyword("No");
+		all = trainerService.findBySingleKeyword("Hola");
 				
 		Assert.isTrue(all.size() == 5);
 		
