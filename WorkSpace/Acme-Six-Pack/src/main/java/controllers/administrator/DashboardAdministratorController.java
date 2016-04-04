@@ -180,7 +180,7 @@ public class DashboardAdministratorController extends AbstractController {
 		result.addObject("servicesWithTrainesSpecialized", servicesWithTrainesSpecialized);
 		result.addObject("ratioOfTrainerWithCurriculumUpToDate", ratioOfTrainerWithCurriculumUpToDate);
 		
-		result.addObject("requestURI", "administrator/list.do");
+		result.addObject("requestURI", "dashboard/administrator/list.do");
 		
 		return result;
 	}	
