@@ -133,12 +133,12 @@ public class CurriculumServiceTest extends AbstractTest {
 		Curriculum curriculum;
 		Trainer trainer;
 		Collection<Trainer> trainers;
-		String skills, likes, dislikes;
+		String likes, dislikes;
 		
 		trainers = trainerService.findAll();
 		trainer = null;
 		
-		skills = "Prueba";
+//		skills = "Prueba";
 		likes = "Prueba";
 		dislikes = "Prueba";
 		
@@ -177,13 +177,13 @@ public class CurriculumServiceTest extends AbstractTest {
 		Curriculum curriculum;
 		Trainer trainer;
 		Collection<Trainer> trainers;
-		String skills, likes, dislikes;
+		String skills, dislikes;
 		
 		trainers = trainerService.findAll();
 		trainer = null;
 		
 		skills = "Prueba";
-		likes = "Prueba";
+//		likes = "Prueba";
 		dislikes = "Prueba";
 		
 		for(Trainer trainerAux : trainers) {
@@ -220,14 +220,14 @@ public class CurriculumServiceTest extends AbstractTest {
 		Curriculum curriculum;
 		Trainer trainer;
 		Collection<Trainer> trainers;
-		String skills, likes, dislikes;
+		String skills, likes;
 		
 		trainers = trainerService.findAll();
 		trainer = null;
 		
 		skills = "Prueba";
 		likes = "Prueba";
-		dislikes = "Prueba";
+//		dislikes = "Prueba";
 		
 		for(Trainer trainerAux : trainers) {
 			if(trainerAux.getCurriculum() == null) {
