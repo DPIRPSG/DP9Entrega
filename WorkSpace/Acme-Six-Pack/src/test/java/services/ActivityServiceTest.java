@@ -31,14 +31,6 @@ import domain.Trainer;
 @Transactional
 @TransactionConfiguration(defaultRollback = false)
 public class ActivityServiceTest extends AbstractTest{
-
-	// Pending test 
-	
-		// activityService.findAllByCustomer()
-		// compruebaOverlappingCustomer
-		// findAllByGymId
-		// Al crear activity que no tenga mas asientos que la room
-		// Añadir en los PreTest y los búcles comprobación de no en pasado y de no reservada ya
 	
 	// Service under test -------------------------
 
@@ -65,6 +57,7 @@ public class ActivityServiceTest extends AbstractTest{
 	 * Book an activity in a gym as long as he or she has paid the corresponding fee, there
 	 * is at least one seat available, and he or she has not booked any overlapping activities.
 	 * 
+	 * Objetivo: Test OK
 	 */
 	@Test
 	public void testBookActivityOk(){
@@ -121,6 +114,14 @@ public class ActivityServiceTest extends AbstractTest{
 		Assert.isTrue(activity.getCustomers().contains(custo), "El usuario no ha sido añadido a la actividad");
 	}
 	
+	/**
+	 * Acme-Six-Pack-2.0 - Level B - 8.1
+	 * A user who is authenticated as a customer must be able to:
+	 * Book an activity in a gym as long as he or she has paid the corresponding fee, there
+	 * is at least one seat available, and he or she has not booked any overlapping activities.
+	 * 
+	 * Objetivo: Error al intentar realizarlo como admin
+	 */
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
@@ -187,6 +188,15 @@ public class ActivityServiceTest extends AbstractTest{
 		}		Assert.notNull(null, "PreTest - testBookActivityErrorAdmin no está hecho ! ! !");
 	}
 	
+	
+	/**
+	 * Acme-Six-Pack-2.0 - Level B - 8.1
+	 * A user who is authenticated as a customer must be able to:
+	 * Book an activity in a gym as long as he or she has paid the corresponding fee, there
+	 * is at least one seat available, and he or she has not booked any overlapping activities.
+	 * 
+	 * Objetivo: Error al intentar reservar una actividad ya borrada
+	 */
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
@@ -246,6 +256,14 @@ public class ActivityServiceTest extends AbstractTest{
 		}
 	}
 	
+	/**
+	 * Acme-Six-Pack-2.0 - Level B - 8.1
+	 * A user who is authenticated as a customer must be able to:
+	 * Book an activity in a gym as long as he or she has paid the corresponding fee, there
+	 * is at least one seat available, and he or she has not booked any overlapping activities.
+	 * 
+	 * Objetivo: Error al intentar reservar una actividad para la que no quedan asientos
+	 */
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
@@ -376,6 +394,14 @@ public class ActivityServiceTest extends AbstractTest{
 		}
 	}
 	
+	/**
+	 * Acme-Six-Pack-2.0 - Level B - 8.1
+	 * A user who is authenticated as a customer must be able to:
+	 * Book an activity in a gym as long as he or she has paid the corresponding fee, there
+	 * is at least one seat available, and he or she has not booked any overlapping activities.
+	 * 
+	 * Objetivo: Error al intentar reservar un gym sin pago activo
+	 */
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
@@ -435,6 +461,14 @@ public class ActivityServiceTest extends AbstractTest{
 		
 	}	
 	
+	/**
+	 * Acme-Six-Pack-2.0 - Level B - 8.1
+	 * A user who is authenticated as a customer must be able to:
+	 * Book an activity in a gym as long as he or she has paid the corresponding fee, there
+	 * is at least one seat available, and he or she has not booked any overlapping activities.
+	 * 
+	 * Objetivo: Error al intentar realizarlo como otro usuario
+	 */
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
@@ -503,6 +537,7 @@ public class ActivityServiceTest extends AbstractTest{
 	 * Acme-Six-Pack-2.0 - Level B - 8.2
 	 * List the activities that he or she has booked
 	 * 
+	 * Objetivo: Ok
 	 */
 	@Test
 	public void testListActivitiesBookedCustoOk(){
@@ -521,12 +556,16 @@ public class ActivityServiceTest extends AbstractTest{
 		Assert.isTrue(activities.size() == 2, "El número de activities obtenido no es 2, como se esperaba.");
 		
 	}
-	
+	/**
+	 * Acme-Six-Pack-2.0 - Level B - 8.2
+	 * List the activities that he or she has booked
+	 * 
+	 * Objetivo: Error al realizarlo un admin
+	 */
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
 	public void testListActivitiesBookedCustoErrorAdmin(){
-//		Collection<Activity> activities;
 		
 		// Load objects to test
 		
@@ -545,6 +584,7 @@ public class ActivityServiceTest extends AbstractTest{
 	 * Acme-Six-Pack-2.0 - Level B - 8.3
 	 * Cancel a booking of his or her
 	 * 
+	 * Objetivo: Ok
 	 */
 	@Test
 	public void testCancelActivityBookedOk(){
@@ -583,6 +623,12 @@ public class ActivityServiceTest extends AbstractTest{
 		Assert.isTrue(!activityService.findAllByCustomer().contains(activity), "La actividad no ha sido eliminada");
 	}
 	
+	/**
+	 * Acme-Six-Pack-2.0 - Level B - 8.3
+	 * Cancel a booking of his or her
+	 * 
+	 * Objetivo: Error al cancelar una actividad no asignada
+	 */
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
@@ -623,6 +669,12 @@ public class ActivityServiceTest extends AbstractTest{
 		
 	}
 	
+	/**
+	 * Acme-Six-Pack-2.0 - Level B - 8.3
+	 * Cancel a booking of his or her
+	 * 
+	 * Objetivo: Error al cancelar una actividad pasada
+	 */
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
@@ -675,6 +727,7 @@ public class ActivityServiceTest extends AbstractTest{
 	 * Acme-Six-Pack-2.0 - Level B - 10.2.1
 	 * List the activities
 	 * 
+	 * Objetivo: Ok
 	 */
 	@Test
 	public void testListActivitiesAdminOk(){
@@ -695,6 +748,12 @@ public class ActivityServiceTest extends AbstractTest{
 
 	}
 	
+	/**
+	 * Acme-Six-Pack-2.0 - Level B - 10.2.1
+	 * List the activities
+	 * 
+	 * Objetivo: Error al realizarlo como Customer
+	 */
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
@@ -718,6 +777,7 @@ public class ActivityServiceTest extends AbstractTest{
 	 * Acme-Six-Pack-2.0 - Level B - 10.2.2
 	 * Create the activities
 	 * 
+	 * Objetivo: Ok
 	 */
 	@Test
 	public void testCreateActivitiesAdminOk(){
@@ -803,6 +863,12 @@ public class ActivityServiceTest extends AbstractTest{
 
 	}
 	
+	/**
+	 * Acme-Six-Pack-2.0 - Level B - 10.2.2
+	 * Create the activities
+	 * 
+	 * Objetivo: Error debido al número de asientos 
+	 */
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
@@ -882,6 +948,12 @@ public class ActivityServiceTest extends AbstractTest{
 
 	}
 	
+	/**
+	 * Acme-Six-Pack-2.0 - Level B - 10.2.2
+	 * Create the activities
+	 * 
+	 * Objetivo: Error debido a una fecha en pasado
+	 */
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
@@ -965,6 +1037,7 @@ public class ActivityServiceTest extends AbstractTest{
 	 * Acme-Six-Pack-2.0 - Level B - 10.2.3
 	 * Modify the activities
 	 * 
+	 * Objetivo: Ok
 	 */
 	@Test
 	public void testModifyActivitiesAdminOkSeats(){
@@ -1008,7 +1081,13 @@ public class ActivityServiceTest extends AbstractTest{
 		Assert.isTrue(activityModified.getNumberOfSeatsAvailable() == activity.getRoom().getNumberOfSeats(), "No se ha editado correctamente el número de asientos disponibles para la actividad.");
 
 	}
-	
+
+	/**
+	 * Acme-Six-Pack-2.0 - Level B - 10.2.3
+	 * Modify the activities
+	 * 
+	 * Objetivo: Error modificar asientos por encima de lo permitido
+	 */
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
@@ -1048,6 +1127,12 @@ public class ActivityServiceTest extends AbstractTest{
 
 	}
 	
+	/**
+	 * Acme-Six-Pack-2.0 - Level B - 10.2.3
+	 * Modify the activities
+	 * 
+	 * Objetivo: Error modificar asientos por debajo de lo permitido
+	 */
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
@@ -1091,6 +1176,7 @@ public class ActivityServiceTest extends AbstractTest{
 	 * Acme-Six-Pack-2.0 - Level B - 10.2.4
 	 * Delete an activities
 	 * 
+	 * Objetivo: Ok
 	 */
 	@Test
 	public void testDeleteActivitiesAdminOk(){
@@ -1160,6 +1246,12 @@ public class ActivityServiceTest extends AbstractTest{
 
 	}
 	
+	/**
+	 * Acme-Six-Pack-2.0 - Level B - 10.2.4
+	 * Delete an activities
+	 * 
+	 * Objetivo: Error delete with customer
+	 */
 	@Test(expected=IllegalArgumentException.class)
 	@Transactional(noRollbackFor=IllegalArgumentException.class)
 	@Rollback(value=true)
