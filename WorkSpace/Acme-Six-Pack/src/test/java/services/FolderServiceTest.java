@@ -127,7 +127,7 @@ public class FolderServiceTest extends AbstractTest {
 		// Load objects to test
 		authenticate("customer1");
 		customer = actorService.findByPrincipal();
-		otherCustomer = actorService.findOne(71); // Id del customer2
+		otherCustomer = actorService.findOne(72); // Id del customer2
 		actorId = otherCustomer.getId();
 		
 		// Checks basic requirements
@@ -411,7 +411,7 @@ public class FolderServiceTest extends AbstractTest {
 		Assert.notNull(customer, "El usuario no se ha logueado correctamente.");
 		
 		// Execution of test
-		folder = folderService.findOne(86); // Id de la carpeta InBox del customer2
+		folder = folderService.findOne(87); // Id de la carpeta InBox del customer2
 //		oldFolderName = folder.getName();
 		
 		folder.setName("Carpeta renombrada");
@@ -858,7 +858,7 @@ public class FolderServiceTest extends AbstractTest {
 		// Execution of test
 //		actorFolders = folderService.findAllByActor();
 		
-		folder = folderService.findOne(86); // Carpeta InBox del customer2
+		folder = folderService.findOne(87); // Carpeta InBox del customer2
 		Assert.notNull(folder, "No está el folder necesario para realizar el test.");
 		
 		message = null;

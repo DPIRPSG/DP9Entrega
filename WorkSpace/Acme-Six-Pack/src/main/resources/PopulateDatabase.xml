@@ -362,6 +362,7 @@
 		<property name="activities">
 			<list>
 				<ref bean="activity1" />
+				<ref bean="activity10"/>
 			</list>
 		</property>
 		<property name="services">
@@ -736,6 +737,7 @@
 				<ref bean="activity6" />
 				<ref bean="activity8"/>	
 				<ref bean="activity9"/>	
+				<ref bean="activity10"/>	
 			</list>
 		</property>
 	</bean>
@@ -851,6 +853,7 @@
 				<ref bean="activity4"/>
 				<ref bean="activity7"/>
 				<ref bean="activity8"/>
+				<ref bean="activity10"/>
 			</list>
 		</property>
 		<property name="trainers">
@@ -1144,6 +1147,26 @@
 		<property name="customers">
 			<list>
 				<ref bean="customer1"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="activity10" class="domain.Activity">
+		<property name="title" value="Clase de natación" />
+		<property name="numberOfSeatsAvailable" value="15" />
+		<property name="startingMoment" value="2015/07/19 17:30" />
+		<property name="duration" value="1" />
+		<property name="description" value="Clase de natación" />
+		<property name="pictures">
+			<list>
+			</list>
+		</property>
+		<property name="deleted" value="false"/>
+		<property name="service" ref="service1"/>
+		<property name="room" ref="room4"/>
+		<property name="trainer" ref="trainer2"/>
+		<property name="customers">
+			<list>
 			</list>
 		</property>
 	</bean>
