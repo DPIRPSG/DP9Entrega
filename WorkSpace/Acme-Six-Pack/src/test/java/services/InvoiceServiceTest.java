@@ -35,9 +35,6 @@ public class InvoiceServiceTest extends AbstractTest {
 	private InvoiceService invoiceService;
 	
 	@Autowired
-	private FeePaymentService feePaymentService;
-	
-	@Autowired
 	private CustomerService customerService;
 	
 	// Test ---------------------------------------

@@ -13,16 +13,12 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import repositories.CommentRepository;
-
-import domain.Actor;
+import utilities.AbstractTest;
 import domain.Comment;
 import domain.Customer;
 import domain.Gym;
 import domain.ServiceEntity;
 import domain.Trainer;
-
-import utilities.AbstractTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
