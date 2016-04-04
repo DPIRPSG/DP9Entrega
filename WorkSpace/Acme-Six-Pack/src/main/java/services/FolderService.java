@@ -59,8 +59,6 @@ public class FolderService {
 
 		Folder result;
 		
-		folder.setIsSystem(false);
-		
 		result = folderRepository.save(folder);
 		
 		return result;
@@ -73,6 +71,8 @@ public class FolderService {
 	public Folder saveToEdit(Folder folder){
 		Assert.notNull(folder);
 		boolean isAuthenticated;
+		
+		folder.setIsSystem(false);
 		
 		isAuthenticated = actorService.checkAuthority("ADMIN") || actorService.checkAuthority("CUSTOMER");
 		isAuthenticated = isAuthenticated || actorService.checkAuthority("TRAINER");
