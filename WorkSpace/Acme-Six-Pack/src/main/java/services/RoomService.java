@@ -160,5 +160,13 @@ public class RoomService {
 		roomRepository.flush();
 		
 	}
+
+	public Collection<Room> findAllByServiceId(int id) {
+		Collection<Room> result;
+		
+		result = roomRepository.findAllByServiceId(id);
+		
+		return result;
+	}
 	
 }
