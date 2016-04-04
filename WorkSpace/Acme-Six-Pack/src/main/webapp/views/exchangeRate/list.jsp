@@ -12,7 +12,7 @@
 
 <security:authorize access="hasRole('ADMIN')">
 <!-- Listing grid -->
-<display:table pagesize="5" class="displaytag" keepStatus="true"
+<display:table pagesize="5" class="displaytag" keepStatus="false"
 	name="exchangesRates" requestURI="${requestURI}" id="row_ExchangeRate">
 		<!-- Action links -->
 		<display:column>

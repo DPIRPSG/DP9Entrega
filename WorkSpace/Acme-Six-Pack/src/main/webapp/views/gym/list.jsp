@@ -18,7 +18,7 @@
 
 
 <!-- Listing grid -->
-<display:table pagesize="5" class="displaytag" keepStatus="true"
+<display:table pagesize="5" class="displaytag" keepStatus="false"
 	name="gyms" requestURI="${requestURI}" id="row_Gym">
 	<!-- Action links -->
 
