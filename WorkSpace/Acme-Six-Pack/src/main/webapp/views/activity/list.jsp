@@ -48,7 +48,7 @@
 	<spring:message code="activity.cancel" var="cancelHeader"/>
 		<display:column title="${cancelHeader}"
 		sortable = "true">
-		<jstl:if test="${row_Activity.deleted == false}">
+		<jstl:if test="${row_Activity.deleted == false && row_Activity.startingMoment > moment}">
 		<a href="activity/customer/cancel.do?activityId=${row_Activity.id}"> <spring:message
 				code="activity.cancel"/>
 		</a>
