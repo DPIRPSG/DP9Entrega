@@ -1,6 +1,7 @@
 package controllers.customer;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,9 @@ public class ActivityCustomerController extends AbstractController{
 		boolean hayGymId, gymPagado;
 		Gym gym;
 		Collection<Gym> gyms;
+		Date moment;
+		
+		moment = new Date();
 		
 		activities = activityService.findAllByCustomer();
 		hayGymId = false;
@@ -64,6 +68,7 @@ public class ActivityCustomerController extends AbstractController{
 		result.addObject("activities", activities);
 		result.addObject("hayGymId", hayGymId);
 		result.addObject("gymPagado", gymPagado);
+		result.addObject("moment", moment);
 		
 		return result;
 	}
