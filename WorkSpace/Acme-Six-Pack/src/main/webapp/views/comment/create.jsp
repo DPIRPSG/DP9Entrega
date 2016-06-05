@@ -21,6 +21,7 @@
 		<form:hidden path="moment"/>
 		<form:hidden path="commentedEntity"/>
 		<form:hidden path="actor"/>
+		<form:hidden path="deleted"/>
 		<input type="hidden" name="commentedEntityId" value="${commentedEntity.id}">
 		
 		<!-- Editable Attributes -->
